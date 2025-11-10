@@ -58,15 +58,13 @@
 }
 
 .barra-lateral .nav-links {
-    /* background: red; */
     height: 100%;
     padding-top: 30px 0 150px 0;
     overflow: auto;
+}
 
-    /* margin-top: 10px;
-    width: 100%;
-    display: flex;
-    flex-direction: column; */
+.barra-lateral .nav-links {
+    overflow: visible;
 }
 
 .barra-lateral .nav-links::-webkit-scrollbar {
@@ -99,32 +97,50 @@
     line-height: 50px;
     color: #fff;
     font-size: 20px;
-    transition: all 0.4s ease   ;
+    transition: all 0.4s ease;
+    cursor: pointer;
 }
 
 .barra-lateral .nav-links li.showMenu i.arrow {
     transform: rotate(-180deg);
 }
 
+.barra-lateral.close .nav-links i.arrow {
+    display: none;
+    pointer-events: none;
+}
+
 .barra-lateral .nav-links li a {
     display: flex;
     align-items: center;
     text-decoration: none;
+    /* transition: all 2s ease; */
+}
+
+.barra-lateral.close .nav-links li a {
+    transition: all 2s ease;
+    width: 78px;
 }
 
 .barra-lateral .nav-links li a .link_name {
-    color: #fff;
     font-size: 18px;
     font-weight: 400;
-    /* line-height: 50px; */
+    color: #fff;
+    transition: 0.3s ease;
+    /* transition-delay: 0.3s; */
+}
+
+.barra-lateral.close .nav-links li a .link_name {
+    transition-delay: 0s;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .barra-lateral .nav-links li .sub-menu {
     padding: 6px 6px 14px 80px;
     margin-top: -10px;
-    background: #1d1b31;
+    background: #bb4848;
     display: none;
-/*  padding-left: 50px; */
 }
 
 .barra-lateral .nav-links li.showMenu .sub-menu {
@@ -132,7 +148,7 @@
 }
 
 .barra-lateral .nav-links li .sub-menu a {
-    color: #fff;
+    color: #ffffff;
     font-size: 15px;
     padding: 5px 0;
     white-space: nowrap;
@@ -151,24 +167,26 @@
     margin-top: 0;
     padding: 10px 20px;
     border-radius: 0 6px 6px 0;
-    transition: all 0.4s ease;
     opacity: 0;
+    display: block;
     pointer-events: none;
+    transition: 0s;
 }
 
 .barra-lateral.close .nav-links li:hover .sub-menu {
     top: 0;
     opacity: 1;
     pointer-events: auto;
+    transition: all 0.4s ease;
 }
 
 .barra-lateral .nav-links li .sub-menu .link_name{
     display: none;
 }
 
-.barra-lateral.close .nav-links li .sub-menu .link_name{
+.barra-lateral .nav-links li .sub-menu .link_name{
     display: none;
-}
+} 
 
 .barra-lateral.close .nav-links li .sub-menu .link_name {
     font-size: 18px;
@@ -180,6 +198,8 @@
     opacity: 1;
     pointer-events: auto;
     padding: 3px 20px 6px 20px;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .barra-lateral .nav-links li:hover .sub-menu.blank {
@@ -188,13 +208,39 @@
 }
 
 .barra-lateral .profile-details {
-    position: fixed;
+   position:  absolute;
+    color: #fff;
     bottom: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    padding: 20px 0;
     background: #1d1b31;
-    padding: 6px 0;
+    justify-content: space-between;
+    /* transition: all 0.5s ease; */
+}
+
+.barra-lateral .profile-details .profile-content i {
+    min-width: 78px;
+    text-align: center;
+    color: #fff;
+    font-size: 35px;
+    /* background: #1f1e33; */
+}
+
+.barra-lateral .profile-details #log-out {
+    margin: 0 10px;
+    text-align: center;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    background: #1f1e33;
+}
+
+.barra-lateral.close .profile-details #log-out {
+    /* display: none; */
+    opacity: 0;
 }
 
 .barra-lateral .profile-details .profile-content {
@@ -215,12 +261,21 @@
 .barra-lateral .profile-details .name,
 .barra-lateral .profile-details .job {
     color: #fff;
-    margin-left: 18px;
     font-weight: 500;
+}
+
+.barra-lateral .profile-details .name {
+    font-size: 15px;
 }
 
 .barra-lateral .profile-details .job {
     font-size: 12px;
+}
+
+.barra-lateral.close .profile-details .name-job {
+    opacity: 0;
+    pointer-events: none;
+    white-space: nowrap;
 }
 
 .home-section {
@@ -229,10 +284,7 @@
     left: 260px;
     width: calc(100% - 260px);
     transition: all 0.5s ease;
-
     min-height: 100vh;
-    /* transition: all 0.4s ease;
-    padding: 20px; */
 }
 
 .barra-lateral.close ~ .home-section {
@@ -244,7 +296,6 @@
     display: flex;
     align-items: center;
     height: 60px;
-    /* background: red; */
 }
 
 .home-section .home-content .bx-menu,
@@ -252,7 +303,6 @@
     color: #11101d;
     font-size: 2rem;
     margin-right: 16px;
-    /* cursor: pointer; */
 }
 
 .home-section .home-content .bx-menu {
