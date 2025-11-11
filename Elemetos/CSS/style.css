@@ -60,10 +60,7 @@
 .barra-lateral .nav-links {
     height: 100%;
     padding-top: 30px 0 150px 0;
-    overflow: auto;
-}
-
-.barra-lateral .nav-links {
+    /* overflow: auto; */
     overflow: visible;
 }
 
@@ -76,12 +73,9 @@
     position: relative;
     transition: all 0.4s ease;
 
-    /* border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05); */
-}
-
-.barra-lateral .nav-links li:hover {
-    background: #1d1b31;
+    &:hover {
+        background: #1d1b31;
+    }
 }
 
 .barra-lateral .nav-links li .icon-link {
@@ -90,14 +84,25 @@
     justify-content: space-between;
 }
 
-.barra-lateral .nav-links li i{
+.barra-lateral.close .nav-links li .icon-link a span {
+    /* Se removió el display:none para permitir animación de los textos (.link_name)
+       La visibilidad ahora se controla mediante opacity/transform sobre
+       .link_name, no con display. */
+    pointer-events: none;
+    /* display: none; */
+}
+
+.barra-lateral .nav-links li i {
     height: 50px;
     min-width: 78px;
     text-align: center;
     line-height: 50px;
     color: #fff;
     font-size: 20px;
-    transition: all 0.4s ease;
+    /* Transitions separados: queremos que la OPACITY tenga delay cuando
+       aparece el sidebar pero que la TRANSFORM (rotación) no tenga delay
+       y comience inmediatamente. El orden aquí es importante: opacity, transform. */
+    transition: opacity 0.22s cubic-bezier(.2, .9, .2, 1), transform 0.28s cubic-bezier(.2, .9, .2, 1);
     cursor: pointer;
 }
 
@@ -105,9 +110,32 @@
     transform: rotate(-180deg);
 }
 
+.barra-lateral .nav-links li.showMenu i.arrow {
+    /* Mantener la traslación en estado visible y añadir rotación al desplegar sub-menu */
+    transform: translateX(0) rotate(-180deg);
+}
+
 .barra-lateral.close .nav-links i.arrow {
-    display: none;
+    opacity: 0;
     pointer-events: none;
+}
+
+.barra-lateral.close .nav-links i.arrow {
+    /* Evitar display:none para permitir animación; ocultamos con opacity/transform */
+    opacity: 0;
+    transform: translateX(-8px);
+    pointer-events: none;
+}
+
+/* Al expandir el sidebar, mostramos las flechas con un pequeño delay para que
+   aparezcan cuando la barra alcanza su tamaño completo. */
+.barra-lateral:not(.close) .nav-links i.arrow {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+    /* Aplicamos delays por propiedad: primero opacity (0.55s) y luego transform (0s)
+       para que la rotación/transformación no espere y ocurra al instante. */
+    transition-delay: 0.40s, 0.1s;
 }
 
 .barra-lateral .nav-links li a {
@@ -119,27 +147,54 @@
 
 .barra-lateral.close .nav-links li a {
     transition: all 2s ease;
-    width: 78px;
 }
 
 .barra-lateral .nav-links li a .link_name {
     font-size: 18px;
     font-weight: 400;
     color: #fff;
-    transition: 0.3s ease;
-    /* transition-delay: 0.3s; */
+    white-space: nowrap;
+    /* Igual que con #log-out y .arrow: separamos transición para opacity y transform.
+       Inicialmente en estado abierto estará visible; en el estado cerrado lo ocultamos
+       con la regla .barra-lateral.close. */
+    transition: opacity 0.22s cubic-bezier(.2,.9,.2,1), transform 0.28s cubic-bezier(.2,.9,.2,1);
 }
 
 .barra-lateral.close .nav-links li a .link_name {
-    transition-delay: 0s;
     opacity: 0;
+    transform: translateX(-8px);
     pointer-events: none;
+    white-space: nowrap;
+    transition-delay: 0s, 0s;
+}
+
+.barra-lateral .nav-links li .icon-link a .link_name {
+    /* Reaplicar transiciones en este selector si se usa la variante .icon-link */
+    transition: opacity 0.22s cubic-bezier(.2,.9,.2,1), transform 0.28s cubic-bezier(.2,.9,.2,1);
+    white-space: nowrap;
+}
+
+.barra-lateral.close .nav-links li .icon-link a .link_name {
+    opacity: 0;
+    transform: translateX(-8px);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* Mostrar link_name cuando el sidebar está expandido; delay en opacity para
+   que aparezca al finalizar la expansión, pero transform (slide) sin delay. */
+.barra-lateral:not(.close) .nav-links li a .link_name,
+.barra-lateral:not(.close) .nav-links li .icon-link a .link_name {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+    transition-delay: 0.40s, 0s;
 }
 
 .barra-lateral .nav-links li .sub-menu {
     padding: 6px 6px 14px 80px;
     margin-top: -10px;
-    background: #bb4848;
+    background: #1d1b31;
     display: none;
 }
 
@@ -154,10 +209,10 @@
     white-space: nowrap;
     opacity: 0.6;
     transition: all 0.3s ease;
-}
 
-.barra-lateral .nav-links li .sub-menu a:hover {
-    opacity: 1;
+    &:hover {
+        opacity: 1;
+    }
 }
 
 .barra-lateral.close .nav-links li .sub-menu {
@@ -180,13 +235,9 @@
     transition: all 0.4s ease;
 }
 
-.barra-lateral .nav-links li .sub-menu .link_name{
+.barra-lateral .nav-links li .sub-menu .link_name {
     display: none;
 }
-
-.barra-lateral .nav-links li .sub-menu .link_name{
-    display: none;
-} 
 
 .barra-lateral.close .nav-links li .sub-menu .link_name {
     font-size: 18px;
@@ -208,7 +259,7 @@
 }
 
 .barra-lateral .profile-details {
-   position:  absolute;
+    position: absolute;
     color: #fff;
     bottom: 0;
     left: 0;
@@ -217,16 +268,19 @@
     align-items: center;
     padding: 20px 0;
     background: #1d1b31;
+    /* Separación visual: línea sutil y sombra superior para separar el perfil del nav */
+    border-top: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 -6px 12px rgba(0,0,0,0.12);
     justify-content: space-between;
-    /* transition: all 0.5s ease; */
-}
+    /* max-height: 80px; */
 
-.barra-lateral .profile-details .profile-content i {
-    min-width: 78px;
-    text-align: center;
-    color: #fff;
-    font-size: 35px;
-    /* background: #1f1e33; */
+    & .profile-content i {
+        min-width: 78px;
+        text-align: center;
+        color: #fff;
+        font-size: 35px;
+        /* background: #1f1e33; */
+    }
 }
 
 .barra-lateral .profile-details #log-out {
@@ -236,11 +290,24 @@
     font-size: 22px;
     cursor: pointer;
     background: #1f1e33;
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    pointer-events: none;
+    transition: opacity 0.22s cubic-bezier(.2, .9, .2, 1), transform 0.28s cubic-bezier(.2, .9, .2, 1);
+}
+
+.barra-lateral:not(.close) .profile-details #log-out {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    transition-delay: 0.40s;
 }
 
 .barra-lateral.close .profile-details #log-out {
-    /* display: none; */
     opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    pointer-events: none;
+    transition-delay: 0s;
 }
 
 .barra-lateral .profile-details .profile-content {
@@ -258,24 +325,39 @@
     padding: 10px;
 }
 
-.barra-lateral .profile-details .name,
-.barra-lateral .profile-details .job {
+.barra-lateral .profile-details .name-job {
     color: #fff;
     font-weight: 500;
+
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    pointer-events: none;
+    transition: opacity 0.22s cubic-bezier(.2, .9, .2, 1), transform 0.28s cubic-bezier(.2, .9, .2, 1);
+
+    & .name {
+        font-size: 15px;
+    }
+
+    & .job {
+        font-size: 12px;
+    }
 }
 
-.barra-lateral .profile-details .name {
-    font-size: 15px;
-}
-
-.barra-lateral .profile-details .job {
-    font-size: 12px;
+.barra-lateral:not(.close) .profile-details .name-job {
+    opacity: 1;
+    display: block;
+    white-space: nowrap;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    transition-delay: 0.40s;
 }
 
 .barra-lateral.close .profile-details .name-job {
     opacity: 0;
+    transform: translateY(8px) scale(0.98);
     pointer-events: none;
     white-space: nowrap;
+    transition-delay: 0s;
 }
 
 .home-section {
@@ -287,7 +369,7 @@
     min-height: 100vh;
 }
 
-.barra-lateral.close ~ .home-section {
+.barra-lateral.close~.home-section {
     left: 78px;
     width: calc(100% - 78px);
 }
@@ -296,21 +378,21 @@
     display: flex;
     align-items: center;
     height: 60px;
-}
 
-.home-section .home-content .bx-menu,
-.home-section .home-content .text {
-    color: #11101d;
-    font-size: 2rem;
-    margin-right: 16px;
-}
+    & .bx-menu,
+    & .text {
+        color: #11101d;
+        font-size: 2rem;
+        margin-right: 16px;
+    }
 
-.home-section .home-content .bx-menu {
-    margin: 0 15px;
-    cursor: pointer;
-}
+    & .bx-menu {
+        margin: 0 15px;
+        cursor: pointer;
+    }
 
-.home-section .home-content .text {
-    font-size: 2.5rem;
-    font-weight: 600;
+    & .text {
+        font-size: 2.5rem;
+        font-weight: 600;
+    }
 }
