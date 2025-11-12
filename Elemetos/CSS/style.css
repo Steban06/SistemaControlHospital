@@ -1,10 +1,28 @@
 /* Impotación Links Google fotns */
+@font-face {
+    font-family: 'Momo Trust Display';
+    src: url(./font/MomoTrustDisplay/MomoTrustDisplay-Regular.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Archivo';
+    src: url(./font/Archivo/Archivo-VariableFont_wdth\,wght.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url(./font/Roboto/Roboto-VariableFont_wdth\,wght.ttf);
+}
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .barra-lateral {
@@ -23,7 +41,7 @@
 }
 
 .barra-lateral .logo-details {
-    height: 60px;
+    height: 75px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -40,15 +58,21 @@
     line-height: 50px;
 }
 
+.barra-lateral .logo-details img {
+    color: #fff;
+    height: 50px;
+    margin: 0 21px;
+    text-align: center;
+}
+
 .barra-lateral .logo-details .logo_name {
-    font-size: 22px;
+    font-size: 18px;
     color: #fff;
     font-weight: 600;
     transition: 0.3s ease;
     transition-delay: 0.1s;
-    /* margin-left: 10px; */
-    /* text-align: center;
-    line-height: 80px; */
+    
+    font-family: 'Momo Trust Display', sans-serif;
 }
 
 .barra-lateral.close .logo-details .logo_name {
@@ -151,7 +175,7 @@
 
 .barra-lateral .nav-links li a .link_name {
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 500;
     color: #fff;
     white-space: nowrap;
     /* Igual que con #log-out y .arrow: separamos transición para opacity y transform.
@@ -378,6 +402,10 @@
     display: flex;
     align-items: center;
     height: 60px;
+    /* Separador visual entre el encabezado (.home-content) y el resto de la sección */
+    border-bottom: 1px solid rgba(17,16,29,0.06); /* tono sutil acorde al tema */
+    /* padding-bottom: 10px; separación interior para que el título no quede pegado */
+    background: transparent; /* mantener fondo actual */
 
     & .bx-menu,
     & .text {
@@ -394,5 +422,12 @@
     & .text {
         font-size: 2.5rem;
         font-weight: 600;
+    }
+}
+
+/* Ajuste en pantallas pequeñas */
+@media (max-width: 600px) {
+    .home-section .home-content {
+        padding-bottom: 8px;
     }
 }

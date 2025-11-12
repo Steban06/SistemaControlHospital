@@ -1,30 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./Elemetos/CSS/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <title>Sistema de Control</title>
-</head>
-
-<body>
-    <div class="barra-lateral">
+<div class="barra-lateral">
         <div class="logo-details">
-            <i class=""></i>
-            <span class="logo_name">nombre</span>
+            <img src="./Elemetos/img/virgen en blanco.png" alt="imgVirgen">
+            
+            <span class="logo_name">Sistema de Mantenimiento</span>
         </div>
 
         <ul class="nav-links">
             <li>
                 <a href="#">
-                    <i class="fa-solid fa-file"></i>
-                    <span class="link_name">seccion 1</span>
+                    <i class="fa-solid fa-border-all"></i>
+                    <span class="link_name">Inicio</span>
                 </a>
                 <!-- <span class="tooltip">Inicio</span> -->
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">seccion 1</a></li>
+                    <li><a class="link_name" href="#">Inicio</a></li>
                 </ul>
 
             </li>
@@ -81,8 +70,3 @@
             sidebar.classList.toggle("close");
         });
     </script>
-
-    <!-- </div> -->
-</body>
-
-</html>
