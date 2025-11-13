@@ -16,6 +16,15 @@
 @font-face {
     font-family: 'Roboto';
     src: url(./font/Roboto/Roboto-VariableFont_wdth\,wght.ttf);
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url(./font/Open_Sans/OpenSans-VariableFont_wdth\,wght.ttf);
+    font-weight: normal;
+    font-style: normal;
 }
 
 * {
@@ -29,11 +38,14 @@
     position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 260px;
+    /* height: 100%; */
+    width: 270px;
     background: #11101d;
     z-index: 100;
     transition: all 0.5s ease;
+    margin: 12px;
+    border-radius: 16px;
+    height: calc(100vh - 24px);
 }
 
 .barra-lateral.close {
@@ -63,16 +75,21 @@
     height: 50px;
     margin: 0 21px;
     text-align: center;
+
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    fill: red;
+
 }
 
 .barra-lateral .logo-details .logo_name {
-    font-size: 18px;
+    font-size: 20px;
     color: #fff;
-    font-weight: 600;
+    font-weight: 900;
     transition: 0.3s ease;
     transition-delay: 0.1s;
     
-    font-family: 'Momo Trust Display', sans-serif;
+    /* font-family: 'Momo Trust Display', sans-serif; */
+    font-family: 'open sans', sans-serif;
 }
 
 .barra-lateral.close .logo-details .logo_name {
@@ -297,6 +314,7 @@
     box-shadow: 0 -6px 12px rgba(0,0,0,0.12);
     justify-content: space-between;
     /* max-height: 80px; */
+    border-radius: 0 0 16px 16px;
 
     & .profile-content i {
         min-width: 78px;
@@ -387,10 +405,13 @@
 .home-section {
     position: relative;
     background: #E4E9F7;
-    left: 260px;
-    width: calc(100% - 260px);
+    left: 294px;
+    width: calc(100% - 306px);
     transition: all 0.5s ease;
-    min-height: 100vh;
+    /* min-height: 100vh; */
+
+    margin: 12px 12px 12px 0px;
+    min-height: calc(100vh - 24px);
 }
 
 .barra-lateral.close~.home-section {

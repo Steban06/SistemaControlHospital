@@ -1,5 +1,10 @@
+<?php
+    if (isset($_GET['views'])) $url = explode("/", $_GET['views']);
+    else $url = ["login"];
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -10,12 +15,31 @@
 </head>
 
 <body>
-    
+
     <?php 
-        include 'Aplicacion/Templates/sidebar.php'; 
+        if (!isset($_GET['vista']) || $_GET['vista'] == "") {
+            $_GET['vista'] = "inicio";
+        }
     ?>
 
-    <!-- </div> -->
+    <?php include_once './Aplicacion/Templates/sidebar.php'; ?>
+    <section class="home-section">
+        <div class="home-content">
+            <i class="fa-solid fa-bars bx-menu"></i>
+            <span class="text">Sistema de Control</span>
+        </div>
+        <?php require_once "./Aplicacion/views/".$_GET['vista']."-vista.php"?>
+    </section>
+
+    <script>
+        let sidebar = document.querySelector(".barra-lateral");
+        let sidebarBtn = document.querySelector(".bx-menu");
+
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        });
+    </script>
+
 </body>
 
 </html>
