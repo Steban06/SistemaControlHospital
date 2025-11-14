@@ -1,0 +1,240 @@
+.content-view {
+    /* padding: 24px; */
+    /* font-family: 'Open Sans', sans-serif; */
+    font-size: 1rem;
+    color: #11101d;
+    border: 2px dashed #ff0303;
+}
+
+/* body {
+  background: var(--bg-gradient);
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  transition: background 0.5s ease;
+} */
+
+/* body.dark-mode {
+  --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  --card-bg: rgba(0, 0, 0, 0.35);
+  --text-color: #e7e7e7;
+} */
+
+:root {
+  --bg-gradient: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b);
+  --card-bg: rgba(255, 255, 255, 0.18);
+  --text-color: #ffffff;
+  --border-radius: 20px;
+  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Estilos de la IA */
+
+/* Contenedor de la tabla */
+.table-container {
+  width: 90%;
+  max-width: 900px;
+  margin: 30px auto;
+  /* background: rgba(249, 0, 0, 0.15); */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+}
+
+/* Tabla */
+/* table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+} */
+
+/* Encabezados */
+/* thead {
+  background: #3a1c71;
+}
+
+thead th {
+  padding: 16px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: left;
+} */
+
+/* Filas */
+/* tbody tr {
+  transition: background 0.35s ease;
+}
+
+tbody tr:nth-child(even) {
+  background: rgba(255,255,255,0.12);
+}
+
+tbody tr:hover {
+  background: rgba(255,255,255,0.25);
+} */
+
+/* Celdas */
+/* td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+} */
+
+/* Texto alineado a la derecha para números */
+/* td.num {
+  text-align: right;
+} */
+
+/* Responsive */
+/* @media (max-width: 600px) {
+  thead {
+    display: none;
+  }
+  
+  tbody tr {
+    display: block;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  td {
+    display: block;
+    text-align: right;
+    padding: 12px;
+    position: relative;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+} */
+
+main.table {
+    width: 82vw;
+    height: 90vh;
+    background-color: #fff5;
+
+    backdrop-filter: blur(7px);
+    box-shadow: 0 .4rem .8rem #0005;
+    border-radius: .8rem;
+
+    overflow: hidden;
+}
+
+.table-titulo {
+    width: 100%;
+    height: 10%;
+    background-color: #fff4;
+    padding: .8rem 1rem;
+}
+
+.content-table {
+    width: 95%;
+    max-height: calc(89% - 1.6rem);
+    background-color: rgba(70, 20, 20, 0.733);
+
+    margin: .8rem auto;
+    border-radius: .6rem;
+
+    overflow: auto;
+}
+
+.content-table::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+
+.content-table::-webkit-scrollbar-thumb{
+    border-radius: .5rem;
+    background-color: #0004;
+    visibility: hidden;
+}
+
+.content-table:hover::-webkit-scrollbar-thumb{
+    visibility: visible;
+}
+
+table {
+  width: 100%;
+  /* background-color: red; */
+  /* border-collapse: collapse;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color); */
+}
+
+td img {
+  width: 36px;
+  height: 36px;
+  /* border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25); */
+  margin-right: .5rem;
+  border-radius: 50%;
+
+  vertical-align: middle;
+}
+
+table, th, td {
+    border-collapse: collapse;
+    padding: 1rem;
+    text-align: left;
+    /* border: 1px solid rgba(255, 255, 255, 0.18); */
+    /* border-collapse: collapse; */
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: #d5d1defe;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #0000000b;
+}
+
+tbody tr:hover {
+    background-color: #fff6;
+}
+
+.status {
+    padding: .4rem 0;
+    border-radius: 2rem;
+    text-align: center;
+}
+
+.status.delivered {
+    background-color: #36e49d;
+    color: #006b21;
+}
+
+.status.cancelled {
+    background-color: #d893a3;
+    color: #b30021;
+}
+
+.status.shipped {
+    background-color: #6fcaea;
+}
+
+.status.pending {
+    background-color: #ebc474;
+}
+
+@media (max-width: 1000px) {
+    td:not(:first) {
+        min-width: 12.1rem;
+    }
+}
