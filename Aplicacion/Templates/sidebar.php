@@ -18,9 +18,9 @@
         </li>
         <li>
             <div class="icon-link">
-                <a href="#">
+                <a href="./index.php?vista=bienesNacionales">
                     <i class="fa-solid fa-file"></i>
-                    <span class="link_name">seccion 2</span>
+                    <span class="link_name">Equipos</span>
                 </a>
                 <!--Icono para mostrar mas opciones-->
                 <i class="fa-solid fa-chevron-down arrow"></i>

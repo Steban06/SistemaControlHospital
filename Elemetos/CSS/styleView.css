@@ -1,10 +1,72 @@
 .content-view {
-    /* padding: 24px; */
-    /* font-family: 'Open Sans', sans-serif; */
+    flex: 1 1 auto;
+    width: 100%;
+    overflow: auto;
+    padding: 16px;
+    background: transparent;
+
+    border: 2px dashed #ff0303;
+    position: relative;
     font-size: 1rem;
     color: #11101d;
-    border: 2px dashed #ff0303;
+
+    justify-items: center;
+    /* justify-content: center; */
+    /* align-content: center; */
 }
+
+.content-filters {
+    /* width: 90%;
+    max-width: 900px; */
+
+    width: 95%;
+    /* max-height: calc(89% - 1.6rem); */
+
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content-filters .input-group {
+    width: 30%;
+    height: 100%;
+    background-color: #fff5;
+    padding: 0 .8rem;
+    border-radius: 2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease;
+}
+
+.content-filters .input-group:hover {
+    background-color: #fff8;
+    box-shadow: 0 .1rem .4rem #0002;
+    /* transition: all 1s ease; */
+}
+
+.content-filters .input-group input {
+    width: 100%;
+    padding: 0 .5rem 0 .3rem;
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+
+    height: 2.4rem;
+    
+    font-size: 1rem;
+    color: #11101d;
+    margin-left: .4rem;
+}
+
+
+
+/* .content-filters .input-group input::placeholder {
+    color: #11101d99;
+} */
 
 /* body {
   background: var(--bg-gradient);
@@ -23,28 +85,28 @@
 } */
 
 :root {
-  --bg-gradient: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b);
-  --card-bg: rgba(255, 255, 255, 0.18);
-  --text-color: #ffffff;
-  --border-radius: 20px;
-  --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+    --bg-gradient: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b);
+    --card-bg: rgba(255, 255, 255, 0.18);
+    --text-color: #ffffff;
+    --border-radius: 20px;
+    --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Estilos de la IA */
 
 /* Contenedor de la tabla */
 .table-container {
-  width: 90%;
-  max-width: 900px;
-  margin: 30px auto;
-  /* background: rgba(249, 0, 0, 0.15); */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+    /* background: rgba(249, 0, 0, 0.15); */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
 
 /* Tabla */
@@ -143,7 +205,7 @@ main.table {
 .content-table {
     width: 95%;
     max-height: calc(89% - 1.6rem);
-    background-color: rgba(70, 20, 20, 0.733);
+    /* background-color: rgba(70, 20, 20, 0.733); */
 
     margin: .8rem auto;
     border-radius: .6rem;
@@ -157,36 +219,38 @@ main.table {
 }
 
 
-.content-table::-webkit-scrollbar-thumb{
+.content-table::-webkit-scrollbar-thumb {
     border-radius: .5rem;
     background-color: #0004;
     visibility: hidden;
 }
 
-.content-table:hover::-webkit-scrollbar-thumb{
+.content-table:hover::-webkit-scrollbar-thumb {
     visibility: visible;
 }
 
 table {
-  width: 100%;
-  /* background-color: red; */
-  /* border-collapse: collapse;
+    width: 100%;
+    /* background-color: red; */
+    /* border-collapse: collapse;
   font-family: "Poppins", sans-serif;
   color: var(--text-color); */
 }
 
 td img {
-  width: 36px;
-  height: 36px;
-  /* border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    /* border-radius: 8px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.25); */
-  margin-right: .5rem;
-  border-radius: 50%;
+    margin-right: .5rem;
+    border-radius: 50%;
 
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
-table, th, td {
+table,
+th,
+td {
     border-collapse: collapse;
     padding: 1rem;
     text-align: left;

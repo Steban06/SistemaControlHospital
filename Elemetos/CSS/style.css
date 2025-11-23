@@ -38,14 +38,11 @@
     position: fixed;
     top: 0;
     left: 0;
-    /* height: 100%; */
-    width: 270px;
+    height: 100%;
+    width: 280px;
     background: #11101d;
     z-index: 100;
     transition: all 0.5s ease;
-    margin: 12px;
-    border-radius: 16px;
-    height: calc(100vh - 24px);
 }
 
 .barra-lateral.close {
@@ -126,11 +123,7 @@
 }
 
 .barra-lateral.close .nav-links li .icon-link a span {
-    /* Se removió el display:none para permitir animación de los textos (.link_name)
-       La visibilidad ahora se controla mediante opacity/transform sobre
-       .link_name, no con display. */
     pointer-events: none;
-    /* display: none; */
 }
 
 .barra-lateral .nav-links li i {
@@ -140,9 +133,6 @@
     line-height: 50px;
     color: #fff;
     font-size: 20px;
-    /* Transitions separados: queremos que la OPACITY tenga delay cuando
-       aparece el sidebar pero que la TRANSFORM (rotación) no tenga delay
-       y comience inmediatamente. El orden aquí es importante: opacity, transform. */
     transition: opacity 0.22s cubic-bezier(.2, .9, .2, 1), transform 0.28s cubic-bezier(.2, .9, .2, 1);
     cursor: pointer;
 }
@@ -152,7 +142,6 @@
 }
 
 .barra-lateral .nav-links li.showMenu i.arrow {
-    /* Mantener la traslación en estado visible y añadir rotación al desplegar sub-menu */
     transform: translateX(0) rotate(-180deg);
 }
 
@@ -162,7 +151,6 @@
 }
 
 .barra-lateral.close .nav-links i.arrow {
-    /* Evitar display:none para permitir animación; ocultamos con opacity/transform */
     opacity: 0;
     transform: translateX(-8px);
     pointer-events: none;
@@ -309,19 +297,15 @@
     align-items: center;
     padding: 20px 0;
     background: #1d1b31;
-    /* Separación visual: línea sutil y sombra superior para separar el perfil del nav */
     border-top: 1px solid rgba(255,255,255,0.04);
     box-shadow: 0 -6px 12px rgba(0,0,0,0.12);
     justify-content: space-between;
-    /* max-height: 80px; */
-    border-radius: 0 0 16px 16px;
 
     & .profile-content i {
         min-width: 78px;
         text-align: center;
         color: #fff;
         font-size: 35px;
-        /* background: #1f1e33; */
     }
 }
 
@@ -405,13 +389,14 @@
 .home-section {
     position: relative;
     background: #E4E9F7;
-    left: 294px;
-    width: calc(100% - 306px);
+    left: 280px;
+    width: calc(100% - 280px);
     transition: all 0.5s ease;
-    /* min-height: 100vh; */
 
-    margin: 12px 12px 12px 0px;
-    min-height: calc(100vh - 24px);
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .barra-lateral.close~.home-section {
@@ -423,10 +408,8 @@
     display: flex;
     align-items: center;
     height: 60px;
-    /* Separador visual entre el encabezado (.home-content) y el resto de la sección */
-    border-bottom: 1px solid rgba(17,16,29,0.06); /* tono sutil acorde al tema */
-    /* padding-bottom: 10px; separación interior para que el título no quede pegado */
-    background: transparent; /* mantener fondo actual */
+    border-bottom: 1px solid rgba(17,16,29,0.06);
+    background: transparent;
 
     & .bx-menu,
     & .text {
@@ -446,7 +429,6 @@
     }
 }
 
-/* Ajuste en pantallas pequeñas */
 @media (max-width: 600px) {
     .home-section .home-content {
         padding-bottom: 8px;
