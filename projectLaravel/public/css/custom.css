@@ -1,0 +1,416 @@
+/* Importación de fuentes personalizadas */
+@font-face {
+    font-family: 'Momo Trust Display';
+    src: url('/fonts/font/MomoTrustDisplay/MomoTrustDisplay-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Archivo';
+    src: url('/fonts/font/Archivo/Archivo-VariableFont_wdth,wght.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/font/Roboto/Roboto-VariableFont_wdth,wght.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/fonts/font/Open_Sans/OpenSans-VariableFont_wdth,wght.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+.barra-lateral {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 280px;
+    background: #11101d;
+    z-index: 100;
+    transition: all 0.5s ease;
+}
+
+.barra-lateral.close {
+    width: 78px;
+}
+
+.barra-lateral .logo-details {
+    height: 75px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.barra-lateral .logo-details i {
+    color: #fff;
+    font-size: 30px;
+    height: 50px;
+    min-width: 78px;
+    text-align: center;
+    line-height: 50px;
+}
+
+.barra-lateral .logo-details img {
+    color: #fff;
+    height: 50px;
+    margin: 0 21px;
+    text-align: center;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    fill: red;
+}
+
+.barra-lateral .logo-details .logo_name {
+    font-size: 20px;
+    color: #fff;
+    font-weight: 900;
+    transition: 0.3s ease;
+    transition-delay: 0.1s;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.barra-lateral.close .logo-details .logo_name {
+    transition-delay: 0s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.barra-lateral .nav-links {
+    height: 100%;
+    padding-top: 30px 0 150px 0;
+    overflow: visible;
+}
+
+.barra-lateral .nav-links::-webkit-scrollbar {
+    display: none;
+}
+
+.barra-lateral .nav-links li {
+    list-style: none;
+    position: relative;
+    transition: all 0.4s ease;
+}
+
+.barra-lateral .nav-links li:hover {
+    background: #1d1b31;
+}
+
+.barra-lateral .nav-links li .icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.barra-lateral.close .nav-links li .icon-link a span {
+    pointer-events: none;
+}
+
+.barra-lateral .nav-links li i {
+    height: 50px;
+    min-width: 78px;
+    text-align: center;
+    line-height: 50px;
+    color: #fff;
+    font-size: 20px;
+    transition: opacity 0.22s cubic-bezier(.2, .9, .2, 1), transform 0.28s cubic-bezier(.2, .9, .2, 1);
+    cursor: pointer;
+}
+
+.barra-lateral .nav-links li.showMenu i.arrow {
+    transform: rotate(-180deg);
+}
+
+.barra-lateral .nav-links li.showMenu i.arrow {
+    transform: translateX(0) rotate(-180deg);
+}
+
+.barra-lateral.close .nav-links i.arrow {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.barra-lateral.close .nav-links i.arrow {
+    opacity: 0;
+    transform: translateX(-8px);
+    pointer-events: none;
+}
+
+.barra-lateral:not(.close) .nav-links i.arrow {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+    transition-delay: 0.40s, 0.1s;
+}
+
+.barra-lateral .nav-links li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.barra-lateral.close .nav-links li a {
+    transition: all 2s ease;
+}
+
+.barra-lateral .nav-links li a .link_name {
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    white-space: nowrap;
+    transition: opacity 0.22s cubic-bezier(.2,.9,.2,1), transform 0.28s cubic-bezier(.2,.9,.2,1);
+}
+
+.barra-lateral.close .nav-links li a .link_name {
+    opacity: 0;
+    transform: translateX(-8px);
+    pointer-events: none;
+    white-space: nowrap;
+    transition-delay: 0s, 0s;
+}
+
+.barra-lateral .nav-links li .icon-link a .link_name {
+    transition: opacity 0.22s cubic-bezier(.2,.9,.2,1), transform 0.28s cubic-bezier(.2,.9,.2,1);
+    white-space: nowrap;
+}
+
+.barra-lateral.close .nav-links li .icon-link a .link_name {
+    opacity: 0;
+    transform: translateX(-8px);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.barra-lateral:not(.close) .nav-links li a .link_name,
+.barra-lateral:not(.close) .nav-links li .icon-link a .link_name {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+    transition-delay: 0.40s, 0s;
+}
+
+.barra-lateral .nav-links li .sub-menu {
+    padding: 6px 6px 14px 80px;
+    margin-top: -10px;
+    background: #1d1b31;
+    display: none;
+}
+
+.barra-lateral .nav-links li.showMenu .sub-menu {
+    display: block;
+}
+
+.barra-lateral .nav-links li .sub-menu a {
+    color: #ffffff;
+    font-size: 15px;
+    padding: 5px 0;
+    white-space: nowrap;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.barra-lateral .nav-links li .sub-menu a:hover {
+    opacity: 1;
+}
+
+.barra-lateral.close .nav-links li .sub-menu {
+    position: absolute;
+    left: 100%;
+    top: -10px;
+    margin-top: 0;
+    padding: 10px 20px;
+    border-radius: 0 6px 6px 0;
+    opacity: 0;
+    display: block;
+    pointer-events: none;
+    transition: 0s;
+}
+
+.barra-lateral.close .nav-links li:hover .sub-menu {
+    top: 0;
+    opacity: 1;
+    pointer-events: auto;
+    transition: all 0.4s ease;
+}
+
+.barra-lateral .nav-links li .sub-menu .link_name {
+    display: none;
+}
+
+.barra-lateral.close .nav-links li .sub-menu .link_name {
+    font-size: 18px;
+    opacity: 1;
+    display: block;
+}
+
+.barra-lateral .nav-links li .sub-menu.blank {
+    opacity: 1;
+    pointer-events: auto;
+    padding: 3px 20px 6px 20px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.barra-lateral .nav-links li:hover .sub-menu.blank {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.barra-lateral .profile-details {
+    position: absolute;
+    color: #fff;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    background: #1d1b31;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 -6px 12px rgba(0,0,0,0.12);
+    justify-content: space-between;
+}
+
+.barra-lateral .profile-details .profile-content i {
+    min-width: 78px;
+    text-align: center;
+    color: #fff;
+    font-size: 35px;
+}
+
+.barra-lateral .profile-details #log-out {
+    margin: 0 10px;
+    text-align: center;
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    background: #1f1e33;
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    pointer-events: none;
+    transition: opacity 0.22s cubic-bezier(.2, .9, .2, 1), transform 0.28s cubic-bezier(.2, .9, .2, 1);
+}
+
+.barra-lateral:not(.close) .profile-details #log-out {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    transition-delay: 0.40s;
+}
+
+.barra-lateral.close .profile-details #log-out {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    pointer-events: none;
+    transition-delay: 0s;
+}
+
+.barra-lateral .profile-details .profile-content {
+    display: flex;
+    align-items: center;
+}
+
+.barra-lateral .profile-details img {
+    height: 52px;
+    width: 52px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin: 0 14px 0 12px;
+    background: #1f1e33;
+    padding: 10px;
+}
+
+.barra-lateral .profile-details .name-job {
+    color: #fff;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    pointer-events: none;
+    transition: opacity 0.22s cubic-bezier(.2, .9, .2, 1), transform 0.28s cubic-bezier(.2, .9, .2, 1);
+}
+
+.barra-lateral .profile-details .name-job .name {
+    font-size: 15px;
+}
+
+.barra-lateral .profile-details .name-job .job {
+    font-size: 12px;
+}
+
+.barra-lateral:not(.close) .profile-details .name-job {
+    opacity: 1;
+    display: block;
+    white-space: nowrap;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    transition-delay: 0.40s;
+}
+
+.barra-lateral.close .profile-details .name-job {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    pointer-events: none;
+    white-space: nowrap;
+    transition-delay: 0s;
+}
+
+.home-section {
+    position: relative;
+    background: #E4E9F7;
+    left: 280px;
+    width: calc(100% - 280px);
+    transition: all 0.5s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.barra-lateral.close~.home-section {
+    left: 78px;
+    width: calc(100% - 78px);
+}
+
+.home-section .home-content {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    border-bottom: 1px solid rgba(17,16,29,0.06);
+    background: transparent;
+}
+
+.home-section .home-content .bx-menu,
+.home-section .home-content .text {
+    color: #11101d;
+    font-size: 2rem;
+    margin-right: 16px;
+}
+
+.home-section .home-content .bx-menu {
+    margin: 0 15px;
+    cursor: pointer;
+}
+
+.home-section .home-content .text {
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .home-section .home-content {
+        padding-bottom: 8px;
+    }
+}
+
