@@ -4,7 +4,7 @@
     overflow: auto;
     padding: 16px;
     background: transparent;
-    border: 2px dashed #ff0303;
+    /* border: 2px dashed #ff0303; */
     position: relative;
     font-size: 1rem;
     color: #11101d;
@@ -58,15 +58,16 @@
 }
 
 .table-container {
-    width: 90%;
-    max-width: 900px;
+    width: 100%;
+    /* max-width: 900px; */
     margin: 30px auto;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 18px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    /* border: 5px solid rgba(212, 3, 3); */
+    /* border: 1px solid rgba(255, 255, 255, 0.25); */
+    /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35); */
 }
 
 main.table {
@@ -92,6 +93,9 @@ main.table {
     margin: .8rem auto;
     border-radius: .6rem;
     overflow: auto;
+
+    position: relative;
+    /* border: 5px solid green; */
 }
 
 .content-table::-webkit-scrollbar {
@@ -113,27 +117,29 @@ table {
     width: 100%;
 }
 
-td img {
+/* td img {
     width: 36px;
     height: 36px;
     margin-right: .5rem;
     border-radius: 50%;
     vertical-align: middle;
-}
+} */
 
 table,
 th,
 td {
     border-collapse: collapse;
     padding: 1rem;
-    text-align: left;
+    /* text-align: left; */
 }
 
 thead th {
     position: sticky;
     top: 0;
     left: 0;
-    background-color: #d5d1defe;
+    background-color: #2a2750;
+    /* text-align: center; */
+    color: #ffffff;
 }
 
 tbody tr:nth-child(even) {
@@ -144,33 +150,117 @@ tbody tr:hover {
     background-color: #fff6;
 }
 
-.status {
-    padding: .4rem 0;
-    border-radius: 2rem;
+.center {
     text-align: center;
 }
 
-.status.delivered {
-    background-color: #36e49d;
-    color: #006b21;
+.status {
+    padding: .4rem 0.8rem;
+    border-radius: 2rem;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: capitalize;
 }
 
-.status.cancelled {
-    background-color: #d893a3;
-    color: #b30021;
+.status.operativo {
+    background-color: #74e79e;
+    color: #166534;
+    /* border: 1px solid #22c55e; */
 }
 
-.status.shipped {
-    background-color: #6fcaea;
+.status.danado {
+    background-color: #fee2e2;
+    color: #991b1b;
+    /* border: 1px solid #ef4444; */
 }
 
-.status.pending {
-    background-color: #ebc474;
+.status.reparacion {
+    background-color: #fef9c3;
+    color: #854d0e;
+    /* border: 1px solid #facc15; */
+}
+
+.status.desincorporado {
+    background-color: #e5e7eb;
+    color: #374151;
+    /* border: 1px solid #9ca3af; */
 }
 
 @media (max-width: 1000px) {
     td:not(:first) {
         min-width: 12.1rem;
     }
+}
+
+.btn-add-bien {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.6rem 1.2rem;
+    background: linear-gradient(135deg, #3a1c71, #d76d77);
+    color: #fff;
+    border: none;
+    border-radius: 2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(58, 28, 113, 0.3);
+}
+
+.btn-add-bien:hover {
+    background: linear-gradient(135deg, #4a2c81, #e77d87);
+    box-shadow: 0 4px 12px rgba(58, 28, 113, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-add-bien:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(58, 28, 113, 0.3);
+}
+
+.btn-add-bien i {
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .btn-add-bien {
+        width: 100%;
+        justify-content: center;
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-add-bien span {
+        display: inline;
+    }
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* gap: 6px; */
+    padding: 0.4rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-edit {
+    background-color: #3b82f6;
+    color: #fff;
+}
+
+.btn-delete {
+    background-color: #ef4444;
+    color: #fff;
 }
 

@@ -8,6 +8,9 @@ Route::get('/', function () {
 });
 
 Route::get('/inicio', function () {
+
+    
+
     return view('inicio');
 })->name('inicio');
 
@@ -16,3 +19,6 @@ Route::get('/ejemplo', function () {
 })->name('ejemplo');
 
 Route::get('/bienes-nacionales', [BNController::class, 'index'])->name('bienes-nacionales.index');
+Route::post('/bienes-nacionales', [BNController::class, 'store'])->name('bienes-nacionales.store');
+Route::put('/bienes-nacionales/{id}', [BNController::class, 'update'])->name('bienes-nacionales.update');
+// Route::delete('/bienes-nacionales/{id}', [BNController::class, 'destroy'])->name('bienes-nacionales.destroy');

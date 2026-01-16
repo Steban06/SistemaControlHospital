@@ -27,7 +27,8 @@
     <section class="home-section">
         <div class="home-content">
             <i class="fa-solid fa-bars bx-menu"></i>
-            <span class="text">Sistema de Control</span>
+            <!-- <span class="text">Sistema de Control</span> -->
+            <span class="text">@yield('title_superior', 'Bienvenido')</span>
         </div>
         
         <div class="content-view">

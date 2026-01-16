@@ -18,15 +18,17 @@
             <div class="icon-link">
                 <a href="{{ url('/bienes-nacionales') }}">
                     <i class="fa-solid fa-file"></i>
-                    <span class="link_name">Equipos</span>
+                    <span class="link_name">Bienes Nacionales</span>
                 </a>
                 <!--Icono para mostrar mas opciones-->
                 <i class="fa-solid fa-chevron-down arrow"></i>
             </div>
             <ul class="sub-menu">
-                <li><a class="link_name" href="#">Subsección 1</a></li>
-                <li><a href="#">Subsección 2</a></li>
-                <li><a href="#">Subsección 3</a></li>
+                <li><a class="link_name" href="{{ url('/bienes-nacionales') }}">Bienes Nacionales</a></li>
+                <li><a href="#">Medicos</a></li>
+                <li><a href="#">Mobiliarios</a></li>
+                <li><a href="#">Tecnológico</a></li>
+                <li><a href="#">Infraestructura</a></li>
             </ul>
         </li>
     </ul>
