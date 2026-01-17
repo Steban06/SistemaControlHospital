@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="/disenio/css/login-fix.css">
     <link rel="stylesheet" href="/disenio/css/styles.css">
     <!-- <link rel="stylesheet" href="/disenio/css/index.css"> -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -25,106 +27,161 @@
                 </header>
 
                 <!-- main content  -->
-                <main class="flex-1 overflow-auto p-4 lg:p-6 bg-gray-50">
-                    <div class="space-y-4 lg:space-y-6">
+                <main class="flex-1 overflow-auto bg-gray-50 flex flex-col">
+                    <div class="p-4 lg:p-6 space-y-4 lg:space-y-6 flex-1">
 
-                        <!-- Aqui van las card carijitaaa -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-6">
+                        <!-- Main Metrics Grid (Compact) -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
                                 <!-- Card 1 -->
-                            <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow">
-                                <div class="absolute top-0 right-0 w-24 h-24 lg:w-32 lg:h-32 bg-emerald-50 rounded-full -mr-12 lg:-mr-16 -mt-12 lg:-mt-16 opacity-50"></div>
-                                <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-2">
-                                    <div class="flex items-center justify-between">
-                                        <p data-slot="card-description" class="text-gray-600 font-medium text-xs lg:text-sm">Bienes Operativos</p>
-                                        <div class="bg-emerald-500 p-2 lg:p-3 rounded-lg shadow-md"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package w-4 h-4 lg:w-5 lg:h-5 text-white">
-                                                <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path>
-                                                <path d="M12 22V12"></path>
-                                                <polyline points="3.29 7 12 12 20.71 7"></polyline>
-                                                <path d="m7.5 4.27 9 5.15"></path>
-                                            </svg></div>
+                            <div onclick="showSummaryAlert()" data-slot="card" class="bg-white text-slate-800 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer p-4 group">
+                                <div class="absolute top-0 right-0 w-16 h-16 bg-emerald-50 rounded-full -mr-6 -mt-6 opacity-50 group-hover:scale-110 transition-transform"></div>
+                                <div class="flex items-center justify-between z-10">
+                                    <div class="p-2 bg-emerald-100 rounded-md text-emerald-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22v-9"/></svg>
+                                    </div>
+                                    <div class="flex items-center gap-1 text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                                        +12%
                                     </div>
                                 </div>
-                                <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
-                                    <div class="space-y-1">
-                                        <p class="text-2xl lg:text-3xl font-bold text-gray-900">1,248</p>
-                                        <div class="flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up w-3 h-3 lg:w-4 lg:h-4 text-emerald-600">
-                                                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                                                <polyline points="16 7 22 7 22 13"></polyline>
-                                            </svg><span class="text-xs lg:text-sm font-medium text-emerald-600">+12%</span><span class="text-xs lg:text-sm text-gray-500 hidden sm:inline">vs mes anterior</span></div>
-                                    </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-slate-900 leading-tight">1,248</p>
+                                    <p class="text-xs text-slate-500 font-medium mt-0.5">Bienes Operativos</p>
                                 </div>
                             </div>
                             
                             <!-- Card 2 -->
-                            <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow">
-                                <div class="absolute top-0 right-0 w-24 h-24 lg:w-32 lg:h-32 bg-amber-50 rounded-full -mr-12 lg:-mr-16 -mt-12 lg:-mt-16 opacity-50"></div>
-                                <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-2">
-                                    <div class="flex items-center justify-between">
-                                        <p data-slot="card-description" class="text-gray-600 font-medium text-xs lg:text-sm">En Mantenimiento</p>
-                                        <div class="bg-amber-500 p-2 lg:p-3 rounded-lg shadow-md"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench w-4 h-4 lg:w-5 lg:h-5 text-white">
-                                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
-                                            </svg></div>
+                            <div data-slot="card" class="bg-white text-slate-800 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-all p-4 group">
+                                <div class="absolute top-0 right-0 w-16 h-16 bg-amber-50 rounded-full -mr-6 -mt-6 opacity-50 group-hover:scale-110 transition-transform"></div>
+                                <div class="flex items-center justify-between z-10">
+                                    <div class="p-2 bg-amber-100 rounded-md text-amber-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                                    </div>
+                                    <div class="flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-alert"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                                        8 Pend.
                                     </div>
                                 </div>
-                                <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
-                                    <div class="space-y-1">
-                                        <p class="text-2xl lg:text-3xl font-bold text-gray-900">87</p>
-                                        <div class="flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-down w-3 h-3 lg:w-4 lg:h-4 text-red-600">
-                                                <polyline points="22 17 13.5 8.5 8.5 13.5 2 7"></polyline>
-                                                <polyline points="16 17 22 17 22 11"></polyline>
-                                            </svg><span class="text-xs lg:text-sm font-medium text-red-600">-5%</span><span class="text-xs lg:text-sm text-gray-500 hidden sm:inline">vs mes anterior</span></div>
-                                    </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-slate-900 leading-tight">87</p>
+                                    <p class="text-xs text-slate-500 font-medium mt-0.5">En Mantenimiento</p>
                                 </div>
                             </div>
 
                             <!-- Card 3 -->
-                            <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow">
-                                <div class="absolute top-0 right-0 w-24 h-24 lg:w-32 lg:h-32 bg-red-50 rounded-full -mr-12 lg:-mr-16 -mt-12 lg:-mt-16 opacity-50"></div>
-                                <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-2">
-                                    <div class="flex items-center justify-between">
-                                        <p data-slot="card-description" class="text-gray-600 font-medium text-xs lg:text-sm">Fuera de Servicio</p>
-                                        <div class="bg-red-500 p-2 lg:p-3 rounded-lg shadow-md"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-alert w-4 h-4 lg:w-5 lg:h-5 text-white">
-                                                <circle cx="12" cy="12" r="10"></circle>
-                                                <line x1="12" x2="12" y1="8" y2="12"></line>
-                                                <line x1="12" x2="12.01" y1="16" y2="16"></line>
-                                            </svg></div>
+                            <div data-slot="card" class="bg-white text-slate-800 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-all p-4 group">
+                                <div class="absolute top-0 right-0 w-16 h-16 bg-red-50 rounded-full -mr-6 -mt-6 opacity-50 group-hover:scale-110 transition-transform"></div>
+                                <div class="flex items-center justify-between z-10">
+                                    <div class="p-2 bg-red-100 rounded-md text-red-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ban"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
+                                    </div>
+                                    <div class="flex items-center gap-1 text-xs font-medium text-red-600 bg-red-50 px-2 py-0.5 rounded-full border border-red-100">
+                                        +3 Fallas
                                     </div>
                                 </div>
-                                <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
-                                    <div class="space-y-1">
-                                        <p class="text-2xl lg:text-3xl font-bold text-gray-900">34</p>
-                                        <div class="flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up w-3 h-3 lg:w-4 lg:h-4 text-emerald-600">
-                                                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                                                <polyline points="16 7 22 7 22 13"></polyline>
-                                            </svg><span class="text-xs lg:text-sm font-medium text-emerald-600">+3%</span><span class="text-xs lg:text-sm text-gray-500 hidden sm:inline">vs mes anterior</span></div>
-                                    </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-slate-900 leading-tight">34</p>
+                                    <p class="text-xs text-slate-500 font-medium mt-0.5">Fuera de Servicio</p>
                                 </div>
                             </div>
 
                             <!-- Card 4 -->
-                            <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow">
-                                <div class="absolute top-0 right-0 w-24 h-24 lg:w-32 lg:h-32 bg-gray-50 rounded-full -mr-12 lg:-mr-16 -mt-12 lg:-mt-16 opacity-50"></div>
-                                <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-2">
-                                    <div class="flex items-center justify-between">
-                                        <p data-slot="card-description" class="text-gray-600 font-medium text-xs lg:text-sm">Desincorporados</p>
-                                        <div class="bg-gray-500 p-2 lg:p-3 rounded-lg shadow-md"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-archive w-4 h-4 lg:w-5 lg:h-5 text-white">
-                                                <rect width="20" height="5" x="2" y="3" rx="1"></rect>
-                                                <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
-                                                <path d="M10 12h4"></path>
-                                            </svg></div>
+                            <div data-slot="card" class="bg-white text-slate-800 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 shadow-sm hover:shadow-md transition-all p-4 group">
+                                <div class="absolute top-0 right-0 w-16 h-16 bg-slate-50 rounded-full -mr-6 -mt-6 opacity-50 group-hover:scale-110 transition-transform"></div>
+                                <div class="flex items-center justify-between z-10">
+                                    <div class="p-2 bg-slate-100 rounded-md text-slate-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-archive"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"/><path d="M10 12h4"/></svg>
                                     </div>
                                 </div>
-                                <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
-                                    <div class="space-y-1">
-                                        <p class="text-2xl lg:text-3xl font-bold text-gray-900">156</p>
-                                        <div class="flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up w-3 h-3 lg:w-4 lg:h-4 text-emerald-600">
-                                                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                                                <polyline points="16 7 22 7 22 13"></polyline>
-                                            </svg><span class="text-xs lg:text-sm font-medium text-emerald-600">+18%</span><span class="text-xs lg:text-sm text-gray-500 hidden sm:inline">vs mes anterior</span></div>
-                                    </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-slate-900 leading-tight">156</p>
+                                    <p class="text-xs text-slate-500 font-medium mt-0.5">Desincorporados</p>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- AC Statistics Section (New) -->
+                         <div class="mt-4 grid grid-cols-1 xl:grid-cols-2 gap-6">
+                            <!-- AC Section -->
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-700 uppercase tracking-wide mb-3 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-snowflake text-blue-500"><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg>
+                                    Estado de Climatización
+                                </h4>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    <!-- AC Stat 1 -->
+                                    <div class="bg-blue-50/50 border border-blue-100 rounded-lg p-3 flex items-center justify-between">
+                                        <div>
+                                            <p class="text-xs text-blue-600 font-semibold uppercase">Total Equipos</p>
+                                            <p class="text-xl font-bold text-slate-800">42</p>
+                                        </div>
+                                        <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-snowflake"><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg>
+                                        </div>
+                                    </div>
+                                    <!-- AC Stat 2 -->
+                                    <div class="bg-emerald-50/50 border border-emerald-100 rounded-lg p-3 flex items-center justify-between">
+                                        <div>
+                                            <p class="text-xs text-emerald-600 font-semibold uppercase">Operativos</p>
+                                            <p class="text-xl font-bold text-slate-800">38</p>
+                                        </div>
+                                        <div class="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                                        </div>
+                                    </div>
+                                    <!-- AC Stat 3 -->
+                                    <div class="bg-red-50/50 border border-red-100 rounded-lg p-3 flex items-center justify-between">
+                                        <div>
+                                            <p class="text-xs text-red-600 font-semibold uppercase">Criticos/Falla</p>
+                                            <p class="text-xl font-bold text-slate-800">4</p>
+                                        </div>
+                                        <div class="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-triangle"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- General Stats Section -->
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-700 uppercase tracking-wide mb-3 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard text-slate-500"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                                    Resumen General
+                                </h4>
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    <!-- Total Bienes -->
+                                    <div class="bg-indigo-50/50 border border-indigo-100 rounded-lg p-3 flex items-center justify-between">
+                                        <div>
+                                            <p class="text-xs text-indigo-600 font-semibold uppercase">Total Bienes</p>
+                                            <p class="text-xl font-bold text-slate-800">1,525</p>
+                                        </div>
+                                        <div class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-boxes"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .99 1.74l1 .59"/><path d="m7 16.5-4.74-2.85"/><path d="m7 16.5 5 3"/><path d="M7 16.5v5.17"/><path d="M12 13.5V19l3.97 2.38a2 2 0 0 0 1.99 0l3.97-2.38"/><path d="m17 16.5-5-3"/><path d="m17 16.5 4.74-2.85"/><path d="M17 16.5v5.17"/><path d="M7.97 4.42A2 2 0 0 0 7 2.69V.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v2.19a2 2 0 0 0-.97 1.73l-1 .59"/><path d="m12 6.5-4.74-2.85"/><path d="m12 6.5 5-3"/><path d="M12 6.5v5.17"/></svg>
+                                        </div>
+                                    </div>
+                                    <!-- Valor Total -->
+                                    <div class="bg-green-50/50 border border-green-100 rounded-lg p-3 flex items-center justify-between">
+                                        <div>
+                                            <p class="text-xs text-green-600 font-semibold uppercase">Valor Total</p>
+                                            <p class="text-xl font-bold text-slate-800">$2.4M</p>
+                                        </div>
+                                        <div class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                                        </div>
+                                    </div>
+                                    <!-- Pendientes -->
+                                    <div class="bg-amber-50/50 border border-amber-100 rounded-lg p-3 flex items-center justify-between">
+                                        <div>
+                                            <p class="text-xs text-amber-600 font-semibold uppercase">Mant. Pendientes</p>
+                                            <p class="text-xl font-bold text-slate-800">23</p>
+                                        </div>
+                                        <div class="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
                         
                         <!-- Contenedor de dos graficas -->
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
@@ -140,9 +197,8 @@
 
                                 <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
                                     <div class="recharts-responsive-container lg:h-[300px]" style="width: 100%; height: 250px; min-width: 0px;">
-                                        <div class="recharts-wrapper" style="position: relative; cursor: default; width: 100%; height: 100%; max-height: 250px; max-width: 309px;">
-                                            Grafica de Lineas                                            
-                                        </div>
+                                        <div id="curve_chart" style="width: 100%; height: 100%;"></div>
+                                        <!-- TODO: Backend - Cargar datos de tendencias mensuales (últimos 6 meses) -->
                                     </div>
                                 </div>
                             </div>
@@ -162,9 +218,8 @@
 
                                 <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
                                     <div class="recharts-responsive-container lg:h-[300px]" style="width: 100%; height: 250px; min-width: 0px;">
-                                        <div class="recharts-wrapper" style="position: relative; cursor: default; width: 100%; height: 100%; max-height: 250px; max-width: 309px;">
-                                            Grafica de Barras
-                                        </div>
+                                        <div id="pie_chart" style="width: 100%; height: 100%;"></div>
+                                        <!-- TODO: Backend - Cargar conteo de bienes por categoría -->
                                     </div>
                                 </div>
                             </div>
@@ -188,43 +243,10 @@
                             </div>
                         </div> -->
 
-                        <!-- Tres tarjetas resumen  -->
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
-                                <!-- card 1 -->
-                            <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-lg border-l-4 border-l-blue-500 border-t-0 border-r-0 border-b-0">
-                                <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-3">
-                                    <h4 data-slot="card-title" class="text-blue-600 text-base lg:text-lg">Total de Bienes</h4>
-                                </div>
-                                <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
-                                    <p class="text-3xl lg:text-4xl font-bold text-gray-900">1,525</p>
-                                    <p class="text-xs lg:text-sm text-gray-500 mt-2">Registrados en el sistema</p>
-                                </div>
-                            </div>
 
-                            <!-- card 2 -->
-                            <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-lg border-l-4 border-l-emerald-500 border-t-0 border-r-0 border-b-0">
-                                <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-3">
-                                    <h4 data-slot="card-title" class="text-emerald-600 text-base lg:text-lg">Valor Total</h4>
-                                </div>
-                                <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
-                                    <p class="text-3xl lg:text-4xl font-bold text-gray-900">$2.4M</p>
-                                    <p class="text-xs lg:text-sm text-gray-500 mt-2">En bienes operativos</p>
-                                </div>
-                            </div>
-
-                            <!-- card 3 -->
-                            <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-lg border-l-4 border-l-amber-500 border-t-0 border-r-0 border-b-0">
-                                <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-3">
-                                    <h4 data-slot="card-title" class="text-amber-600 text-base lg:text-lg">Mantenimientos Pendientes</h4>
-                                </div>
-                                <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
-                                    <p class="text-3xl lg:text-4xl font-bold text-gray-900">23</p>
-                                    <p class="text-xs lg:text-sm text-gray-500 mt-2">Requieren atención</p>
-                                </div>
-                            </div>
-                        </div>
 
                     </div>
+                    <?php include __DIR__ . '/layouts/footer.php'; ?>
                 </main>
             </div>
         </div>
@@ -233,6 +255,73 @@
 
 
     <span id="recharts_measurement_span" aria-hidden="true" style="position: absolute; top: -20000px; left: 0px; padding: 0px; margin: 0px; border: none; white-space: pre; font-size: 12px; letter-spacing: normal;">65</span>
+
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawCharts);
+
+      function drawCharts() {
+        drawCurveChart();
+        drawPieChart();
+      }
+
+      function drawCurveChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Mes', 'Altas', 'Bajas'],
+          ['Ene',  1000,      400],
+          ['Feb',  1170,      460],
+          ['Mar',  660,       1120],
+          ['Abr',  1030,      540],
+		  ['May',  1200,      300],
+		  ['Jun',  1100,      200]
+        ]);
+
+        var options = {
+          title: 'Movimiento de Bienes (Últimos 6 meses)',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+		  backgroundColor: 'transparent',
+		  chartArea: {width: '85%', height: '70%'}
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        chart.draw(data, options);
+      }
+
+      function drawPieChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Categoría', 'Cantidad'],
+          ['Equipos Médicos',     11],
+          ['Mobiliario de Oficina',      2],
+          ['Equipos de Computación',  2],
+          ['Vehículos', 2],
+          ['Lencería',    7]
+        ]);
+
+        var options = {
+          title: 'Distribución por Categoría',
+		  pieHole: 0.4,
+		  backgroundColor: 'transparent',
+		  chartArea: {width: '90%', height: '80%'},
+		  legend: {position: 'right', textStyle: {fontSize: 12}}
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('pie_chart'));
+        chart.draw(data, options);
+      }
+
+      function showSummaryAlert() {
+        Swal.fire({
+          title: 'Resumen de Bienes',
+          text: 'Actualmente hay 1,248 bienes operativos. El sistema está funcionando correctamente.',
+          icon: 'info',
+          confirmButtonText: 'Entendido'
+        });
+      }
+
+      // Responsive redraw
+      window.addEventListener('resize', drawCharts);
+    </script>
 </body>
 
 </html>
