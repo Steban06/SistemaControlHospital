@@ -11,7 +11,7 @@ Route::get('/inicio', function () {
 
     
 
-    return view('inicio');
+    return view('inicio', ['pageTitle' => 'Inicio']);
 })->name('inicio');
 
 Route::get('/ejemplo', function () {

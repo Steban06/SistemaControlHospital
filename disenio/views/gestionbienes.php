@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Bienes</title>
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-    <link rel="stylesheet" href="/disenio/css/styles.css">
-    <link rel="stylesheet" href="/disenio/css/tuestilo.css">
-    <link rel="stylesheet" href="/disenio/css/theme.css">
+    <link rel="stylesheet" href="http://localhost/SistemaControlHospital/disenio/css/styles.css">
+    <link rel="stylesheet" href="http://localhost/SistemaControlHospital/disenio/css/tuestilo.css">
+    <link rel="stylesheet" href="http://localhost/SistemaControlHospital/disenio/css/theme.css">
 
 </head>
 
@@ -421,8 +421,8 @@
                                         <button class="p-2 rounded-md border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-gray-600" disabled>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
                                         </button>
-                                        <button class="w-8 h-8 flex items-center justify-center rounded-md bg-blue-600 text-white font-medium shadow-sm border border-blue-600">1</button>
-                                        <button class="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-600">2</button>
+                                        <button class="w-8 h-8 flex items-center justify-center rounded-md bg-blue-600 text-white font-medium shadow-sm border border-blue-600 cursor-pointer transition-colors hover:bg-blue-700">1</button>
+                                        <button class="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-600 cursor-pointer transition-colors hover:bg-blue-700">2</button>
                                         <button class="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-600">3</button>
                                         <span class="px-1">...</span>
                                         <button class="p-2 rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-600">
@@ -614,7 +614,7 @@
     </div>
     
     <!-- External Scripts -->
-    <script src="/disenio/js/gestionbienes.js"></script>
+    <script src="http://localhost/SistemaControlHospital/disenio/js/gestionbienes.js"></script>
 </body>
 
 </html>

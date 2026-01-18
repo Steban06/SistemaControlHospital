@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="/disenio/css/login-fix.css">
-    <link rel="stylesheet" href="/disenio/css/styles.css">
-    <!-- <link rel="stylesheet" href="/disenio/css/index.css"> -->
+    <!-- <link rel="stylesheet" href="https://localhost/disenio/css/login-fix.css"> -->
+    <link rel="stylesheet" href="http://localhost/SistemaControlHospital/disenio/css/styles.css">
+    
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>

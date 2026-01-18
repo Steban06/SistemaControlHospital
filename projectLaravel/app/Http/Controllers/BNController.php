@@ -18,7 +18,7 @@ class BNController extends Controller
         $areas = Area::all();
         $categorias = Categoria::all();
 
-        return view('bienes-nacionales', compact('bienesNacionales', 'areas', 'categorias'));
+        return view('bienes-nacionales', ['pageTitle' => 'Gestión Bienes Nacionales'], compact('bienesNacionales', 'areas', 'categorias'));
     }
 
     public function store(StoreBNRequest $request)

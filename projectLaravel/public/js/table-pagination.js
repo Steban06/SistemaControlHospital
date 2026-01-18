@@ -143,35 +143,115 @@ class TablePagination {
         const totalPages = Math.ceil(this.filteredRows.length / this.rowsPerPage);
         
         if (totalPages <= 0) {
-            this.paginationContainer.innerHTML = '<div class="pagination-info">No hay resultados para mostrar</div>';
+            this.paginationContainer.innerHTML = '<div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4 text-sm text-gray-500 border-t pt-4">No hay resultados para mostrar</div>';
             return;
         }
 
-        let paginationHTML = '<div class="pagination">';
+        const startResult = Math.min((this.currentPage - 1) * this.rowsPerPage + 1, this.filteredRows.length);
+        const endResult = Math.min(this.currentPage * this.rowsPerPage, this.filteredRows.length);
+        const totalResults = this.filteredRows.length;
+
+        let paginationHTML = '<div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500 border-t py-4">';
+        
+        // Texto informativo
+        paginationHTML += `<span>Mostrando <span class="font-bold text-gray-900">${startResult}</span> a <span class="font-bold text-gray-900">${endResult}</span> de <span class="font-bold text-gray-900">${totalResults}</span> resultados</span>`;
+
+        // Contenedor de botones
+        paginationHTML += '<div class="inline-flex items-center gap-1">';
         
         // Botón Anterior
-        paginationHTML += `<button class="pagination-btn" ${this.currentPage === 1 ? 'disabled' : ''} onclick="changePage_${this.instanceId}(${this.currentPage - 1})">
-            <i class="fa-solid fa-chevron-left"></i> Anterior
+        const prevDisabled = this.currentPage === 1;
+        paginationHTML += `<button class="p-2 rounded-md border border-gray-200 bg-white hover:bg-gray-50 ${prevDisabled ? 'disabled opacity-50 cursor-not-allowed' : 'cursor-pointer'} text-gray-600" ${prevDisabled ? 'disabled' : ''} onclick="changePage_${this.instanceId}(${this.currentPage - 1})">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left">
+                <path d="m15 18-6-6 6-6" />
+            </svg>
         </button>`;
 
         // Números de página
-        for (let i = 1; i <= totalPages; i++) {
-            if (i === 1 || i === totalPages || (i >= this.currentPage - 1 && i <= this.currentPage + 1)) {
-                paginationHTML += `<button class="pagination-btn ${i === this.currentPage ? 'active' : ''}" onclick="changePage_${this.instanceId}(${i})">${i}</button>`;
-            } else if (i === this.currentPage - 2 || i === this.currentPage + 2) {
-                paginationHTML += `<span class="pagination-ellipsis">...</span>`;
+        const pages = [];
+        
+        if (totalPages <= 7) {
+            // Mostrar todas las páginas si son 7 o menos
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
+        } else {
+            // Siempre mostrar primera página
+            pages.push(1);
+            
+            // Determinar el rango de páginas visibles alrededor de la página actual
+            let startPage = Math.max(2, this.currentPage - 1);
+            let endPage = Math.min(totalPages - 1, this.currentPage + 1);
+            
+            // Ajustar si estamos cerca del inicio
+            if (this.currentPage <= 3) {
+                endPage = Math.min(4, totalPages - 1);
+            }
+            
+            // Ajustar si estamos cerca del final
+            if (this.currentPage >= totalPages - 2) {
+                startPage = Math.max(2, totalPages - 3);
+            }
+            
+            // Agregar puntos suspensivos antes si es necesario
+            if (startPage > 2) {
+                pages.push('ellipsis-start');
+            }
+            
+            // Agregar páginas visibles
+            for (let i = startPage; i <= endPage; i++) {
+                pages.push(i);
+            }
+            
+            // Agregar puntos suspensivos después si es necesario
+            if (endPage < totalPages - 1) {
+                pages.push('ellipsis-end');
+            }
+            
+            // Siempre mostrar última página
+            if (totalPages > 1) {
+                pages.push(totalPages);
             }
         }
 
+        // Generar botones de números
+        pages.forEach((page, index) => {
+            if (page === 'ellipsis-start' || page === 'ellipsis-end') {
+                paginationHTML += '<span class="px-1 text-gray-400">...</span>';
+            } else {
+                const isActive = page === this.currentPage;
+                
+                const baseClasses = "w-8 h-8 flex items-center justify-center rounded-md border text-sm transition-all duration-200 cursor-pointer";
+                
+                let stateClasses = "";
+                
+                if (isActive) stateClasses = "bg-blue-600 border-blue-600 text-white font-bold hover:bg-blue-800 shadow-sm";
+                else stateClasses = "bg-white border-gray-200 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300";
+        
+                paginationHTML += `
+                    <button type="button" class="${baseClasses} ${stateClasses}" onclick="changePage_${this.instanceId}(${page})">
+                        ${page}
+                    </button>`;
+            }
+        });
+
         // Botón Siguiente
-        paginationHTML += `<button class="pagination-btn" ${this.currentPage === totalPages ? 'disabled' : ''} onclick="changePage_${this.instanceId}(${this.currentPage + 1})">
-            Siguiente <i class="fa-solid fa-chevron-right"></i>
+        const nextDisabled = this.currentPage === totalPages;
+        paginationHTML += `<button class="p-2 rounded-md border border-gray-200 bg-white hover:bg-gray-50 ${nextDisabled ? 'disabled opacity-50 cursor-not-allowed' : 'cursor-pointer'} text-gray-600" ${nextDisabled ? 'disabled' : ''} onclick="changePage_${this.instanceId}(${this.currentPage + 1})">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
+                <path d="m9 18 6-6-6-6" />
+            </svg>
         </button>`;
 
-        paginationHTML += '</div>';
-        paginationHTML += `<div class="pagination-info">Mostrando ${Math.min((this.currentPage - 1) * this.rowsPerPage + 1, this.filteredRows.length)} - ${Math.min(this.currentPage * this.rowsPerPage, this.filteredRows.length)} de ${this.filteredRows.length} resultados</div>`;
+        paginationHTML += '</div>'; // Cierre del contenedor de botones
+        paginationHTML += '</div>'; // Cierre del contenedor principal
         
         this.paginationContainer.innerHTML = paginationHTML;
+        
+        // Aplicar la clase new_pagination al contenedor si no la tiene
+        // if (!this.paginationContainer.classList.contains('new_pagination')) {
+        //     this.paginationContainer.classList.add('new_pagination');
+        // }
     }
 
     /**

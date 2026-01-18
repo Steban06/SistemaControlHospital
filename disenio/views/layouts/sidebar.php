@@ -1,7 +1,7 @@
 <div class="p-4 lg:p-6 border-b border-blue-700">
     <div class="flex items-center justify-between lg:justify-start gap-3 mb-4">
         <div class="bg-blue-800 p-2 rounded-lg">
-            <img src="/disenio/virgen.svg" alt="Hospital Logo" class="w-10 h-10 lg:w-16 lg:h-16">
+            <img src="http://localhost/SistemaControlHospital/diseno/virgen.svg" alt="Hospital Logo" class="w-10 h-10 lg:w-16 lg:h-16">
         </div>
 
         <div class="flex-1">
