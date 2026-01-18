@@ -31,6 +31,15 @@
                 <li><a href="#">Infraestructura</a></li>
             </ul>
         </li>
+        <li>
+            <a href="{{ url('/reportes') }}">
+                <i class="fa-solid fa-chart-line"></i>
+                <span class="link_name">Reportes</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="{{ url('/reportes') }}">Reportes</a></li>
+            </ul>
+        </li>
     </ul>
     
     <div class="profile-details">

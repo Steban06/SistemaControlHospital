@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div>
-                <p class="text-2xl font-bold text-slate-900 leading-tight">1,248</p>
+                <p class="text-2xl font-bold text-slate-900 leading-tight">{{ number_format($bienesOperativos) }}</p>
                 <p class="text-xs text-slate-500 font-medium mt-0.5">Bienes Operativos</p>
             </div>
         </div>
@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div>
-                <p class="text-2xl font-bold text-slate-900 leading-tight">87</p>
+                <p class="text-2xl font-bold text-slate-900 leading-tight">{{ number_format($bienesEnReparacion) }}</p>
                 <p class="text-xs text-slate-500 font-medium mt-0.5">En Mantenimiento</p>
             </div>
         </div>
@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div>
-                <p class="text-2xl font-bold text-slate-900 leading-tight">34</p>
+                <p class="text-2xl font-bold text-slate-900 leading-tight">{{ number_format($bienesDanados) }}</p>
                 <p class="text-xs text-slate-500 font-medium mt-0.5">Fuera de Servicio</p>
             </div>
         </div>
@@ -90,7 +90,7 @@
                 </div>
             </div>
             <div>
-                <p class="text-2xl font-bold text-slate-900 leading-tight">156</p>
+                <p class="text-2xl font-bold text-slate-900 leading-tight">{{ number_format($bienesDesincorporados) }}</p>
                 <p class="text-xs text-slate-500 font-medium mt-0.5">Desincorporados</p>
             </div>
         </div>
@@ -301,15 +301,7 @@
       }
 
       function drawCurveChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Mes', 'Altas', 'Bajas'],
-          ['Ene',  1000,      400],
-          ['Feb',  1170,      460],
-          ['Mar',  660,       1120],
-          ['Abr',  1030,      540],
-		  ['May',  1200,      300],
-		  ['Jun',  1100,      200]
-        ]);
+        var data = google.visualization.arrayToDataTable({!! $curveChartData !!});
 
         var options = {
           title: 'Movimiento de Bienes (Últimos 6 meses)',
@@ -324,14 +316,7 @@
       }
 
       function drawPieChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Categoría', 'Cantidad'],
-          ['Equipos Médicos',     11],
-          ['Mobiliario de Oficina',      2],
-          ['Equipos de Computación',  2],
-          ['Vehículos', 2],
-          ['Lencería',    7]
-        ]);
+        var data = google.visualization.arrayToDataTable({!! $pieChartData !!});
 
         var options = {
           title: 'Distribución por Categoría',

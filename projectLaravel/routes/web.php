@@ -7,16 +7,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/inicio', function () {
+use App\Http\Controllers\DashboardController;
 
-    
+Route::get('/inicio', [DashboardController::class, 'index'])->name('inicio');
 
-    return view('inicio', ['pageTitle' => 'Inicio']);
-})->name('inicio');
-
-Route::get('/ejemplo', function () {
-    return view('ejemplo');
-})->name('ejemplo');
+Route::get('/reportes', function () {
+    return view('reportes');
+})->name('reportes');
 
 Route::get('/bienes-nacionales', [BNController::class, 'index'])->name('bienes-nacionales.index');
 Route::post('/bienes-nacionales', [BNController::class, 'store'])->name('bienes-nacionales.store');

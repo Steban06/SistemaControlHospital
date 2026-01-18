@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Bienes Nacionales - Sistema de Control Hospital')
 
@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="flex items-center justify-end gap-2">
-                        <button id="btnAddBien" data-slot="button" class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 bg-blue-600 hover:bg-blue-700 flex-shrink-0">
+                        <button id="btnAddBien" onclick="openRegistModal()" data-slot="button" class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 bg-blue-600 hover:bg-blue-700 flex-shrink-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-4 h-4 lg:mr-2">
                                 <path d="M5 12h14"></path>
                                 <path d="M12 5v14"></path>
@@ -78,9 +78,9 @@
                         <div class="relative w-full">
                             <select id="filterCategory"
                                 class="appearance-none border-input flex h-9 w-full items-center justify-between rounded-md border bg-input-background px-3 py-1 text-xs lg:text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 cursor-pointer transition-all pr-10 dark:bg-input/30">
-                                <option value="Todas">Todas</option>
+                                <option value="">Todas</option>
                                 @foreach($categorias as $categoria)
-                                    <option value="{{ $categoria->id }}">{{ mb_convert_case($categoria->tipo, MB_CASE_TITLE, "UTF-8") }}</option>
+                                    <option value="{{ mb_convert_case($categoria->tipo, MB_CASE_TITLE, "UTF-8") }}">{{ mb_convert_case($categoria->tipo, MB_CASE_TITLE, "UTF-8") }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -90,47 +90,50 @@
             </div>
 
             <div class="hidden lg:block border rounded-lg overflow-hidden">
-                <div data-slot="table-container" class="relative w-full overflow-x-auto">
-                    <div class="px-4 pt-4">
-
-                        <!-- Table Toolbar: Row Filter & Search (Mockup) -->
-                        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-4 pt-2">
-                            <div class="flex items-center gap-2 text-sm text-gray-600">
-                                <span>Mostrar</span>
-                                <select id="rowsPerPageSelect" class="border border-gray-300 rounded px-2 py-1 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer">
-                                    <option>10</option>
-                                    <option>20</option>
-                                    <option>50</option>
-                                </select>
-                                <span>filas</span>
-                            </div>
-                            <!-- Search is already in header, but this aligns correctly with it if needed or extra tools -->
+                <!-- Toolbar Section (Fixed) -->
+                <div class="px-4 pt-4 pb-2 bg-white border-b z-30 relative">
+                     <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <span>Mostrar</span>
+                            <select id="rowsPerPageSelect" class="border border-gray-300 rounded px-2 py-1 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer">
+                                <option>10</option>
+                                <option>20</option>
+                                <option>50</option>
+                            </select>
+                            <span>filas</span>
                         </div>
+                        <!-- Search is already in header, but this aligns correctly with it if needed or extra tools -->
+                    </div>
+                </div>
+
+                <!-- Scrollable Table Container -->
+                <div data-slot="table-container" class="relative w-full overflow-x-auto overflow-y-auto" style="max-height: 520px;">
+                    <div class="px-4 pt-2"> <!-- Reduced top padding since toolbar is above -->
 
                         <!-- Tabla de bienes -->
-                        <table data-slot="table" class="w-full caption-bottom text-sm">
+                        <table data-slot="table" class="w-full caption-bottom text-sm border-collapse">
                             <thead data-slot="table-header" class="[&amp;_tr]:border-b">
-                                <tr data-slot="table-row" class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors bg-gray-50">
-                                    <th data-slot="table-head" class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                <tr data-slot="table-row" class="hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors bg-gray-50" >
+                                    <th data-slot="table-head" class="text-foreground h-14 px-3 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] shadow-sm py-2" style="position: sticky; top: 0; z-index: 20; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
                                         ID
                                     </th>
-                                    <th data-slot="table-head" class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <th data-slot="table-head" class="text-foreground h-14 px-3 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] shadow-sm py-2" style="position: sticky; top: 0; z-index: 20; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
                                         #BN
                                     </th>
-                                    <th data-slot="table-head" class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <th data-slot="table-head" class="text-foreground h-14 px-3 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] shadow-sm py-2" style="position: sticky; top: 0; z-index: 20; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
                                         Nombre
                                     </th>
-                                    <th data-slot="table-head" class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <th data-slot="table-head" class="text-foreground h-14 px-3 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] shadow-sm py-2" style="position: sticky; top: 0; z-index: 20; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
                                         Categoría
                                     </th>
-                                    <th data-slot="table-head" class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <th data-slot="table-head" class="text-foreground h-14 px-3 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] shadow-sm py-2" style="position: sticky; top: 0; z-index: 20; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
                                         Departamento
                                     </th>
-                                    <th data-slot="table-head" class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <th data-slot="table-head" class="text-foreground h-14 px-3 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] shadow-sm py-2" style="position: sticky; top: 0; z-index: 20; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
                                         Estado
                                     </th>
-                                    <th data-slot="table-head" class="text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">Fecha</th>
-                                    <th data-slot="table-head" class="text-foreground h-10 px-2 align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] text-right">Acciones</th>
+                                    <th data-slot="table-head" class="text-foreground h-14 px-3 text-left align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] shadow-sm py-2" style="position: sticky; top: 0; z-index: 20; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">Fecha</th>
+                                    <th data-slot="table-head" class="text-foreground h-14 px-3 align-middle font-medium whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] text-center shadow-sm py-2" style="position: sticky; top: 0; z-index: 20; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">Acciones</th>
                                 </tr>
                             </thead>
                             <!-- Tabla de bienes body  -->
@@ -139,24 +142,24 @@
 
                                 @foreach($bienesNacionales as $bien)
                                 <tr data-slot="table-row" class="data-[state=selected]:bg-muted border-b transition-colors hover:bg-gray-50">
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] font-mono text-sm">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] font-mono text-sm">
                                         <span>{{ $bien->id }}</span>
                                     </td>
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] font-mono text-sm">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] font-mono text-sm">
                                         <span>{{ $bien->numero_bn }}</span>
                                     </td>
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] font-medium">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] font-medium">
                                         <span>{{ $bien->nombre }}</span>
                                     </td>
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
                                         <span>{{ $bien->categoria->tipo ?? 'N/A' }}</span>
                                     </td>
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
                                         <span>{{ $bien->area->descripcion ?? 'N/A' }}</span>
                                     </td>
                                     @switch($bien->estado)
                                     @case('Operativo')
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
                                         <span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-emerald-100 text-emerald-700 border-emerald-300 flex items-center gap-1 w-fit text-xs">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big w-3 h-3">
                                                 <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
@@ -167,7 +170,7 @@
                                     </td>
                                     @break
                                     @case('Dañado')
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
                                         <span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-red-100 text-red-700 border-red-300 flex items-center gap-1 w-fit text-xs">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x w-3 h-3">
                                                 <circle cx="12" cy="12" r="10"></circle>
@@ -179,7 +182,7 @@
                                     </td>
                                     @break
                                     @case('En reparación')
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
                                         <span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-amber-100 text-amber-700 border-amber-300 flex items-center gap-1 w-fit text-xs">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-alert w-3 h-3">
                                                 <circle cx="12" cy="12" r="10"></circle>
@@ -191,7 +194,7 @@
                                     </td>
                                     @break
                                     @case('Desincorporado')
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
                                         <span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-gray-100 text-gray-700 border-gray-300 flex items-center gap-1 w-fit text-xs">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-archive w-3 h-3">
                                                 <rect width="20" height="5" x="2" y="3" rx="1"></rect>
@@ -204,25 +207,19 @@
                                     @break
                                     @endswitch
 
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
                                         <span>{{ $bien->created_at->format('d/m/Y') }}</span>
                                     </td>
 
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] text-right">
-                                        <div class="flex items-center justify-end gap-2">
-                                            <button onclick="openViewModal()" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 text-blue-600" title="Ver Ficha">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] text-center">
+                                        <div class="flex items-center justify-center gap-2">
+                                            <button onclick="openViewModal({{ json_encode($bien) }})" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 text-blue-600" title="Ver Ficha">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye w-4 h-4">
                                                     <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
                                                     <circle cx="12" cy="12" r="3" />
                                                 </svg>
                                             </button>
-                                            <button onclick="openEditModal()" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8" title="Editar">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil w-4 h-4">
-                                                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-                                                    <path d="m15 5 4 4" />
-                                                </svg>
-                                            </button>
-                                            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 text-red-500" title="Eliminar">
+                                            <button onclick="openDeleteModal({{ $bien->id }})" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 text-red-500" title="Eliminar">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2 w-4 h-4">
                                                     <path d="M3 6h18" />
                                                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
@@ -237,16 +234,16 @@
                                 @endforeach
 
                                 <tr data-slot="table-row" class="data-[state=selected]:bg-muted border-b transition-colors hover:bg-gray-50">
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] font-mono text-sm">BN-2024-0002</td>
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] font-medium">Silla Ergonómica</td>
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">Mobiliario</td>
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">Recursos Humanos</td>
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]"><span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-emerald-100 text-emerald-700 border-emerald-300 flex items-center gap-1 w-fit text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big w-3 h-3">
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] font-mono text-sm">BN-2024-0002</td>
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] font-medium">Silla Ergonómica</td>
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">Mobiliario</td>
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">Recursos Humanos</td>
+                                    <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]"><span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-emerald-100 text-emerald-700 border-emerald-300 flex items-center gap-1 w-fit text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big w-3 h-3">
                                                 <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
                                                 <path d="m9 11 3 3L22 4"></path>
                                             </svg>Operativo</span></td>
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">$180</td>
-                                    <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">9/2/2024</td>
+                                    <td data-slot="table-cell" class="px-2 py-1 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">$180</td>
+                                    <td data-slot="table-cell" class="px-2 py-1 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">9/2/2024</td>
                                     <td data-slot="table-cell" class="p-2 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px] text-right"><button data-slot="dropdown-menu-trigger" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5" type="button" id="radix-:r4:" aria-haspopup="menu" aria-expanded="false" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical w-4 h-4">
                                                 <circle cx="12" cy="12" r="1"></circle>
                                                 <circle cx="12" cy="5" r="1"></circle>
@@ -274,7 +271,7 @@
                             <div class="grid grid-cols-2 gap-3 text-xs">
                                 <div>
                                     <p class="text-gray-500 mb-1">Categoría</p>
-                                    <p class="font-medium">Tecnología</p>
+                                    <p class="font-medium">TecnologÃ­a</p>
                                 </div>
                                 <div>
                                     <p class="text-gray-500 mb-1">Valor</p>
@@ -282,7 +279,7 @@
                                 </div>
                                 <div>
                                     <p class="text-gray-500 mb-1">Departamento</p>
-                                    <p class="font-medium truncate">Administración</p>
+                                    <p class="font-medium truncate">AdministraciÃ³n</p>
                                 </div>
                                 <div>
                                     <p class="text-gray-500 mb-1">Estado</p><span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-emerald-100 text-emerald-700 border-emerald-300 flex items-center gap-1 w-fit text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big w-3 h-3">
@@ -344,7 +341,7 @@
                             <div class="grid grid-cols-2 gap-3 text-xs">
                                 <div>
                                     <p class="text-gray-500 mb-1">Categoría</p>
-                                    <p class="font-medium">Tecnología</p>
+                                    <p class="font-medium">TecnologÃ­a</p>
                                 </div>
                                 <div>
                                     <p class="text-gray-500 mb-1">Valor</p>
@@ -387,7 +384,7 @@
                                 </div>
                                 <div>
                                     <p class="text-gray-500 mb-1">Departamento</p>
-                                    <p class="font-medium truncate">Dirección</p>
+                                    <p class="font-medium truncate">DirecciÃ³n</p>
                                 </div>
                                 <div>
                                     <p class="text-gray-500 mb-1">Estado</p><span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-emerald-100 text-emerald-700 border-emerald-300 flex items-center gap-1 w-fit text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big w-3 h-3">
@@ -414,7 +411,7 @@
                             <div class="grid grid-cols-2 gap-3 text-xs">
                                 <div>
                                     <p class="text-gray-500 mb-1">Categoría</p>
-                                    <p class="font-medium">Tecnología</p>
+                                    <p class="font-medium">TecnologÃ­a</p>
                                 </div>
                                 <div>
                                     <p class="text-gray-500 mb-1">Valor</p>
@@ -439,7 +436,7 @@
                             <div class="flex justify-between items-start mb-3">
                                 <div class="flex-1 min-w-0">
                                     <p class="font-mono text-xs text-gray-500 mb-1">BN-2021-0045</p>
-                                    <h3 class="font-semibold text-sm truncate">Archivador Metálico</h3>
+                                    <h3 class="font-semibold text-sm truncate">Archivador MetÃ¡lico</h3>
                                 </div><button data-slot="dropdown-menu-trigger" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[&gt;svg]:px-2.5 h-8 w-8 p-0 flex-shrink-0" type="button" id="radix-:ro:" aria-haspopup="menu" aria-expanded="false" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical w-4 h-4">
                                         <circle cx="12" cy="12" r="1"></circle>
                                         <circle cx="12" cy="5" r="1"></circle>
@@ -573,7 +570,7 @@
                                 <path d="M17.5 17.5 16 16.25V14" />
                                 <path d="M22 16a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z" />
                             </svg>
-                            <span class="font-medium">Mant. en 20 días</span>
+                            <span class="font-medium">Mant. en 20 dÃ­as</span>
                         </div>
                     </div>
                 </div>
@@ -688,68 +685,6 @@
     </div>
 </div>
 
-<x-modal id="modalAddBien" title="Agregar Nuevo Bien Nacional" icon="plus-circle" form-id="formAddBien" save-btn-id="modalSaveBtn">
-    <form class="modal-form" id="formAddBien">
-        @csrf
-        <div class="modal-form-row">
-            <div class="modal-form-group">
-                <label for="numeroBN">Número de Bien Nacional (#BN) *</label>
-                <input type="text" id="numeroBN" name="numero_bn" required placeholder="Ingrese el número de bien nacional">
-            </div>
-            <div class="modal-form-group">
-                <label for="nombreBien">Nombre del Bien *</label>
-                <input type="text" id="nombreBien" name="nombre" required placeholder="Ingrese el nombre del bien">
-            </div>
-        </div>
-        <div class="modal-form-row">
-            <div class="modal-form-group">
-                <label for="marcaBien">Marca</label>
-                <input type="text" id="marcaBien" name="marca" placeholder="Ingrese la marca">
-            </div>
-            <div class="modal-form-group">
-                <label for="modeloBien">Modelo</label>
-                <input type="text" id="modeloBien" name="modelo" placeholder="Ingrese el modelo">
-            </div>
-        </div>
-        <div class="modal-form-group full-width">
-            <label for="serialBien">Serial</label>
-            <input type="text" id="serialBien" name="serial" placeholder="Ingrese el serial">
-        </div>
-        <div class="modal-form-row">
-            <div class="modal-form-group">
-                <label for="ubicacionBien">Ubicación *</label>
-                <select id="ubicacionBien" name="area_id" required>
-                    <option value="">Seleccione una ubicación</option>
-                    @foreach ($areas as $area)
-                    <option value="{{ $area->id }}">
-                        {{ $area->descripcion }}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="modal-form-group">
-                <label for="categoriaBien">Categoría *</label>
-                <select id="categoriaBien" name="categoria_id" required>
-                    <option value="">Seleccione una categoría</option>
-                    @foreach ($categorias as $categoria)
-                    <option value="{{ $categoria->id }}">
-                        {{ $categoria->tipo }}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="modal-form-group full-width">
-            <label for="estadoBien">Estado *</label>
-            <select id="estadoBien" name="estado" required>
-                <option value="Operativo">Operativo</option>
-                <option value="Dañado">Dañado</option>
-                <option value="En reparación">En reparación</option>
-                <option value="Desincorporado">Desincorporado</option>
-            </select>
-        </div>
-    </form>
-</x-modal>
 
 @push('styles')
 <!-- <link rel="stylesheet" href="{{ asset('css/table-pagination.css') }}" type="text/css"> -->
@@ -772,12 +707,14 @@
             formEditId: 'formEditBien'
         });
 
-        // Inicializar el sistema de tabla con paginación
+        // Inicializar el sistema de tabla con Paginación
         const tablePagination = new TablePagination({
             searchInputId: 'searchInput',
             tableBodyId: 'tableBody',
             paginationContainerId: 'paginationContainer',
             rowsPerPageSelectId: 'rowsPerPageSelect',
+            statusFilterId: 'filterStatus',   // Added
+            categoryFilterId: 'filterCategory', // Added
             defaultRowsPerPage: 10,
             tableContainerSelector: '.table-container',
             addButtonId: 'btnAddBien',
@@ -790,4 +727,99 @@
 </script>
 @endpush
 
+
+@push('modals')
+    <!-- Modal Registrar Bien -->
+    @include('layouts.partials.modal-regist-bien')
+    <script>
+        function openRegistModal() {
+            const overlay = document.getElementById('registModalOverlay');
+            if (overlay) overlay.classList.remove('hidden');
+        }
+
+        function closeRegistModal() {
+            const overlay = document.getElementById('registModalOverlay');
+            if (overlay) overlay.classList.add('hidden');
+        }
+    </script>
+    
+    <!-- Modal Ver Ficha -->
+    @include('layouts.partials.modal-view-bien')
+
+    <script>
+        function openViewModal(bien) {
+            if (!bien) return;
+            
+            // Helper to safely set text
+            const setText = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = val;
+            };
+
+            setText('modal-bn-id', bien.numero_bn);
+            setText('modal-bn-nombre', bien.nombre);
+            setText('modal-bn-desc', (bien.marca || '') + ' ' + (bien.modelo || ''));
+            setText('modal-bn-serial', bien.serial || 'S/N');
+            
+            // Relations
+            setText('modal-bn-area', bien.area ? bien.area.descripcion : 'N/A');
+            setText('modal-bn-categoria', bien.categoria ? bien.categoria.tipo : 'N/A');
+
+            // Date
+            if (bien.created_at) {
+                const date = new Date(bien.created_at);
+                setText('modal-bn-fecha', date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }));
+            }
+
+            // Status Styling
+            const estadoEl = document.getElementById('modal-bn-estado');
+            const badge = document.getElementById('modal-bn-estado-badge');
+            
+            if (estadoEl && badge) {
+                estadoEl.textContent = bien.estado;
+                const dot = badge.querySelector('span');
+                
+                let badgeClass = 'inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium';
+                let dotClass = 'w-1.5 h-1.5 rounded-full mr-1.5';
+                
+                switch(bien.estado) {
+                    case 'Operativo':
+                        badgeClass += ' bg-emerald-100 text-emerald-700';
+                        dotClass += ' bg-emerald-500';
+                        break;
+                    case 'DaÃ±ado': 
+                    case 'Fuera de Servicio':
+                        badgeClass += ' bg-red-100 text-red-700';
+                        dotClass += ' bg-red-500';
+                        break;
+                    case 'En reparaciÃ³n':
+                        badgeClass += ' bg-amber-100 text-amber-700';
+                        dotClass += ' bg-amber-500';
+                        break;
+                    default: 
+                        badgeClass += ' bg-gray-100 text-gray-700';
+                        dotClass += ' bg-gray-500';
+                }
+                
+                badge.className = badgeClass;
+                if (dot) dot.className = dotClass;
+            }
+
+            // QR Code
+            const qrEl = document.getElementById('modal-qr-code');
+            if (qrEl && bien.numero_bn) {
+                qrEl.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + bien.numero_bn;
+            }
+
+            // Show Overlay
+            const overlay = document.getElementById('viewModalOverlay');
+            if (overlay) overlay.classList.remove('hidden');
+        }
+
+        function closeViewModal() {
+            const overlay = document.getElementById('viewModalOverlay');
+            if (overlay) overlay.classList.add('hidden');
+        }
+    </script>
+@endpush
 @endsection
