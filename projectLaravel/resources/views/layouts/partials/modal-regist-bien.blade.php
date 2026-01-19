@@ -9,7 +9,7 @@
 
 <div id="registModalOverlay" class="fixed inset-0 z-[99999] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="z-index: 99999;">
     <!-- Overlay Background -->
-    <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-[2px] transition-opacity z-[99998]" onclick="closeRegistModal()" style="z-index: 99998;"></div>
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity z-[99998]" onclick="closeRegistModal()" style="z-index: 99998; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"></div>
 
     <div role="dialog" id="radix-:regist-modal:" 
         class="bg-white fixed top-[50%] left-[50%] z-[100000] grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl border p-6 shadow-2xl duration-200 sm:max-w-lg max-h-[90vh] overflow-y-auto" 

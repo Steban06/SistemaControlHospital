@@ -9,10 +9,10 @@
 
 <div id="editModalOverlay" class="fixed inset-0 z-[99999] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="z-index: 99999;">
     <!-- Overlay Background -->
-    <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-[2px] transition-opacity z-[99998]" onclick="closeEditModal()" style="z-index: 99998;"></div>
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity z-[99998]" onclick="closeEditModal()" style="z-index: 99998; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"></div>
 
     <div role="dialog" id="radix-:edit-modal:" 
-        class="bg-white fixed top-[50%] left-[50%] z-[100000] grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl border p-6 shadow-2xl duration-200 sm:max-w-lg max-h-[90vh] overflow-y-auto" 
+        class="bg-white fixed top-[50%] left-[50%] z-[100000] grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl border p-6 shadow-2xl duration-200 sm:max-w-lg max-h-[90vh] overflow-y-auto overflow-x-hidden" 
         tabindex="-1" style="pointer-events: auto; z-index: 100000;" onclick="event.stopPropagation()">
 
         <!-- Header -->
@@ -114,11 +114,11 @@
             <!-- Footer -->
             <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 mt-8 pt-4 border-t">
                 <button type="button" onclick="closeEditModal()"
-                    class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 shadow-sm bg-background hover:text-red-600 hover:border-red-500 hover:scale-[1.02] active:scale-[0.98] h-10 px-4 py-2 w-full sm:w-auto modal-close_btn">
+                    class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 shadow-sm bg-background hover:text-red-600 hover:border-red-500 h-10 px-4 py-2 w-full sm:w-auto modal-close_btn">
                     Cancelar
                 </button>
                 <button type="submit"
-                    class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 hover:scale-[1.02] active:scale-[0.98] h-10 px-4 py-2 w-full sm:w-auto shadow-sm">
+                    class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 h-10 px-4 py-2 w-full sm:w-auto shadow-sm">
                     Actualizar Bien
                 </button>
             </div>
@@ -130,3 +130,5 @@
         </button>
     </div>
 </div>
+
+

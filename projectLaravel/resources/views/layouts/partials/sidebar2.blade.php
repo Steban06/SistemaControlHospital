@@ -29,7 +29,7 @@
     $inactive_class = 'text-blue-100 hover:bg-blue-800';
     ?>
     <nav class="flex-1 p-3 lg:p-4 space-y-1 lg:space-y-2 overflow-y-auto">
-        <a href="{{ route('inicio') }}" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base <?= $current_page == 'dashboard.php' ? $active_class : $inactive_class ?>">
+        <a href="{{ route('inicio') }}" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base {{ request()->routeIs('inicio') ? $active_class : $inactive_class }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0">
                 <rect width="7" height="9" x="3" y="3" rx="1"></rect>
                 <rect width="7" height="5" x="14" y="3" rx="1"></rect>
@@ -39,7 +39,7 @@
             <span class="font-medium">Dashboard</span>
         </a>
 
-        <a href="{{ route('bienes-nacionales.index') }}" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base <?= $current_page == 'gestionbienes.php' ? $active_class : $inactive_class ?>">
+        <a href="{{ route('bienes-nacionales.index') }}" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base {{ request()->routeIs('bienes-nacionales.*') ? $active_class : $inactive_class }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0">
                 <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path>
                 <path d="M12 22V12"></path>
@@ -49,14 +49,23 @@
             <span class="font-medium">Gestión de Bienes</span>
         </a>
 
-        <a href="mantenimiento.php" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base <?= $current_page == 'mantenimiento.php' ? $active_class : $inactive_class ?>">
+        <a href="{{ route('aires-acondicionados') }}" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base {{ request()->routeIs('aires-acondicionados') ? $active_class : $inactive_class }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wind w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0">
+                <path d="M12.8 19.6A2 2 0 1 0 14 16H2"></path>
+                <path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"></path>
+                <path d="M9.8 4.4A2 2 0 1 1 11 8H2"></path>
+            </svg>
+            <span class="font-medium">Aire Acondicionado</span>
+        </a>
+
+        <a href="mantenimiento.php" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base {{ request()->is('mantenimiento.php') ? $active_class : $inactive_class }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0">
                 <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
             </svg>
             <span class="font-medium">Mantenimiento</span>
         </a>
 
-        <a href="{{ route('reportes') }}" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base <?= $current_page == 'reportes' ? $active_class : $inactive_class ?>">
+        <a href="{{ route('reportes') }}" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base {{ request()->routeIs('reportes') ? $active_class : $inactive_class }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0">
                 <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
                 <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
@@ -67,24 +76,24 @@
             <span class="font-medium">Reportes</span>
         </a>
 
-        <a href="histo.php" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base <?= $current_page == 'histo.php' ? $active_class : $inactive_class ?>">
+        <!-- <a href="histo.php" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base <?= $current_page == 'histo.php' ? $active_class : $inactive_class ?>">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0">
                 <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
                 <path d="M3 3v5h5"></path>
                 <path d="M12 7v5l4 2"></path>
             </svg>
             <span class="font-medium">Historial</span>
-        </a>
+        </a> -->
 
-        <a href="notifica.php" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base <?= $current_page == 'notifica.php' ? $active_class : $inactive_class ?>">
+        <!-- <a href="notifica.php" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base <?= $current_page == 'notifica.php' ? $active_class : $inactive_class ?>">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0">
                 <path d="M10.268 21a2 2 0 0 0 3.464 0"></path>
                 <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path>
             </svg>
             <span class="font-medium">Notificaciones</span>
-        </a>
+        </a> -->
 
-        <a href="config.php" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base <?= $current_page == 'config.php' ? $active_class : $inactive_class ?>">
+        <a href="config.php" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base {{ request()->is('config.php') ? $active_class : $inactive_class }}">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings w-4 h-4 lg:w-5 lg:h-5 flex-shrink-0">
                 <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
                 <circle cx="12" cy="12" r="3"></circle>

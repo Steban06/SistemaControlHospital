@@ -9,19 +9,19 @@
 
 <div id="viewModalOverlay" class="fixed inset-0 z-[99999] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="z-index: 99999;">
     <!-- Overlay Background -->
-    <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-[2px] transition-opacity z-[99998]" onclick="closeViewModal()" style="z-index: 99998;"></div>
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity z-[99998]" onclick="closeViewModal()" style="z-index: 99998; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"></div>
 
     <div role="dialog" id="radix-:view-modal:" aria-describedby="radix-:view-desc:" aria-labelledby="radix-:view-title:" data-state="open" data-slot="dialog-content" 
         class="bg-white fixed top-[50%] left-[50%] z-[100000] grid w-full translate-x-[-50%] translate-y-[-50%] gap-0 rounded-xl border shadow-2xl duration-200 sm:max-w-lg max-h-[90vh] overflow-hidden" tabindex="-1" style="pointer-events: auto; z-index: 100000;">
         
-        <!-- Header with Gradient -->
-        <div class="relative bg-gradient-to-r from-slate-900 to-slate-800 p-4 flex items-center justify-between text-white shrink-0">
+        <!-- Header with Solid Background -->
+        <div class="relative bg-blue-900 p-4 flex items-center justify-between text-white shrink-0 z-20" style="background-color: #1e3a8a !important; color: white !important;">
             <div class="flex flex-col gap-0.5">
                 <h2 id="radix-:view-title:" class="font-bold text-lg flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-list text-blue-400"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-list text-blue-400"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2-2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
                     Ficha Técnica
                 </h2>
-                <p id="radix-:view-desc:" class="text-slate-300 text-xs font-light tracking-wide">
+                <p id="radix-:view-desc:" class="text-slate-200 text-xs font-light tracking-wide">
                     ID: <span class="font-mono font-bold text-white" id="modal-bn-id">BN-2026-0001</span>
                 </p>
             </div>
@@ -53,12 +53,12 @@
 
             <!-- Quick Actions -->
             <div class="grid grid-cols-2 gap-px bg-gray-200 border-b border-gray-200">
-                <button onclick="closeViewModal(); openEditModal()" class="flex items-center justify-center gap-2 py-2.5 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-blue-600 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
+                <button onclick="closeViewModal(); openEditModal()" class="flex items-center justify-center gap-2 py-2 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-blue-600 transition-colors w-full h-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil shrink-0"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                     Editar Bien
                 </button>
-                <button class="flex items-center justify-center gap-2 py-2.5 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-blue-600 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-printer"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+                <button onclick="printAssetTag()" class="flex items-center justify-center gap-2 py-2 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-blue-600 transition-colors w-full h-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-printer shrink-0"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
                     Imprimir Etiqueta
                 </button>
             </div>

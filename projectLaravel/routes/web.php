@@ -15,6 +15,10 @@ Route::get('/reportes', function () {
     return view('reportes');
 })->name('reportes');
 
+Route::get('/aires-acondicionados', function () {
+    return view('aires-acondicionados');
+})->name('aires-acondicionados');
+
 Route::get('/bienes-nacionales', [BNController::class, 'index'])->name('bienes-nacionales.index');
 Route::post('/bienes-nacionales', [BNController::class, 'store'])->name('bienes-nacionales.store');
 Route::put('/bienes-nacionales/{id}', [BNController::class, 'update'])->name('bienes-nacionales.update');

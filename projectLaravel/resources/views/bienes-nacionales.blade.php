@@ -493,7 +493,7 @@
         </div>
     </div>
     <!-- AC Section -->
-    <div class="mt-8 mb-6 p-4 lg:p-6 bg-white rounded-xl shadow-sm border border-gray-100">
+    <!-- <div class="mt-8 mb-6 p-4 lg:p-6 bg-white rounded-xl shadow-sm border border-gray-100">
         <div class="flex items-center justify-between mb-6">
             <div class="flex items-center gap-3">
                 <div class="p-2 bg-blue-100 rounded-lg text-blue-600">
@@ -520,15 +520,15 @@
             </button>
         </div>
 
-        <!-- AC Cards Grid Container (Scrollable) -->
+        
         <div class="overflow-y-auto max-h-[600px] pr-2">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- AC Card 1 -->
+               
                 <div class="group relative bg-white border border-slate-100 rounded-lg p-4 hover:shadow-md transition-all cursor-pointer overflow-hidden" onclick="openACModal()">
-                    <!-- Decorative Circle -->
+                 
                     <div class="absolute top-0 right-0 w-16 h-16 bg-emerald-50 rounded-full -mr-6 -mt-6 opacity-50 group-hover:scale-110 transition-transform"></div>
 
-                    <!-- Header -->
+                   
                     <div class="flex justify-between items-start mb-3 relative z-10">
                         <div class="flex items-center gap-2">
                             <div class="p-1.5 bg-emerald-100 rounded-md text-emerald-600">
@@ -542,7 +542,7 @@
                         <span class="bg-emerald-100 text-emerald-700 text-[9px] px-2 py-0.5 rounded-full font-medium border border-emerald-200 uppercase tracking-tight">OK</span>
                     </div>
 
-                    <!-- Content -->
+                    
                     <div class="space-y-2 text-xs text-slate-600 relative z-10">
                         <div class="flex items-center gap-1.5">
                             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-slate-400">
@@ -575,12 +575,10 @@
                     </div>
                 </div>
 
-                <!-- AC Card 2 -->
+                AC Card 2
                 <div class="group relative bg-white border border-slate-100 rounded-lg p-4 hover:shadow-md transition-all cursor-pointer overflow-hidden" onclick="openACModal()">
-                    <!-- Decorative Circle -->
                     <div class="absolute top-0 right-0 w-16 h-16 bg-red-50 rounded-full -mr-6 -mt-6 opacity-50 group-hover:scale-110 transition-transform"></div>
 
-                    <!-- Header -->
                     <div class="flex justify-between items-start mb-3 relative z-10">
                         <div class="flex items-center gap-2">
                             <div class="p-1.5 bg-red-100 rounded-md text-red-600">
@@ -594,7 +592,7 @@
                         <span class="bg-red-100 text-red-700 text-[9px] px-2 py-0.5 rounded-full font-medium border border-red-200 uppercase tracking-tight">Falla</span>
                     </div>
 
-                    <!-- Content -->
+                    
                     <div class="space-y-2 text-xs text-slate-600 relative z-10">
                         <div class="flex items-center gap-1.5">
                             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-slate-400">
@@ -622,12 +620,12 @@
                     </div>
                 </div>
 
-                <!-- AC Card 3 -->
+                AC Card 3
                 <div class="group relative bg-white border border-slate-100 rounded-lg p-4 hover:shadow-md transition-all cursor-pointer overflow-hidden" onclick="openACModal()">
-                    <!-- Decorative Circle -->
+                   
                     <div class="absolute top-0 right-0 w-16 h-16 bg-emerald-50 rounded-full -mr-6 -mt-6 opacity-50 group-hover:scale-110 transition-transform"></div>
 
-                    <!-- Header -->
+                  
                     <div class="flex justify-between items-start mb-3 relative z-10">
                         <div class="flex items-center gap-2">
                             <div class="p-1.5 bg-emerald-100 rounded-md text-emerald-600">
@@ -641,7 +639,7 @@
                         <span class="bg-emerald-100 text-emerald-700 text-[9px] px-2 py-0.5 rounded-full font-medium border border-emerald-200 uppercase tracking-tight">OK</span>
                     </div>
 
-                    <!-- Content -->
+                  
                     <div class="space-y-2 text-xs text-slate-600 relative z-10">
                         <div class="flex items-center gap-1.5">
                             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-slate-400">
@@ -670,7 +668,7 @@
                     </div>
                 </div>
 
-                <!-- AC Card 4 (Add) -->
+                AC Card 4 (Add)
                 <div class="group relative bg-white border-2 border-dashed border-slate-200 rounded-lg p-4 hover:border-blue-400 hover:bg-blue-50/30 transition-all cursor-pointer flex flex-col items-center justify-center min-h-[140px]" onclick="openRegistACModal()">
                     <div class="p-2 bg-slate-100 rounded-full mb-2 group-hover:bg-blue-100 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus text-slate-400 group-hover:text-blue-600">
@@ -682,7 +680,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 
@@ -835,5 +833,7 @@
             if (overlay) overlay.classList.add('hidden');
         }
     </script>
+    
+<script src="{{ asset('js/print-asset.js') }}"></script>
 @endpush
 @endsection
