@@ -1,6 +1,6 @@
 <div id="viewModalOverlay" class="fixed inset-0 z-[99999] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="z-index: 99999;">
     <!-- Overlay Background -->
-    <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-[2px] transition-opacity z-[99998]" onclick="closeViewModal()" style="z-index: 99998;"></div>
+    <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-[2px] transition-opacity z-[99998]" data-modal-cancel style="z-index: 99998;"></div>
 
     <div role="dialog" id="radix-:view-modal:" aria-describedby="radix-:view-desc:" aria-labelledby="radix-:view-title:" data-state="open" data-slot="dialog-content" 
         class="bg-white fixed top-[50%] left-[50%] z-[100000] grid w-full translate-x-[-50%] translate-y-[-50%] gap-0 rounded-xl border shadow-2xl duration-200 sm:max-w-lg max-h-[90vh] overflow-hidden" tabindex="-1" style="pointer-events: auto; z-index: 100000;">
@@ -16,7 +16,7 @@
                     ID: <span class="font-mono font-bold text-white" id="modal-bn-id">BN-2026-0001</span>
                 </p>
             </div>
-            <button onclick="closeViewModal()" class="text-slate-400 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-1.5 rounded-full backdrop-blur-sm cursor-pointer">
+            <button data-modal-close type="button" class="text-slate-400 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-1.5 rounded-full backdrop-blur-sm cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </button>
         </div>
@@ -105,7 +105,7 @@
 
         <!-- Footer -->
         <div data-slot="dialog-footer" class="p-3 bg-gray-50 border-t flex justify-between items-center shrink-0">
-            <button onclick="closeViewModal()" class="text-xs text-gray-500 hover:text-gray-800 underline">
+            <button data-modal-cancel type="button" class="text-xs text-gray-500 hover:text-gray-800 underline">
                 Cerrar
             </button>
             <button class="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 shadow-sm transition-colors flex items-center gap-1.5">

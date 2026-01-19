@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="flex items-center justify-end gap-2">
-                        <button id="btnAddBien" onclick="openRegistModal()" data-slot="button" class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 bg-blue-600 hover:bg-blue-700 flex-shrink-0">
+                        <button id="btnAddBien" data-slot="button" class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 bg-blue-600 hover:bg-blue-700 flex-shrink-0">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-4 h-4 lg:mr-2">
                                 <path d="M5 12h14"></path>
                                 <path d="M12 5v14"></path>
@@ -66,7 +66,7 @@
                                 class="appearance-none border-input flex h-9 w-full items-center justify-between rounded-md border bg-input-background px-3 py-1 text-xs lg:text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 cursor-pointer transition-all pr-10 dark:bg-input/30">
                                 <option value="">Todos</option>
                                 <option value="operativo">Operativo</option>
-                                <option value="danado">Dañado</option>
+                                <option value="danado">Fuera de servicio</option>
                                 <option value="reparacion">En reparación</option>
                                 <option value="desincorporado">Desincorporado</option>
                             </select>
@@ -169,7 +169,7 @@
                                         </span>
                                     </td>
                                     @break
-                                    @case('Dañado')
+                                    @case('Fuera de servicio')
                                     <td data-slot="table-cell" class="p-3 align-middle whitespace-nowrap [&amp;:has([role=checkbox])]:pr-0 [&amp;&gt;[role=checkbox]]:translate-y-[2px]">
                                         <span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-red-100 text-red-700 border-red-300 flex items-center gap-1 w-fit text-xs">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x w-3 h-3">
@@ -177,7 +177,7 @@
                                                 <path d="m15 9-6 6"></path>
                                                 <path d="m9 9 6 6"></path>
                                             </svg>
-                                            Fuera de Servicio
+                                            Fuera de servicio
                                         </span>
                                     </td>
                                     @break
@@ -219,7 +219,7 @@
                                                     <circle cx="12" cy="12" r="3" />
                                                 </svg>
                                             </button>
-                                            <button onclick="openDeleteModal({{ $bien->id }})" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 text-red-500" title="Eliminar">
+                                            <button onclick="openDeleteModal( {{ $bien->id }} )" class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 text-red-500" title="Eliminar">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2 w-4 h-4">
                                                     <path d="M3 6h18" />
                                                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
@@ -255,240 +255,8 @@
                     </div>
                 </div>
 
-                <div class="lg:hidden space-y-3">
-                    <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm">
-                        <div data-slot="card-content" class="[&amp;:last-child]:pb-6 p-4">
-                            <div class="flex justify-between items-start mb-3">
-                                <div class="flex-1 min-w-0">
-                                    <p class="font-mono text-xs text-gray-500 mb-1">BN-2024-0001</p>
-                                    <h3 class="font-semibold text-sm truncate">Computadora Dell OptiPlex 7090</h3>
-                                </div><button data-slot="dropdown-menu-trigger" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[&gt;svg]:px-2.5 h-8 w-8 p-0 flex-shrink-0" type="button" id="radix-:re:" aria-haspopup="menu" aria-expanded="false" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical w-4 h-4">
-                                        <circle cx="12" cy="12" r="1"></circle>
-                                        <circle cx="12" cy="5" r="1"></circle>
-                                        <circle cx="12" cy="19" r="1"></circle>
-                                    </svg></button>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3 text-xs">
-                                <div>
-                                    <p class="text-gray-500 mb-1">Categoría</p>
-                                    <p class="font-medium">TecnologÃ­a</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Valor</p>
-                                    <p class="font-medium">$850</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Departamento</p>
-                                    <p class="font-medium truncate">AdministraciÃ³n</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Estado</p><span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-emerald-100 text-emerald-700 border-emerald-300 flex items-center gap-1 w-fit text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big w-3 h-3">
-                                            <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                                            <path d="m9 11 3 3L22 4"></path>
-                                        </svg>Operativo</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm">
-                        <div data-slot="card-content" class="[&amp;:last-child]:pb-6 p-4">
-                            <div class="flex justify-between items-start mb-3">
-                                <div class="flex-1 min-w-0">
-                                    <p class="font-mono text-xs text-gray-500 mb-1">BN-2024-0002</p>
-                                    <h3 class="font-semibold text-sm truncate">Silla Ergonómica</h3>
-                                </div><button data-slot="dropdown-menu-trigger" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[&gt;svg]:px-2.5 h-8 w-8 p-0 flex-shrink-0" type="button" id="radix-:rg:" aria-haspopup="menu" aria-expanded="false" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical w-4 h-4">
-                                        <circle cx="12" cy="12" r="1"></circle>
-                                        <circle cx="12" cy="5" r="1"></circle>
-                                        <circle cx="12" cy="19" r="1"></circle>
-                                    </svg></button>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3 text-xs">
-                                <div>
-                                    <p class="text-gray-500 mb-1">Categoría</p>
-                                    <p class="font-medium">Mobiliario</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Valor</p>
-                                    <p class="font-medium">$180</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Departamento</p>
-                                    <p class="font-medium truncate">Recursos Humanos</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Estado</p><span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-emerald-100 text-emerald-700 border-emerald-300 flex items-center gap-1 w-fit text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big w-3 h-3">
-                                            <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                                            <path d="m9 11 3 3L22 4"></path>
-                                        </svg>Operativo</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm">
-                        <div data-slot="card-content" class="[&amp;:last-child]:pb-6 p-4">
-                            <div class="flex justify-between items-start mb-3">
-                                <div class="flex-1 min-w-0">
-                                    <p class="font-mono text-xs text-gray-500 mb-1">BN-2023-0156</p>
-                                    <h3 class="font-semibold text-sm truncate">Monitor LG 27"</h3>
-                                </div><button data-slot="dropdown-menu-trigger" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[&gt;svg]:px-2.5 h-8 w-8 p-0 flex-shrink-0" type="button" id="radix-:ri:" aria-haspopup="menu" aria-expanded="false" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical w-4 h-4">
-                                        <circle cx="12" cy="12" r="1"></circle>
-                                        <circle cx="12" cy="5" r="1"></circle>
-                                        <circle cx="12" cy="19" r="1"></circle>
-                                    </svg></button>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3 text-xs">
-                                <div>
-                                    <p class="text-gray-500 mb-1">Categoría</p>
-                                    <p class="font-medium">TecnologÃ­a</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Valor</p>
-                                    <p class="font-medium">$320</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Departamento</p>
-                                    <p class="font-medium truncate">Urgencias</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Estado</p><span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-amber-100 text-amber-700 border-amber-300 flex items-center gap-1 w-fit text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-alert w-3 h-3">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <line x1="12" x2="12" y1="8" y2="12"></line>
-                                            <line x1="12" x2="12.01" y1="16" y2="16"></line>
-                                        </svg>Mantenimiento</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm">
-                        <div data-slot="card-content" class="[&amp;:last-child]:pb-6 p-4">
-                            <div class="flex justify-between items-start mb-3">
-                                <div class="flex-1 min-w-0">
-                                    <p class="font-mono text-xs text-gray-500 mb-1">BN-2024-0003</p>
-                                    <h3 class="font-semibold text-sm truncate">Mesa de Reuniones</h3>
-                                </div><button data-slot="dropdown-menu-trigger" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[&gt;svg]:px-2.5 h-8 w-8 p-0 flex-shrink-0" type="button" id="radix-:rk:" aria-haspopup="menu" aria-expanded="false" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical w-4 h-4">
-                                        <circle cx="12" cy="12" r="1"></circle>
-                                        <circle cx="12" cy="5" r="1"></circle>
-                                        <circle cx="12" cy="19" r="1"></circle>
-                                    </svg></button>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3 text-xs">
-                                <div>
-                                    <p class="text-gray-500 mb-1">Categoría</p>
-                                    <p class="font-medium">Mobiliario</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Valor</p>
-                                    <p class="font-medium">$450</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Departamento</p>
-                                    <p class="font-medium truncate">DirecciÃ³n</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Estado</p><span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-emerald-100 text-emerald-700 border-emerald-300 flex items-center gap-1 w-fit text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big w-3 h-3">
-                                            <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                                            <path d="m9 11 3 3L22 4"></path>
-                                        </svg>Operativo</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm">
-                        <div data-slot="card-content" class="[&amp;:last-child]:pb-6 p-4">
-                            <div class="flex justify-between items-start mb-3">
-                                <div class="flex-1 min-w-0">
-                                    <p class="font-mono text-xs text-gray-500 mb-1">BN-2022-0089</p>
-                                    <h3 class="font-semibold text-sm truncate">Impresora HP LaserJet</h3>
-                                </div><button data-slot="dropdown-menu-trigger" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[&gt;svg]:px-2.5 h-8 w-8 p-0 flex-shrink-0" type="button" id="radix-:rm:" aria-haspopup="menu" aria-expanded="false" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical w-4 h-4">
-                                        <circle cx="12" cy="12" r="1"></circle>
-                                        <circle cx="12" cy="5" r="1"></circle>
-                                        <circle cx="12" cy="19" r="1"></circle>
-                                    </svg></button>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3 text-xs">
-                                <div>
-                                    <p class="text-gray-500 mb-1">Categoría</p>
-                                    <p class="font-medium">TecnologÃ­a</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Valor</p>
-                                    <p class="font-medium">$520</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Departamento</p>
-                                    <p class="font-medium truncate">Admisiones</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Estado</p><span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-red-100 text-red-700 border-red-300 flex items-center gap-1 w-fit text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x w-3 h-3">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <path d="m15 9-6 6"></path>
-                                            <path d="m9 9 6 6"></path>
-                                        </svg>Fuera de Servicio</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border shadow-sm">
-                        <div data-slot="card-content" class="[&amp;:last-child]:pb-6 p-4">
-                            <div class="flex justify-between items-start mb-3">
-                                <div class="flex-1 min-w-0">
-                                    <p class="font-mono text-xs text-gray-500 mb-1">BN-2021-0045</p>
-                                    <h3 class="font-semibold text-sm truncate">Archivador MetÃ¡lico</h3>
-                                </div><button data-slot="dropdown-menu-trigger" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md gap-1.5 has-[&gt;svg]:px-2.5 h-8 w-8 p-0 flex-shrink-0" type="button" id="radix-:ro:" aria-haspopup="menu" aria-expanded="false" data-state="closed"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical w-4 h-4">
-                                        <circle cx="12" cy="12" r="1"></circle>
-                                        <circle cx="12" cy="5" r="1"></circle>
-                                        <circle cx="12" cy="19" r="1"></circle>
-                                    </svg></button>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3 text-xs">
-                                <div>
-                                    <p class="text-gray-500 mb-1">Categoría</p>
-                                    <p class="font-medium">Mobiliario</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Valor</p>
-                                    <p class="font-medium">$280</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Departamento</p>
-                                    <p class="font-medium truncate">Archivo</p>
-                                </div>
-                                <div>
-                                    <p class="text-gray-500 mb-1">Estado</p><span data-slot="badge" class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-gray-100 text-gray-700 border-gray-300 flex items-center gap-1 w-fit text-xs"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-archive w-3 h-3">
-                                            <rect width="20" height="5" x="2" y="3" rx="1"></rect>
-                                            <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path>
-                                            <path d="M10 12h4"></path>
-                                        </svg>Desincorporado</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Pagination Section -->
                 <div class="pagination-container px-4" id="paginationContainer"></div>
-
-                <!-- <div class="new_pagination flex flex-col sm:flex-row justify-between items-center gap-4 mt-4 text-sm text-gray-500 border-t pt-4">
-                    <span>Mostrando <span class="font-bold text-gray-900">1</span> a <span class="font-bold text-gray-900">6</span> de <span class="font-bold text-gray-900">6</span> resultados</span>
-
-                    <div class="inline-flex items-center gap-1">
-                        <button class="p-2 rounded-md border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-gray-600" disabled>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left">
-                                <path d="m15 18-6-6 6-6" />
-                            </svg>
-                        </button>
-                        <button class="w-8 h-8 flex items-center justify-center rounded-md bg-blue-600 text-white font-medium shadow-sm border border-blue-600">1</button>
-                        <button class="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-600">2</button>
-                        <button class="w-8 h-8 flex items-center justify-center rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-600">3</button>
-                        <span class="px-1">...</span>
-                        <button class="p-2 rounded-md border border-gray-200 bg-white hover:bg-gray-50 text-gray-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right">
-                                <path d="m9 18 6-6-6-6" />
-                            </svg>
-                        </button>
-                    </div>
-                </div> -->
             </div>
         </div>
     </div>
@@ -570,7 +338,7 @@
                                 <path d="M17.5 17.5 16 16.25V14" />
                                 <path d="M22 16a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z" />
                             </svg>
-                            <span class="font-medium">Mant. en 20 dÃ­as</span>
+                            <span class="font-medium">Mant. en 20 días</span>
                         </div>
                     </div>
                 </div>
@@ -685,12 +453,6 @@
     </div>
 </div>
 
-
-@push('styles')
-<!-- <link rel="stylesheet" href="{{ asset('css/table-pagination.css') }}" type="text/css"> -->
-<link rel="stylesheet" href="{{ asset('css/modal.css') }}" type="text/css">
-@endpush
-
 @push('scripts')
 <script src="{{ asset('js/table-pagination.js') }}"></script>
 <script src="{{ asset('js/modal.js') }}"></script>
@@ -731,17 +493,6 @@
 @push('modals')
     <!-- Modal Registrar Bien -->
     @include('layouts.partials.modal-regist-bien')
-    <script>
-        function openRegistModal() {
-            const overlay = document.getElementById('registModalOverlay');
-            if (overlay) overlay.classList.remove('hidden');
-        }
-
-        function closeRegistModal() {
-            const overlay = document.getElementById('registModalOverlay');
-            if (overlay) overlay.classList.add('hidden');
-        }
-    </script>
     
     <!-- Modal Ver Ficha -->
     @include('layouts.partials.modal-view-bien')
@@ -786,13 +537,12 @@
                     case 'Operativo':
                         badgeClass += ' bg-emerald-100 text-emerald-700';
                         dotClass += ' bg-emerald-500';
-                        break;
-                    case 'DaÃ±ado': 
-                    case 'Fuera de Servicio':
+                        break; 
+                    case 'Fuera de servicio':
                         badgeClass += ' bg-red-100 text-red-700';
                         dotClass += ' bg-red-500';
                         break;
-                    case 'En reparaciÃ³n':
+                    case 'En reparación':
                         badgeClass += ' bg-amber-100 text-amber-700';
                         dotClass += ' bg-amber-500';
                         break;
@@ -811,14 +561,24 @@
                 qrEl.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + bien.numero_bn;
             }
 
-            // Show Overlay
+            // Show Overlay usando ModalManager
             const overlay = document.getElementById('viewModalOverlay');
-            if (overlay) overlay.classList.remove('hidden');
+            if (overlay && ModalManager) {
+                ModalManager.openModal(overlay);
+            } else if (overlay) {
+                // Fallback si ModalManager no está disponible
+                overlay.classList.remove('hidden');
+            }
         }
 
         function closeViewModal() {
             const overlay = document.getElementById('viewModalOverlay');
-            if (overlay) overlay.classList.add('hidden');
+            if (overlay && ModalManager) {
+                ModalManager.closeModal(overlay);
+            } else if (overlay) {
+                // Fallback si ModalManager no está disponible
+                overlay.classList.add('hidden');
+            }
         }
     </script>
 @endpush
