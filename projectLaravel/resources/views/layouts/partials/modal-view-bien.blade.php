@@ -1,3 +1,12 @@
+<style>
+    .modal-close_btn:hover{
+        cursor: pointer;
+        border-color: #dc2626 !important;;
+        background-color: transparent !important;
+        color: #dc2626 !important;
+    }
+</style>
+
 <div id="viewModalOverlay" class="fixed inset-0 z-[99999] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="z-index: 99999;">
     <!-- Overlay Background -->
     <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-[2px] transition-opacity z-[99998]" onclick="closeViewModal()" style="z-index: 99998;"></div>
@@ -44,7 +53,7 @@
 
             <!-- Quick Actions -->
             <div class="grid grid-cols-2 gap-px bg-gray-200 border-b border-gray-200">
-                <button class="flex items-center justify-center gap-2 py-2.5 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-blue-600 transition-colors">
+                <button onclick="closeViewModal(); openEditModal()" class="flex items-center justify-center gap-2 py-2.5 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-blue-600 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                     Editar Bien
                 </button>
@@ -105,7 +114,7 @@
 
         <!-- Footer -->
         <div data-slot="dialog-footer" class="p-3 bg-gray-50 border-t flex justify-between items-center shrink-0">
-            <button onclick="closeViewModal()" class="text-xs text-gray-500 hover:text-gray-800 underline">
+            <button onclick="closeViewModal()" class="px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:border-red-600 hover:text-red-600 transition-colors modal-close_btn">
                 Cerrar
             </button>
             <button class="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 shadow-sm transition-colors flex items-center gap-1.5">

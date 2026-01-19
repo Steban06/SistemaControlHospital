@@ -743,6 +743,20 @@
         }
     </script>
     
+    <!-- Modal Editar Bien -->
+    @include('layouts.partials.modal-edit-bien')
+    <script>
+        function openEditModal() {
+            const overlay = document.getElementById('editModalOverlay');
+            if (overlay) overlay.classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            const overlay = document.getElementById('editModalOverlay');
+            if (overlay) overlay.classList.add('hidden');
+        }
+    </script>
+
     <!-- Modal Ver Ficha -->
     @include('layouts.partials.modal-view-bien')
 
