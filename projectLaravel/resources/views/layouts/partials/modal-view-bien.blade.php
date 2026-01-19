@@ -53,7 +53,7 @@
 
             <!-- Quick Actions -->
             <div class="grid grid-cols-2 gap-px bg-gray-200 border-b border-gray-200">
-                <button onclick="closeViewModal(); openEditModal()" class="flex items-center justify-center gap-2 py-2 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-blue-600 transition-colors w-full h-full">
+                <button id="btnEditFromView" class="flex items-center justify-center gap-2 py-2 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-blue-600 transition-colors w-full h-full">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil shrink-0"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                     Editar Bien
                 </button>

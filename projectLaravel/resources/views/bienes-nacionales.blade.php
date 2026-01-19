@@ -495,6 +495,9 @@
     <!-- Modal Ver Ficha -->
     @include('layouts.partials.modal-view-bien')
 
+    <!-- Modal Editar Bien -->
+    @include('layouts.partials.modal-edit-bien')
+
     <script>
         function openViewModal(bien) {
             if (!bien) return;
@@ -559,6 +562,20 @@
                 qrEl.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + bien.numero_bn;
             }
 
+            // Populate Edit Button for ModalManager
+            const btnEdit = document.getElementById('btnEditFromView');
+            if (btnEdit) {
+                btnEdit.dataset.id = bien.id;
+                btnEdit.dataset.numero = bien.numero_bn;
+                btnEdit.dataset.nombre = bien.nombre;
+                btnEdit.dataset.marca = bien.marca || '';
+                btnEdit.dataset.modelo = bien.modelo || '';
+                btnEdit.dataset.serial = bien.serial || '';
+                btnEdit.dataset.area = bien.area_id || (bien.area ? bien.area.id : '');
+                btnEdit.dataset.categoria = bien.categoria_id || (bien.categoria ? bien.categoria.id : '');
+                btnEdit.dataset.estado = bien.estado;
+            }
+
             // Show Overlay usando ModalManager
             const overlay = document.getElementById('viewModalOverlay');
             if (overlay && ModalManager) {
@@ -568,6 +585,45 @@
                 overlay.classList.remove('hidden');
             }
         }
+
+        // Handle Edit Button Click from View Modal
+        document.addEventListener('click', function(e) {
+            if (e.target && (e.target.id === 'btnEditFromView' || e.target.closest('#btnEditFromView'))) {
+                const btn = e.target.id === 'btnEditFromView' ? e.target : e.target.closest('#btnEditFromView');
+                
+                // Close View Modal first
+                closeViewModal();
+
+                // Wait for close transitions
+                setTimeout(() => {
+                    const modalEdit = document.getElementById('modalEditBien');
+                    if (modalEdit && ModalManager) {
+                        const formEdit = document.getElementById('formEditBien');
+                        if (formEdit) {
+                           formEdit.reset();
+                           document.getElementById('editId').value = btn.dataset.id || '';
+                           document.getElementById('editNumeroBN').value = btn.dataset.numero || '';
+                           document.getElementById('editNombreBien').value = btn.dataset.nombre || '';
+                           document.getElementById('editMarcaBien').value = btn.dataset.marca || '';
+                           document.getElementById('editModeloBien').value = btn.dataset.modelo || '';
+                           document.getElementById('editSerialBien').value = btn.dataset.serial || '';
+                           document.getElementById('editUbicacionBien').value = btn.dataset.area || '';
+                           document.getElementById('editCategoriaBien').value = btn.dataset.categoria || '';
+                           document.getElementById('editEstadoBien').value = btn.dataset.estado || '';
+                           
+                           // Set recordId for submit handler in ModalManager
+                           formEdit.dataset.recordId = btn.dataset.id || '';
+                        }
+                        
+                        ModalManager.openModal(modalEdit);
+                    } else {
+                        console.error('ModalEdit or ModalManager not found');
+                        // Fallback
+                        if (modalEdit) modalEdit.classList.remove('hidden');
+                    }
+                }, 100); // 100ms delay
+            }
+        });
 
         function closeViewModal() {
             const overlay = document.getElementById('viewModalOverlay');
