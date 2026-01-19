@@ -37,7 +37,7 @@
                     <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="numeroBN">
                         Número de Bien Nacional (#BN) <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" id="numeroBN" name="numero_bn" required placeholder="BN-2026-0000"
+                    <input type="text" id="numeroBN" name="numero_bn" required placeholder="Ingrese el número de Bien"
                         class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
                 </div>
 
@@ -46,7 +46,7 @@
                     <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="nombreBien">
                         Nombre del Bien <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" id="nombreBien" name="nombre" required placeholder="Ej: Computadora Dell Optiplex"
+                    <input type="text" id="nombreBien" name="nombre" required placeholder="Ingrese el nombre del Bien"
                         class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
                 </div>
 
@@ -113,7 +113,7 @@
                     <select id="estadoBien" name="estado" required
                         class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
                         <option value="Operativo">Operativo</option>
-                        <option value="Dañado">Dañado</option>
+                        <option value="Fuera de servicio">Fuera de servicio</option>
                         <option value="En reparación">En reparación</option>
                         <option value="Desincorporado">Desincorporado</option>
                     </select>
@@ -124,7 +124,7 @@
             <!-- Footer -->
             <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 mt-8 pt-4 border-t">
                 <button type="button" data-modal-cancel
-                    class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 shadow-sm bg-background hover:text-red-600 hover:border-red-500 hover:scale-[1.02] active:scale-[0.98] h-10 px-4 py-2 w-full sm:w-auto btn-color-red" style="hover:text-red-600 hover:border-red-500 hover:scale-[1.02] active:scale-[0.98]">
+                    class="btn-color-red cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 shadow-sm bg-background hover:text-red-600 hover:border-red-500 hover:scale-[1.02] active:scale-[0.98] h-10 px-4 py-2 w-full sm:w-auto">
                     Cancelar
                 </button>
                 <button type="submit"

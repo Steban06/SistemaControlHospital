@@ -12,7 +12,7 @@ class DashboardController extends Controller
         // Count assets with status 'Operativo'
         $bienesOperativos = BN::where('estado', 'Operativo')->count();
         $bienesEnReparacion = BN::where('estado', 'En reparación')->count();
-        $bienesDanados = BN::where('estado', 'Dañado')->count();
+        $bienesDanados = BN::where('estado', 'Fuera de servicio')->count();
         $bienesDesincorporados = BN::where('estado', 'Desincorporado')->count();
 
         // --- Data for Curve Chart (Tendencias Mensuales - Last 6 Months) ---

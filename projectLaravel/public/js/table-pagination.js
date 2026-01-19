@@ -204,7 +204,7 @@ class TablePagination {
         const totalResults = this.filteredRows.length;
 
         // Container matching design: flex flex-col sm:flex-row ...
-        let paginationHTML = '<div class="flex flex-col sm:flex-row justify-between items-center gap-4 mt-4 text-sm text-gray-500 border-t pt-4">';
+        let paginationHTML = '<div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500 border-t py-4">';
 
         // Info Text: Mostrando X a Y de Z resultados
         paginationHTML += `<span>Mostrando <span class="font-bold text-gray-900">${startResult}</span> a <span class="font-bold text-gray-900">${endResult}</span> de <span class="font-bold text-gray-900">${totalResults}</span> resultados</span>`;

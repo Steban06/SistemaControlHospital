@@ -291,56 +291,58 @@
 
 <span id="recharts_measurement_span" aria-hidden="true" style="position: absolute; top: -20000px; left: 0px; padding: 0px; margin: 0px; border: none; white-space: pre; font-size: 12px; letter-spacing: normal;">65</span>
 
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawCharts);
+    @push('scripts')
+        <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawCharts);
 
-      function drawCharts() {
-        drawCurveChart();
-        drawPieChart();
-      }
+        function drawCharts() {
+            drawCurveChart();
+            drawPieChart();
+        }
 
-      function drawCurveChart() {
-        var data = google.visualization.arrayToDataTable({!! $curveChartData !!});
+        function drawCurveChart() {
+            var data = google.visualization.arrayToDataTable({!! $curveChartData !!});
 
-        var options = {
-          title: 'Movimiento de Bienes (Últimos 6 meses)',
-          curveType: 'function',
-          legend: { position: 'bottom' },
-		  backgroundColor: 'transparent',
-		  chartArea: {width: '85%', height: '70%'}
-        };
+            var options = {
+            title: 'Movimiento de Bienes (Últimos 6 meses)',
+            curveType: 'function',
+            legend: { position: 'bottom' },
+            backgroundColor: 'transparent',
+            chartArea: {width: '85%', height: '70%'}
+            };
 
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-        chart.draw(data, options);
-      }
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+            chart.draw(data, options);
+            }
 
-      function drawPieChart() {
-        var data = google.visualization.arrayToDataTable({!! $pieChartData !!});
+        function drawPieChart() {
+            var data = google.visualization.arrayToDataTable({!! $pieChartData !!});
 
-        var options = {
-          title: 'Distribución por Categoría',
-		  pieHole: 0.4,
-		  backgroundColor: 'transparent',
-		  chartArea: {width: '90%', height: '80%'},
-		  legend: {position: 'right', textStyle: {fontSize: 12}}
-        };
+            var options = {
+            title: 'Distribución por Categoría',
+            pieHole: 0.4,
+            backgroundColor: 'transparent',
+            chartArea: {width: '90%', height: '80%'},
+            legend: {position: 'right', textStyle: {fontSize: 12}}
+            };
 
-        var chart = new google.visualization.PieChart(document.getElementById('pie_chart'));
-        chart.draw(data, options);
-      }
+            var chart = new google.visualization.PieChart(document.getElementById('pie_chart'));
+            chart.draw(data, options);
+        }
 
-      function showSummaryAlert() {
-        Swal.fire({
-          title: 'Resumen de Bienes',
-          text: 'Actualmente hay 1,248 bienes operativos. El sistema está funcionando correctamente.',
-          icon: 'info',
-          confirmButtonText: 'Entendido'
-        });
-      }
+        function showSummaryAlert() {
+            Swal.fire({
+            title: 'Resumen de Bienes',
+            text: 'Actualmente hay 1,248 bienes operativos. El sistema está funcionando correctamente.',
+            icon: 'info',
+            confirmButtonText: 'Entendido'
+            });
+        }
 
-      // Responsive redraw
-      window.addEventListener('resize', drawCharts);
-    </script>
+        // Responsive redraw
+        window.addEventListener('resize', drawCharts);
+        </script>
+    @endpush
 
 @endsection
