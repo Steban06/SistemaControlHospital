@@ -40,6 +40,15 @@
                 <li><a class="link_name" href="{{ url('/reportes') }}">Reportes</a></li>
             </ul>
         </li>
+        <li>
+            <a href="{{ url('/configuracion') }}">
+                <i class="fa-solid fa-gear"></i>
+                <span class="link_name">Configuración</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link_name" href="{{ url('/configuracion') }}">Configuración</a></li>
+            </ul>
+        </li>
     </ul>
     
     <div class="profile-details">

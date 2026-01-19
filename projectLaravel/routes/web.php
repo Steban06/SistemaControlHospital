@@ -23,3 +23,7 @@ Route::get('/bienes-nacionales', [BNController::class, 'index'])->name('bienes-n
 Route::post('/bienes-nacionales', [BNController::class, 'store'])->name('bienes-nacionales.store');
 Route::put('/bienes-nacionales/{id}', [BNController::class, 'update'])->name('bienes-nacionales.update');
 // Route::delete('/bienes-nacionales/{id}', [BNController::class, 'destroy'])->name('bienes-nacionales.destroy');
+
+Route::get('/configuracion', function () {
+    return view('configuracion');
+})->name('configuracion');
