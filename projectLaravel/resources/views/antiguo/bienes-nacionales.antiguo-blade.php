@@ -217,7 +217,6 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/table-pagination.css') }}" type="text/css">
-<link rel="stylesheet" href="{{ asset('css/modal.css') }}" type="text/css">
 @endpush
 
 @push('scripts')

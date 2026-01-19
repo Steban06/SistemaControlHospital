@@ -7,19 +7,32 @@ const ModalManager = (function () {
 
     function openModal(modal) {
         if (!modal) return;
-        modal.classList.add('active');
+        // Soporte para modales Tailwind (hidden) y modales antiguos (.active)
+        if (modal.classList.contains('hidden')) {
+            modal.classList.remove('hidden');
+        } else {
+            modal.classList.add('active');
+        }
         document.body.style.overflow = 'hidden';
     }
 
     function closeModal(modal) {
         if (!modal) return;
-        modal.classList.remove('active');
+        // Soporte para modales Tailwind (hidden) y modales antiguos (.active)
+        if (modal.classList.contains('hidden') === false && !modal.classList.contains('modal-overlay')) {
+            // Es un modal Tailwind, agregar hidden
+            modal.classList.add('hidden');
+        } else {
+            // Es un modal antiguo, remover active
+            modal.classList.remove('active');
+        }
         document.body.style.overflow = '';
         const form = modal.querySelector('form');
         if (form) form.reset();
     }
 
     function attachCloseHandlers() {
+        // Soporte para modales antiguos (.modal-overlay) y nuevos (por ID o atributos)
         document.querySelectorAll('.modal-overlay').forEach(modal => {
             const btnClose = modal.querySelector('[data-modal-close]');
             const btnCancel = modal.querySelector('[data-modal-cancel]');
@@ -28,9 +41,41 @@ const ModalManager = (function () {
             modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(modal); });
         });
 
+        // Soporte para modales Tailwind con data-modal-close y data-modal-cancel
+        // Buscar modales por ID que contengan "modal" o "Modal"
+        document.querySelectorAll('[id*="modal" i]').forEach(modal => {
+            // Adjuntar handlers al overlay de fondo si tiene data-modal-cancel
+            const overlay = modal.querySelector('[data-modal-cancel]');
+            if (overlay && !overlay.hasAttribute('data-handler-attached')) {
+                overlay.setAttribute('data-handler-attached', 'true');
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) closeModal(modal);
+                });
+            }
+
+            // Adjuntar handlers a botones dentro del modal
+            modal.querySelectorAll('[data-modal-close]').forEach(btn => {
+                if (!btn.hasAttribute('data-handler-attached')) {
+                    btn.setAttribute('data-handler-attached', 'true');
+                    btn.addEventListener('click', () => closeModal(modal));
+                }
+            });
+
+            modal.querySelectorAll('[data-modal-cancel]').forEach(btn => {
+                // No adjuntar al overlay si ya lo hicimos
+                if (!btn.hasAttribute('data-handler-attached') && !btn.classList.contains('fixed') && !btn.classList.contains('inset-0')) {
+                    btn.setAttribute('data-handler-attached', 'true');
+                    btn.addEventListener('click', () => closeModal(modal));
+                }
+            });
+        });
+
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
+                // Cerrar modales antiguos
                 document.querySelectorAll('.modal-overlay.active').forEach(closeModal);
+                // Cerrar modales Tailwind (los que no tienen hidden)
+                document.querySelectorAll('[id*="modal" i]:not(.hidden)').forEach(closeModal);
             }
         });
     }
@@ -60,7 +105,9 @@ const ModalManager = (function () {
         .then(data => {
             if (data.success) {
                 alert(data.message || 'Operación realizada con éxito');
-                closeModal(form.closest('.modal-overlay'));
+                // Buscar el modal padre (soporta ambas estructuras)
+                const modal = form.closest('.modal-overlay') || form.closest('[id*="ModalOverlay"]') || form.closest('[id*="modal"]');
+                if (modal) closeModal(modal);
                 window.location.reload();
             } else {
                 let errorMessage = 'Error al guardar:\n';

@@ -141,17 +141,20 @@ class TablePagination {
                 const statusCell = cells[5]; // Adjust index if needed
                 if (statusCell) {
                     const cellText = statusCell.textContent.toLowerCase().trim();
-                    // Check against values like 'operativo', 'dañado' (mapped from 'danado'?)
-                    // The select value for 'dañado' is 'danado' in HTML request, but might be 'Dañado' in table.
-                    // Simple includes check usually works if we normalize.
+                    
+                    // Mapeo de valores del select a textos reales en la tabla
+                    const statusMap = {
+                        'operativo': ['operativo'],
+                        'danado': ['fuera de servicio', 'dañado'],
+                        'reparacion': ['en reparación', 'reparacion'],
+                        'desincorporado': ['desincorporado']
+                    };
 
-                    // Special handling for legacy/accent differences if needed
-                    // e.g. select value "danado" vs table "dañado"
-                    if (statusValue === 'danado' && cellText.includes('dañado')) {
-                        matchesStatus = true;
-                    } else {
-                        matchesStatus = cellText.includes(statusValue);
-                    }
+                    // Obtener los textos posibles para el valor seleccionado
+                    const possibleTexts = statusMap[statusValue] || [statusValue];
+                    
+                    // Verificar si el texto de la celda coincide con alguno de los valores posibles
+                    matchesStatus = possibleTexts.some(text => cellText.includes(text));
                 }
             }
 

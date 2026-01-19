@@ -25,7 +25,7 @@
                     ID: <span class="font-mono font-bold text-white" id="modal-bn-id">BN-2026-0001</span>
                 </p>
             </div>
-            <button onclick="closeViewModal()" class="text-slate-400 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-1.5 rounded-full backdrop-blur-sm cursor-pointer">
+            <button data-modal-close type="button" class="text-slate-400 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-1.5 rounded-full backdrop-blur-sm cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </button>
         </div>
@@ -114,6 +114,7 @@
 
         <!-- Footer -->
         <div data-slot="dialog-footer" class="p-3 bg-gray-50 border-t flex justify-between items-center shrink-0">
+            <button data-modal-cancel type="button" class="text-xs text-gray-500 hover:text-gray-800 underline">
             <button onclick="closeViewModal()" class="px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:border-red-600 hover:text-red-600 transition-colors modal-close_btn">
                 Cerrar
             </button>
