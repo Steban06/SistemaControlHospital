@@ -7,7 +7,7 @@ use App\Models\BN;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function __invoke()
     {
         // Count assets with status 'Operativo'
         $bienesOperativos = BN::where('estado', 'Operativo')->count();
