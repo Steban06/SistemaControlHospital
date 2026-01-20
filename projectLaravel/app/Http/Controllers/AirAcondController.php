@@ -12,7 +12,8 @@ class AirAcondController extends Controller
      */
     public function index()
     {
-        //
+        $aires = AirAcond::with(['materialesFaltantes'])->get();
+        return view('aires-acondicionados', compact('aires'));
     }
 
     /**
