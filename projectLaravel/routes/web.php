@@ -23,6 +23,7 @@ Route::put('/bienes-nacionales/{id}', [BNController::class, 'update'])->name('bi
 // Route::delete('/bienes-nacionales/{id}', [BNController::class, 'destroy'])->name('bienes-nacionales.destroy');
 
 Route::get('/aires-acondicionados', [AirAcondController::class, 'index'])->name('aires-acondicionados.index');
+Route::post('/aires-acondicionados', [AirAcondController::class, 'store'])->name('aires-acondicionados.store');
 
 Route::get('/configuracion', function () {
     return view('configuracion');

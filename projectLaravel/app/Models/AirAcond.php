@@ -29,4 +29,9 @@ class AirAcond extends Model
     {
         return $this->hasMany(MaterialFaltante::class, 'aire_id');
     }
+
+    public function bienNacional()
+    {
+        return $this->belongsTo(BN::class, 'numero_bn', 'numero_bn');
+    }
 }
