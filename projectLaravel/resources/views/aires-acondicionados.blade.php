@@ -71,9 +71,10 @@
                         </h4>
                         <p data-slot="card-description" class="text-muted-foreground text-xs lg:text-sm mt-1 text-gray-500">Sistema de gestión y control de climatización hospitalaria</p>
                     </div>
-                    <button onclick="ModalManager.openModal(document.getElementById('addACModal'))" data-slot="button" class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white shadow hover:bg-blue-700 h-8 rounded-md gap-1.5 px-3">
+                    {{-- onclick="ModalManager.openModal(document.getElementById('addACModal'))" --}}
+                    <button id="addACBtn" data-slot="button" class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white shadow hover:bg-blue-700 h-8 rounded-md gap-1.5 px-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-4 h-4 lg:mr-2"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
-                        <span class="hidden lg:inline">Agregar</span>
+                        <span class="hidden lg:inline">Agregar Aire Acondicionado</span>
                     </button>
                 </div>
             </div>
@@ -123,7 +124,7 @@
                     <div data-slot="card" 
                          data-search="{{ strtolower($aire->numero_bn . ' ' . $aire->nombre_aa . ' ' . $aire->capacidad) }}"
                          data-status="{{ $aire->estado }}"
-                         data-location="{{ $aire->bienNacional?->area?->descripcion ?? '' }}"
+                         {{-- data-location="{{ $aire->bienNacional?->area?->descripcion ?? '' }}" --}}
                          class="bg-white text-card-foreground flex flex-col gap-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all hover:border-blue-300 group">
                         <div data-slot="card-header" class="px-6 pt-6 pb-3 space-y-2">
                              <div class="flex items-start justify-between gap-2">
@@ -191,28 +192,26 @@
 @push('scripts')
 <script src="{{ asset('js/modal.js') }}"></script>
 <script src="{{ asset('js/ac_filters.js') }}"></script>
+<script src="{{ asset('js/modalController.js') }}"></script>
 <script>
     // Asegurar que los botones de cierre funcionen para Add AC Modal
     document.addEventListener('DOMContentLoaded', function() {
-        const modal = document.getElementById('addACModal');
-        if (modal) {
-            // Adjuntar event listeners a todos los botones de cierre
-            modal.querySelectorAll('[data-modal-close]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    ModalManager.closeModal(modal);
-                });
-            });
-            
-            // Adjuntar al backdrop
-            const backdrop = modal.querySelector('[data-modal-cancel]');
-            if (backdrop) {
-                backdrop.addEventListener('click', function(e) {
-                    if (e.target === backdrop) {
-                        ModalManager.closeModal(modal);
-                    }
-                });
-            }
-        }
+        ModalManagerE.init({
+            storeUrl: "{{ route('aires-acondicionados.store') }}",
+            updateUrl: "",
+            botonAdd: document.getElementById('addACBtn'),
+            modalAdd: document.getElementById('addACModal'),
+            formAdd: document.getElementById('formAddAC'),
+            botonEdit: document.getElementById('editACBtn'),
+        });
+
+
+
+
+
+
+
+
 
         // Event listeners para Edit AC Modal
         const editModal = document.getElementById('editACModal');
@@ -256,7 +255,8 @@
     // Función para abrir el modal de edición y pre-llenar datos
     function openEditACModal(acId) {
         // Obtener datos del AC via AJAX
-        fetch(`/aires-acondicionados/${acId}/edit`)
+        // fetch(`/aires-acondicionados/${acId}/edit`)
+        fetch(`{{ url('aires-acondicionados') }}/${acId}/edit`)
             .then(response => response.json())
             .then(data => {
                 // Pre-llenar campos del formulario
@@ -299,32 +299,35 @@
 
     // Función para abrir el modal de Ver Más Información
     function openViewACModal(acId) {
-        fetch(`/aires-acondicionados/${acId}`)
+        fetch(`{{ url('aires-acondicionados') }}/${acId }`)
             .then(response => response.json())
             .then(data => {
                 // Populate Subtitle
-                document.getElementById('view_ac_subtitle').innerText = `${data.numero_bn || 'N/A'} - ${data.marca || 'N/A'} ${data.modelo || ''}`;
-
-                // Populate Text Fields
+                document.getElementById('view_ac_subtitle').innerText = `${data.id.toString().padStart(2, '0')} - ${data.nombre_aa || ''}`;
+                
+                // // Populate Text Fields
                 document.getElementById('view_codigo').innerText = data.numero_bn || 'N/A';
-                document.getElementById('view_marca').innerText = data.marca || 'N/A';
                 document.getElementById('view_modelo').innerText = data.modelo || 'N/A';
-                document.getElementById('view_serie').innerText = data.numero_serie || 'N/A';
-                document.getElementById('view_tipo').innerText = data.tipo_unidad || 'N/A';
-                document.getElementById('view_ubicacion').innerText = `${data.ubicacion || ''} ${data.area_especifica ? '- ' + data.area_especifica : ''}`;
-                document.getElementById('view_fecha_instalacion').innerText = data.fecha_instalacion || 'N/A';
-                document.getElementById('view_horas_uso').innerText = data.horas_uso ? data.horas_uso + ' hrs' : 'N/A';
-                document.getElementById('view_ultimo_mant').innerText = data.ultimo_mantenimiento || 'N/A';
-                document.getElementById('view_proximo_mant').innerText = data.proximo_mantenimiento || 'N/A';
-                document.getElementById('view_responsable').innerText = data.responsable || 'N/A';
-                document.getElementById('view_observaciones').innerText = data.observaciones || 'No hay observaciones registradas.';
+                // document.getElementById('view_serie').innerText = data.numero_serie || 'N/A';
+                // document.getElementById('view_tipo').innerText = data.tipo_unidad || 'N/A';
+                // document.getElementById('view_ubicacion').innerText = `${data.ubicacion || ''} ${data.area_especifica ? '- ' + data.area_especifica : ''}`;
+                // document.getElementById('view_fecha_instalacion').innerText = data.fecha_instalacion || 'N/A';
+                // document.getElementById('view_horas_uso').innerText = data.horas_uso ? data.horas_uso + ' hrs' : 'N/A';
+                // document.getElementById('view_ultimo_mant').innerText = data.ultimo_mantenimiento || 'N/A';
+                // document.getElementById('view_proximo_mant').innerText = data.proximo_mantenimiento || 'N/A';
+                // document.getElementById('view_responsable').innerText = data.responsable || 'N/A';
+                // document.getElementById('view_observaciones').innerText = data.observaciones || 'No hay observaciones registradas.';
 
-                // Technical Fields
+                // // Technical Fields
                 document.getElementById('view_capacidad').innerText = data.capacidad || 'N/A';
                 document.getElementById('view_voltaje').innerText = data.voltaje || 'N/A';
-                document.getElementById('view_refrigerante').innerText = data.refrigerante || 'N/A';
-                document.getElementById('view_consumo').innerText = data.consumo_energetico || 'N/A';
-                document.getElementById('view_temperatura').innerText = data.temperatura || 'N/A';
+                document.getElementById('view_refrigerante').innerText = data.refrigerante || '';
+                document.getElementById('view_presionA').innerText = data.presion_alta;
+                document.getElementById('view_presionB').innerText = data.presion_baja || 'N/A';
+
+                document.getElementById('view_creacion').innerText = new Date(data.created_at).toISOString().split('T')[0] || 'N/A';
+                document.getElementById('view_actualizacion').innerText = new Date(data.updated_at).toISOString().split('T')[0] || 'N/A';
+
 
                 // Status Badge Logic
                 const statusContainer = document.getElementById('view_estado_container');

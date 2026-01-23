@@ -10,6 +10,7 @@
     <!-- Overlay Background -->
     <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity z-[99998]" data-modal-cancel style="z-index: 99998; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"></div>
 
+    {{-- Modal Content --}}
     <div role="dialog" id="radix-:regist-modal:" 
         class="bg-white fixed top-[50%] left-[50%] z-[100000] grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl border p-6 shadow-2xl duration-200 sm:max-w-lg max-h-[90vh] overflow-y-auto" 
         tabindex="-1" style="pointer-events: auto; z-index: 100000;">
@@ -18,7 +19,7 @@
         <div class="flex flex-col gap-2 text-center sm:text-left mb-2">
             <h2 class="font-semibold text-xl text-gray-900 flex items-center gap-2">
                 <div class="p-2 bg-blue-50 rounded-full text-blue-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                    <svg title="Cerrar modal" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
                 </div>
                 Agregar Nuevo Bien Nacional
             </h2>

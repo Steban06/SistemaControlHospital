@@ -23,7 +23,7 @@ class StoreBNRequest extends FormRequest
             'serial' => 'nullable|string|max:255',
             'area_id' => 'required|exists:areas,id',
             'categoria_id' => 'required|exists:categorias,id',
-            'estado' => 'required|in:Operativo,Dañado,En reparación,Desincorporado'
+            'estado' => 'required|in:Operativo,Fuera de servicio,En reparación,Desincorporado'
         ];
     }
 

@@ -25,7 +25,7 @@ Route::put('/bienes-nacionales/{id}', [BNController::class, 'update'])->name('bi
 Route::get('/aires-acondicionados', [AirAcondController::class, 'index'])->name('aires-acondicionados.index');
 Route::post('/aires-acondicionados', [AirAcondController::class, 'store'])->name('aires-acondicionados.store');
 Route::get('/aires-acondicionados/{id}/edit', [AirAcondController::class, 'edit'])->name('aires-acondicionados.edit');
-Route::put('/aires-acondicionados/{id}', [AirAcondController::class, 'update'])->name('aires-acondicionados.update');
+// Route::put('/aires-acondicionados/{id}', [AirAcondController::class, 'update'])->name('aires-acondicionados.update');
 Route::get('/aires-acondicionados/{id}', [AirAcondController::class, 'show'])->name('aires-acondicionados.show');
 
 Route::get('/configuracion', function () {

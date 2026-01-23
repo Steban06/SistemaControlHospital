@@ -16,7 +16,7 @@
         tabindex="-1" style="pointer-events: auto; z-index: 100000;" onclick="event.stopPropagation()">
 
         <!-- Close Button (X) - FIJO -->
-        <button data-modal-close type="button" class="cursor-pointer absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-all hover:opacity-100 hover:text-red-600 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none p-1 modal-close_btn z-50 btn-color-red">
+        <button title="Cerrar modal" data-modal-close type="button" class="cursor-pointer absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-all hover:opacity-100 hover:text-red-600 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none p-1 modal-close_btn z-50 btn-color-red">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-4 w-4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             <span class="sr-only">Close</span>
         </button>
@@ -34,150 +34,90 @@
             <form id="formAddAC" action="{{ route('aires-acondicionados.store') }}" method="POST">
                 @csrf
             
-            <!-- Section 1: Identificación del Equipo -->
-            <div class="mb-6">
-                <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-4 flex items-center gap-2">
-                    <span class="bg-blue-100 text-blue-900 rounded-full w-6 h-6 flex items-center justify-center text-xs">1</span>
-                    Identificación del Equipo
-                </h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="codigo">Código (BN) <span class="text-red-500">*</span></label>
-                        <input name="numero_bn" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="codigo" placeholder="Ej: AC-2026-0001" required>
-                    </div>
+                <!-- Section 1: Identificación del Equipo -->
+                <div class="mb-6">
+                    <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                        <span class="bg-blue-100 text-blue-900 rounded-full w-6 h-6 flex items-center justify-center text-xs">1</span>
+                        Identificación del Equipo
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="codigo">Código (BN) <span class="text-red-500">*</span></label>
+                            <input name="numero_bn" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="codigo" placeholder="Ej: AC-2026-0001" required>
+                        </div>
 
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="marca">Marca <span class="text-red-500">*</span></label>
-                        <input name="marca" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="marca" placeholder="Ej: Carrier" required>
-                    </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="nombre">Nombre del equipo <span class="text-red-500">*</span></label>
+                            <input name="nombre_aa" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="nombre" placeholder="Ej: Quirofano 1" required>
+                        </div>
 
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="modelo">Modelo</label>
-                        <input name="modelo" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="modelo" placeholder="Ej: Split 42QRF024">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="numeroSerie">Número de Serie</label>
-                        <input name="numero_serie" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="numeroSerie" placeholder="Ej: CAR2024001234">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="tipoUnidad">Tipo de Unidad <span class="text-red-500">*</span></label>
-                        <select name="tipo_unidad" id="tipoUnidad" class="flex h-10 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" required>
-                            <option value="">Seleccione tipo...</option>
-                            <option value="Split Pared">Split Pared</option>
-                            <option value="Cassette">Cassette</option>
-                            <option value="Piso Techo">Piso Techo</option>
-                            <option value="Ventana">Ventana</option>
-                            <option value="Central">Central</option>
-                            <option value="Portátil">Portátil</option>
-                        </select>
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="estado">Estado Operativo <span class="text-red-500">*</span></label>
-                        <select name="estado" id="estado" class="flex h-10 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" required>
-                            <option value="operativo">Operativo</option>
-                            <option value="mantenimiento">Mantenimiento</option>
-                            <option value="fuera de servicio">Fuera de servicio</option>
-                        </select>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="modelo">Modelo</label>
+                            <input name="modelo" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="modelo" placeholder="Ej: Split 42QRF024">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Section 2: Especificaciones Técnicas -->
-            <div class="mb-6">
-                <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-4 flex items-center gap-2">
-                    <span class="bg-blue-100 text-blue-900 rounded-full w-6 h-6 flex items-center justify-center text-xs">2</span>
-                    Especificaciones Técnicas
-                </h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="capacidad">Capacidad</label>
-                        <input name="capacidad" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="capacidad" placeholder="Ej: 24,000 BTU">
-                    </div>
+                <!-- Section 2: Especificaciones Técnicas -->
+                <div class="mb-6">
+                    <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                        <span class="bg-blue-100 text-blue-900 rounded-full w-6 h-6 flex items-center justify-center text-xs">2</span>
+                        Especificaciones Técnicas
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="capacidad">Capacidad</label>
+                            <input name="capacidad" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="capacidad" placeholder="Ej: 24,000 BTU">
+                        </div>
 
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="voltaje">Voltaje</label>
-                        <input name="voltaje" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="voltaje" placeholder="Ej: 220V">
-                    </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="voltaje">Voltaje</label>
+                            <input name="voltaje" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="voltaje" placeholder="Ej: 220V">
+                        </div>
 
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="refrigerante">Refrigerante</label>
-                        <select name="refrigerante" id="refrigerante" class="flex h-10 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all">
-                            <option value="">Seleccione...</option>
-                            <option value="R410A">R410A</option>
-                            <option value="R22">R22</option>
-                            <option value="R32">R32</option>
-                            <option value="R134a">R134a</option>
-                            <option value="R407C">R407C</option>
-                        </select>
-                    </div>
+                        {{-- cambiar a input no quedar como select --}}
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="refrigerante">Refrigerante</label>
+                            <input name="refrigerante_tc" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="refrigerante" placeholder="Ej: R410A">
+                        </div>
 
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="consumoEnergetico">Consumo Energético</label>
-                        <input name="consumo_energetico" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="consumoEnergetico" placeholder="Ej: 2.1 kW/h">
-                    </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="estado">Estado Operativo <span class="text-red-500">*</span></label>
+                            <select name="estado" id="estado" class="flex h-10 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" required>
+                                <option value="operativo">Operativo</option>
+                                <option value="mantenimiento">Mantenimiento</option>
+                                <option value="fuera de servicio">Fuera de servicio</option>
+                            </select>
+                        </div>
 
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="temperatura">Temperatura Actual</label>
-                        <input name="temperatura" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="temperatura" placeholder="Ej: 22°C">
-                    </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="presionA">Presión de Alta</label>
+                            <input name="presion_alta" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="presionA" placeholder="Ej: 4.4 MPa">
+                        </div>
 
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="horasUso">Horas de Uso</label>
-                        <input name="horas_uso" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="horasUso" placeholder="Ej: 4580">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="presionB">Presión de Baja</label>
+                            <input name="presion_baja" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="presionB" placeholder="Ej: 2.6 MPa">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Section 3: Ubicación y Mantenimiento -->
-            <div class="mb-6">
-                <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-4 flex items-center gap-2">
-                    <span class="bg-blue-100 text-blue-900 rounded-full w-6 h-6 flex items-center justify-center text-xs">3</span>
-                    Ubicación y Mantenimiento
-                </h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="ubicacion">Ubicación</label>
-                        <input name="ubicacion" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="ubicacion" placeholder="Ej: UCI - Piso 3">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="area">Área Específica</label>
-                        <input name="area_especifica" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="area" placeholder="Ej: Sala 1">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="responsable">Responsable</label>
-                        <input name="responsable" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="responsable" placeholder="Ej: Ing. Méndez">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="fechaInstalacion">Fecha de Instalación</label>
-                        <input type="date" name="fecha_instalacion" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="fechaInstalacion">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="ultimoMantenimiento">Último Mantenimiento</label>
-                        <input type="date" name="ultimo_mantenimiento" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="ultimoMantenimiento">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="proximoMantenimiento">Próximo Mantenimiento</label>
-                        <input type="date" name="proximo_mantenimiento" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="proximoMantenimiento">
-                    </div>
-
-                    <!-- Observaciones - Full Width -->
-                    <div class="space-y-1.5 md:col-span-2">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="observaciones">Observaciones Adicionales</label>
-                        <textarea name="observaciones" class="flex min-h-[80px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all resize-none" id="observaciones" placeholder="Detalles de garantía, notas técnicas o observaciones importantes..." rows="3"></textarea>
+                <!-- Section 3: Ubicación y Mantenimiento -->
+                <div class="mb-6">
+                    <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-4 flex items-center gap-2">
+                        <span class="bg-blue-100 text-blue-900 rounded-full w-6 h-6 flex items-center justify-center text-xs">3</span>
+                        Ubicación y Mantenimiento
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="ubicacion">Ubicación</label>
+                            <input name="ubicacion" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="ubicacion" placeholder="Ej: UCI - Piso 3">
+                        </div>
                     </div>
                 </div>
-            </div>
             </form>
         </div>
 

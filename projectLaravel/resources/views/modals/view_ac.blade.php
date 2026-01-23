@@ -46,8 +46,8 @@
                 <div data-state="active" data-orientation="horizontal" role="tabpanel" id="tab-content-general" tabindex="0" data-slot="tabs-content" class="flex-1 outline-none space-y-4 block">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="bg-gray-50 p-3 rounded">
-                            <p class="text-xs text-gray-500 mb-1">Código</p>
-                            <p id="view_codigo" class="font-mono font-medium text-sm"></p>
+                            <p class="text-xs text-gray-500 mb-1">Código de BN</p>
+                            <p id="view_codigo" class="font-medium text-sm"></p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded">
                             <p class="text-xs text-gray-500 mb-1">Estado</p>
@@ -55,46 +55,46 @@
                                 <!-- JS will inject badge here -->
                             </div>
                         </div>
-                        <div class="bg-gray-50 p-3 rounded">
+                        {{-- <div class="bg-gray-50 p-3 rounded">
                             <p class="text-xs text-gray-500 mb-1">Marca</p>
                             <p id="view_marca" class="font-medium text-sm"></p>
-                        </div>
+                        </div> --}}
                         <div class="bg-gray-50 p-3 rounded">
                             <p class="text-xs text-gray-500 mb-1">Modelo</p>
                             <p id="view_modelo" class="font-medium text-sm"></p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded">
-                            <p class="text-xs text-gray-500 mb-1">Número de Serie</p>
-                            <p id="view_serie" class="font-mono font-medium text-sm"></p>
+                            <p class="text-xs text-gray-500 mb-1"></p>
+                            <p id="relleno" class="font-medium text-sm"></p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded">
-                            <p class="text-xs text-gray-500 mb-1">Tipo de Unidad</p>
-                            <p id="view_tipo" class="font-medium text-sm"></p>
-                        </div>
-                        <div class="bg-blue-50 p-3 rounded col-span-1 sm:col-span-2 border border-blue-200">
-                            <p class="text-xs text-gray-500 mb-1">Ubicación</p>
-                            <p id="view_ubicacion" class="font-medium text-sm"></p>
+                            <p class="text-xs text-gray-500 mb-1">Fecha de creación</p>
+                            <p id="view_creacion" class="font-medium text-sm"></p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded">
+                            <p class="text-xs text-gray-500 mb-1">Fecha de Actualización</p>
+                            <p id="view_actualizacion" class="font-medium text-sm"></p>
+                        </div>
+                        {{-- <div class="bg-gray-50 p-3 rounded">
                             <p class="text-xs text-gray-500 mb-1">Fecha de Instalación</p>
                             <p id="view_fecha_instalacion" class="font-medium text-sm"></p>
-                        </div>
-                        <div class="bg-gray-50 p-3 rounded">
+                        </div> --}}
+                        {{-- <div class="bg-gray-50 p-3 rounded">
                             <p class="text-xs text-gray-500 mb-1">Horas de Uso</p>
                             <p id="view_horas_uso" class="font-medium text-sm"></p>
-                        </div>
-                        <div class="bg-emerald-50 p-3 rounded border border-emerald-200">
+                        </div> --}}
+                        {{-- <div class="bg-emerald-50 p-3 rounded border border-emerald-200">
                             <p class="text-xs text-gray-500 mb-1">Último Mantenimiento</p>
                             <p id="view_ultimo_mant" class="font-medium text-sm"></p>
-                        </div>
-                        <div class="bg-emerald-50 p-3 rounded border border-emerald-200">
+                        </div> --}}
+                        {{-- <div class="bg-emerald-50 p-3 rounded border border-emerald-200">
                             <p class="text-xs text-gray-500 mb-1">Próximo Mantenimiento</p>
                             <p id="view_proximo_mant" class="font-medium text-sm"></p>
-                        </div>
-                        <div class="bg-gray-50 p-3 rounded col-span-1 sm:col-span-2">
+                        </div> --}}
+                        {{-- <div class="bg-gray-50 p-3 rounded col-span-1 sm:col-span-2">
                             <p class="text-xs text-gray-500 mb-1">Responsable</p>
                             <p id="view_responsable" class="font-medium text-sm"></p>
-                        </div>
+                        </div> --}}
                         <div class="bg-yellow-50 p-3 rounded col-span-1 sm:col-span-2 border border-yellow-200">
                             <p class="text-xs text-gray-500 mb-1">Observaciones</p>
                             <p id="view_observaciones" class="font-medium text-sm"></p>
@@ -118,12 +118,20 @@
                             <p id="view_refrigerante" class="font-medium text-sm"></p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded">
-                            <p class="text-xs text-gray-500 mb-1">Consumo Energético</p>
+                            <p class="text-xs text-gray-500 mb-1"></p>
                             <p id="view_consumo" class="font-medium text-sm"></p>
                         </div>
                         <div class="bg-gray-50 p-3 rounded">
-                            <p class="text-xs text-gray-500 mb-1">Temperatura Actual</p>
-                            <p id="view_temperatura" class="font-medium text-sm"></p>
+                            <p class="text-xs text-gray-500 mb-1">Presion Alta</p>
+                            <p id="view_presionA" class="font-medium text-sm"></p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded">
+                            <p class="text-xs text-gray-500 mb-1">Presion Baja</p>
+                            <p id="view_presionB" class="font-medium text-sm"></p>
+                        </div>
+                        <div class="bg-blue-50 p-3 rounded col-span-1 sm:col-span-2 border border-blue-200">
+                            <p class="text-xs text-gray-500 mb-1">Ubicación</p>
+                            <p id="view_ubicacion" class="font-medium text-sm"></p>
                         </div>
                     </div>
                 </div>
