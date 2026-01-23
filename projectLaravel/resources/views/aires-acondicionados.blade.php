@@ -71,7 +71,7 @@
                         </h4>
                         <p data-slot="card-description" class="text-muted-foreground text-xs lg:text-sm mt-1 text-gray-500">Sistema de gestión y control de climatización hospitalaria</p>
                     </div>
-                    <button onclick="document.getElementById('addACModal').classList.remove('hidden')" data-slot="button" class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white shadow hover:bg-blue-700 h-8 rounded-md gap-1.5 px-3">
+                    <button onclick="ModalManager.openModal(document.getElementById('addACModal'))" data-slot="button" class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white shadow hover:bg-blue-700 h-8 rounded-md gap-1.5 px-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-4 h-4 lg:mr-2"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
                         <span class="hidden lg:inline">Agregar</span>
                     </button>
@@ -79,8 +79,7 @@
             </div>
         </div>
 
-        <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6 space-y-4">
-            <!-- Search & Filters -->
+        <div data-slot="card-content" class="px-6 [&:last-child]:pb-6 space-y-4">
             <!-- Search & Filters -->
             <div class="flex flex-col lg:flex-row items-center gap-6 w-full">
                 <div class="relative w-full lg:w-64">
@@ -118,10 +117,8 @@
                 </div>
             </div>
 
-            <!-- Scrollable Grid -->
-            <!-- Scrollable Grid -->
-            <div class="max-h-[480px] overflow-y-auto pr-2">
-                <div id="acGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3">
+            <!-- Grid -->
+            <div id="acGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3">
                     @foreach($aires as $aire)
                     <div data-slot="card" 
                          data-search="{{ strtolower($aire->numero_bn . ' ' . $aire->nombre_aa . ' ' . $aire->capacidad) }}"
@@ -163,12 +160,12 @@
                             </div>
                         </div>
                         <div data-slot="card-content" class="px-6 pb-6 pt-0 space-y-2">
-                             <button class="cursor-pointer flex items-center justify-center w-full h-8 rounded-md bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 text-xs font-medium text-gray-700 hover:from-blue-100 hover:to-indigo-100 transition-colors gap-1.5">
+                             <button onclick="openViewACModal({{ $aire->id }})" class="cursor-pointer flex items-center justify-center w-full h-8 rounded-md bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 text-xs font-medium text-gray-700 hover:from-blue-100 hover:to-indigo-100 transition-colors gap-1.5">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                 Ver Más Información
                             </button>
                             <div class="grid grid-cols-2 gap-1.5">
-                                <button class="cursor-pointer flex items-center justify-center h-8 rounded-md border border-gray-200 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors gap-1.5">
+                                <button onclick="openEditACModal({{ $aire->id }})" class="cursor-pointer flex items-center justify-center h-8 rounded-md border border-gray-200 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 transition-colors gap-1.5">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"></path></svg>
                                     Editar
                                 </button>
@@ -181,7 +178,6 @@
                     </div>
                     @endforeach
                 </div>
-            </div>
             <div id="countDisplay" class="text-xs lg:text-sm text-gray-500 pt-2 border-t">Mostrando {{ count($aires) }} de {{ count($aires) }} unidades</div>
         </div>
     </div>
@@ -189,8 +185,187 @@
 
 
 @include('modals.add_ac')
+@include('modals.edit_ac')
+@include('modals.view_ac')
 
 @push('scripts')
+<script src="{{ asset('js/modal.js') }}"></script>
 <script src="{{ asset('js/ac_filters.js') }}"></script>
+<script>
+    // Asegurar que los botones de cierre funcionen para Add AC Modal
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('addACModal');
+        if (modal) {
+            // Adjuntar event listeners a todos los botones de cierre
+            modal.querySelectorAll('[data-modal-close]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    ModalManager.closeModal(modal);
+                });
+            });
+            
+            // Adjuntar al backdrop
+            const backdrop = modal.querySelector('[data-modal-cancel]');
+            if (backdrop) {
+                backdrop.addEventListener('click', function(e) {
+                    if (e.target === backdrop) {
+                        ModalManager.closeModal(modal);
+                    }
+                });
+            }
+        }
+
+        // Event listeners para Edit AC Modal
+        const editModal = document.getElementById('editACModal');
+        if (editModal) {
+            editModal.querySelectorAll('[data-modal-close]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    ModalManager.closeModal(editModal);
+                });
+            });
+            
+            const editBackdrop = editModal.querySelector('[data-modal-cancel]');
+            if (editBackdrop) {
+                editBackdrop.addEventListener('click', function(e) {
+                    if (e.target === editBackdrop) {
+                        ModalManager.closeModal(editModal);
+                    }
+                });
+            }
+        }
+
+        // Event listeners para View AC Modal
+        const viewModal = document.getElementById('viewACModal');
+        if (viewModal) {
+            viewModal.querySelectorAll('[data-modal-close]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    ModalManager.closeModal(viewModal);
+                });
+            });
+            
+            const viewBackdrop = viewModal.querySelector('[data-modal-cancel]');
+            if (viewBackdrop) {
+                viewBackdrop.addEventListener('click', function(e) {
+                    if (e.target === viewBackdrop) {
+                        ModalManager.closeModal(viewModal);
+                    }
+                });
+            }
+        }
+    });
+
+    // Función para abrir el modal de edición y pre-llenar datos
+    function openEditACModal(acId) {
+        // Obtener datos del AC via AJAX
+        fetch(`/aires-acondicionados/${acId}/edit`)
+            .then(response => response.json())
+            .then(data => {
+                // Pre-llenar campos del formulario
+                document.getElementById('editACId').value = data.id || '';
+                document.getElementById('edit_codigo').value = data.numero_bn || '';
+                document.getElementById('edit_marca').value = data.marca || '';
+                document.getElementById('edit_modelo').value = data.modelo || '';
+                document.getElementById('edit_numeroSerie').value = data.numero_serie || '';
+                document.getElementById('edit_tipoUnidad').value = data.tipo_unidad || '';
+                document.getElementById('edit_estado').value = data.estado || 'operativo';
+                
+                // Especificaciones técnicas
+                document.getElementById('edit_capacidad').value = data.capacidad || '';
+                document.getElementById('edit_voltaje').value = data.voltaje || '';
+                document.getElementById('edit_refrigerante').value = data.refrigerante || '';
+                document.getElementById('edit_consumoEnergetico').value = data.consumo_energetico || '';
+                document.getElementById('edit_temperatura').value = data.temperatura || '';
+                document.getElementById('edit_horasUso').value = data.horas_uso || '';
+                
+                // Ubicación y mantenimiento
+                document.getElementById('edit_ubicacion').value = data.ubicacion || '';
+                document.getElementById('edit_area').value = data.area_especifica || '';
+                document.getElementById('edit_responsable').value = data.responsable || '';
+                document.getElementById('edit_fechaInstalacion').value = data.fecha_instalacion || '';
+                document.getElementById('edit_ultimoMantenimiento').value = data.ultimo_mantenimiento || '';
+                document.getElementById('edit_proximoMantenimiento').value = data.proximo_mantenimiento || '';
+                document.getElementById('edit_observaciones').value = data.observaciones || '';
+                
+                // Actualizar action del form con el ID correcto
+                document.getElementById('formEditAC').action = `/aires-acondicionados/${acId}`;
+                
+                // Abrir modal
+                ModalManager.openModal(document.getElementById('editACModal'));
+            })
+            .catch(error => {
+                console.error('Error al cargar datos del AC:', error);
+                alert('Error al cargar los datos del aire acondicionado');
+            });
+    }
+
+    // Función para abrir el modal de Ver Más Información
+    function openViewACModal(acId) {
+        fetch(`/aires-acondicionados/${acId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Populate Subtitle
+                document.getElementById('view_ac_subtitle').innerText = `${data.numero_bn || 'N/A'} - ${data.marca || 'N/A'} ${data.modelo || ''}`;
+
+                // Populate Text Fields
+                document.getElementById('view_codigo').innerText = data.numero_bn || 'N/A';
+                document.getElementById('view_marca').innerText = data.marca || 'N/A';
+                document.getElementById('view_modelo').innerText = data.modelo || 'N/A';
+                document.getElementById('view_serie').innerText = data.numero_serie || 'N/A';
+                document.getElementById('view_tipo').innerText = data.tipo_unidad || 'N/A';
+                document.getElementById('view_ubicacion').innerText = `${data.ubicacion || ''} ${data.area_especifica ? '- ' + data.area_especifica : ''}`;
+                document.getElementById('view_fecha_instalacion').innerText = data.fecha_instalacion || 'N/A';
+                document.getElementById('view_horas_uso').innerText = data.horas_uso ? data.horas_uso + ' hrs' : 'N/A';
+                document.getElementById('view_ultimo_mant').innerText = data.ultimo_mantenimiento || 'N/A';
+                document.getElementById('view_proximo_mant').innerText = data.proximo_mantenimiento || 'N/A';
+                document.getElementById('view_responsable').innerText = data.responsable || 'N/A';
+                document.getElementById('view_observaciones').innerText = data.observaciones || 'No hay observaciones registradas.';
+
+                // Technical Fields
+                document.getElementById('view_capacidad').innerText = data.capacidad || 'N/A';
+                document.getElementById('view_voltaje').innerText = data.voltaje || 'N/A';
+                document.getElementById('view_refrigerante').innerText = data.refrigerante || 'N/A';
+                document.getElementById('view_consumo').innerText = data.consumo_energetico || 'N/A';
+                document.getElementById('view_temperatura').innerText = data.temperatura || 'N/A';
+
+                // Status Badge Logic
+                const statusContainer = document.getElementById('view_estado_container');
+                let badgeClass = '';
+                let icon = '';
+                let text = '';
+
+                if (data.estado === 'operativo') {
+                    badgeClass = 'bg-emerald-100 text-emerald-700 border-emerald-300';
+                    icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big w-3 h-3"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>';
+                    text = 'Operativo';
+                } else if (data.estado === 'mantenimiento') {
+                    badgeClass = 'bg-amber-100 text-amber-700 border-amber-300';
+                    icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench w-3 h-3"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>';
+                    text = 'Mantenimiento';
+                } else {
+                    badgeClass = 'bg-red-100 text-red-700 border-red-300';
+                    icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x w-3 h-3"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>';
+                    text = 'Fuera de Servicio';
+                }
+
+                statusContainer.innerHTML = `<span class="justify-center rounded-md border px-2 py-0.5 font-medium whitespace-nowrap shrink-0 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden flex items-center gap-1 w-fit text-xs ${badgeClass}">${icon}${text}</span>`;
+
+                // Handle Edit Button inside View Modal
+                const editBtn = document.getElementById('view_btn_edit');
+                editBtn.onclick = function() {
+                    ModalManager.closeModal(document.getElementById('viewACModal'));
+                    // Small delay to ensure smooth transition? No need, synchronous is fine for basic display toggling if ModalManager handles it.
+                   setTimeout(() => {
+                        openEditACModal(data.id);
+                   }, 100);
+                };
+
+                // Open Modal
+                ModalManager.openModal(document.getElementById('viewACModal'));
+            })
+            .catch(error => {
+                console.error('Error al cargar datos del AC:', error);
+                alert('Error al visualizar los datos');
+            });
+    }
+</script>
 @endpush
 @endsection

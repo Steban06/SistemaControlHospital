@@ -195,7 +195,7 @@
                     </div>
                 </div>
                 <!-- Valor Total -->
-                <div class="bg-green-50/50 border border-green-100 rounded-lg p-3 flex items-center justify-between">
+                <!-- <div class="bg-green-50/50 border border-green-100 rounded-lg p-3 flex items-center justify-between">
                     <div>
                         <p class="text-xs text-green-600 font-semibold uppercase">Valor Total</p>
                         <p class="text-xl font-bold text-slate-800">$2.4M</p>
@@ -206,7 +206,7 @@
                             <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                         </svg>
                     </div>
-                </div>
+                </div> -->
                 <!-- Pendientes -->
                 <div class="bg-amber-50/50 border border-amber-100 rounded-lg p-3 flex items-center justify-between">
                     <div>
