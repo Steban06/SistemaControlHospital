@@ -18,7 +18,23 @@ class BNController extends Controller
         $areas = Area::all();
         $categorias = Categoria::all();
 
-        return view('bienes-nacionales', ['pageTitle' => 'Gestión Bienes Nacionales'], compact('bienesNacionales', 'areas', 'categorias'));
+        // Calcular estadísticas de Aires Acondicionados dentro de Bienes Nacionales
+        $acBienes = $bienesNacionales->filter(function ($bien) {
+            return $bien->categoria && (
+                stripos($bien->categoria->tipo, 'aire') !== false || 
+                stripos($bien->categoria->tipo, 'acondicionado') !== false
+            );
+        });
+
+        $acStats = [
+            'total' => $acBienes->count(),
+            'operativo' => $acBienes->where('estado', 'Operativo')->count(), // Ajustar según los valores reales en BD (Case sensitive?)
+            'dañado' => $acBienes->whereIn('estado', ['Dañado', 'Fuera de servicio'])->count(),
+            'reparacion' => $acBienes->where('estado', 'En reparación')->count(),
+            'desincorporado' => $acBienes->where('estado', 'Desincorporado')->count(),
+        ];
+
+        return view('bienes-nacionales', ['pageTitle' => 'Gestión Bienes Nacionales'], compact('bienesNacionales', 'areas', 'categorias', 'acStats'));
     }
 
     public function store(StoreBNRequest $request)

@@ -9,43 +9,91 @@ class DashboardController extends Controller
 {
     public function __invoke()
     {
-        // Count assets with status 'Operativo'
+        // Count assets with status 'Operativo' - with fallback to 0
         $bienesOperativos = BN::where('estado', 'Operativo')->count();
         $bienesEnReparacion = BN::where('estado', 'En reparación')->count();
         $bienesDanados = BN::where('estado', 'Fuera de servicio')->count();
         $bienesDesincorporados = BN::where('estado', 'Desincorporado')->count();
 
         // --- Data for Curve Chart (Tendencias Mensuales - Last 6 Months) ---
+        // --- Data for Curve Chart (Tendencias Mensuales - Full History) ---
         $curveChartData = [['Mes', 'Altas', 'Bajas']];
-        for ($i = 5; $i >= 0; $i--) {
-            $date = \Carbon\Carbon::now()->subMonths($i);
-            $monthName = $date->translatedFormat('M'); // 'Ene', 'Feb', etc. (Needs spanish locale properly set ideally, or manually mapped)
-            $startOfMonth = $date->copy()->startOfMonth();
-            $endOfMonth = $date->copy()->endOfMonth();
+        
+        // Find the date of the first record or default to 6 months ago if empty
+        $firstRecord = BN::orderBy('created_at', 'asc')->first();
+        $startDate = $firstRecord ? \Carbon\Carbon::parse($firstRecord->created_at)->startOfMonth() : \Carbon\Carbon::now()->subMonths(6)->startOfMonth();
+        $endDate = \Carbon\Carbon::now()->endOfMonth();
+
+        $currentDate = $startDate->copy();
+
+        while ($currentDate <= $endDate) {
+            $monthName = $currentDate->translatedFormat('M Y'); // e.g., "Ene 2024"
+            $startOfMonth = $currentDate->copy()->startOfMonth();
+            $endOfMonth = $currentDate->copy()->endOfMonth();
 
             $altas = BN::whereBetween('created_at', [$startOfMonth, $endOfMonth])->count();
-            // Approximating 'Bajas' as desincorporados updated in that month
             $bajas = BN::where('estado', 'Desincorporado')
                        ->whereBetween('updated_at', [$startOfMonth, $endOfMonth])
                        ->count();
             
             $curveChartData[] = [$monthName, $altas, $bajas];
+            
+            $currentDate->addMonth();
         }
 
         // --- Data for Pie Chart (Distribución por Categoría) ---
-        // Assuming relationship 'categoria' exists on BN model
-        $catData = BN::with('categoria')
-                     ->get()
-                     ->groupBy(function($item) {
-                         return $item->categoria ? $item->categoria->tipo : 'Sin Categoría';
-                     })
-                     ->map(function($group) {
-                         return $group->count();
-                     });
-        
         $pieChartData = [['Categoría', 'Cantidad']];
-        foreach ($catData as $catName => $count) {
-            $pieChartData[] = ["$catName ($count)", $count];
+        
+        // Check if categoria relationship exists and table has data
+        try {
+            $catData = BN::with('categoria')
+                         ->get()
+                         ->groupBy(function($item) {
+                             return $item->categoria ? $item->categoria->tipo : 'Sin Categoría';
+                         })
+                         ->map(function($group) {
+                             return $group->count();
+                         });
+            
+            foreach ($catData as $catName => $count) {
+                $pieChartData[] = ["$catName ($count)", $count];
+            }
+        } catch (\Exception $e) {
+            // If categorias table doesn't exist or relationship fails, add default data
+            $totalBN = BN::count();
+            if ($totalBN > 0) {
+                $pieChartData[] = ["Bienes Nacionales ($totalBN)", $totalBN];
+            }
+        }
+
+        // Add Aires Acondicionados to Pie Chart
+        $acCount = 0;
+        try {
+            $acCount = \App\Models\AirAcond::count();
+            if ($acCount > 0) {
+                $pieChartData[] = ["Aire Acondicionado ($acCount)", $acCount];
+            }
+        } catch (\Exception $e) {
+            // AirAcond table might not exist
+            $acCount = 0;
+        }
+
+        // AC Stats with error handling
+        $acOperativos = 0;
+        $acCriticos = 0;
+        try {
+            $acOperativos = \App\Models\AirAcond::where('estado', 'operativo')->count();
+            $acCriticos = \App\Models\AirAcond::whereIn('estado', ['fuera de servicio', 'dañado'])->count();
+        } catch (\Exception $e) {
+            // Ignore if table doesn't exist
+        }
+
+        // Calculate total categorias safely
+        $totalCategorias = 0;
+        try {
+            $totalCategorias = BN::distinct('categoria_id')->count('categoria_id') + ($acCount > 0 ? 1 : 0);
+        } catch (\Exception $e) {
+            $totalCategorias = ($acCount > 0 ? 1 : 0);
         }
 
         return view('inicio', [
@@ -55,7 +103,15 @@ class DashboardController extends Controller
             'bienesDanados' => $bienesDanados,
             'bienesDesincorporados' => $bienesDesincorporados,
             'curveChartData' => json_encode($curveChartData),
-            'pieChartData' => json_encode($pieChartData)
+            'pieChartData' => json_encode($pieChartData),
+            // AC Stats
+            'acTotal' => $acCount,
+            'acOperativos' => $acOperativos,
+            'acCriticos' => $acCriticos,
+            // General Stats
+            'totalBienes' => BN::count() + $acCount,
+            'totalPendientes' => $bienesEnReparacion + $bienesDanados + $acCriticos,
+            'totalCategorias' => $totalCategorias, 
         ]);
     }
 }

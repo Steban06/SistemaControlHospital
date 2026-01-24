@@ -53,7 +53,7 @@
             </div>
             <div>
                 <p class="text-2xl font-bold text-slate-900 leading-tight">{{ number_format($bienesEnReparacion) }}</p>
-                <p class="text-xs text-slate-500 font-medium mt-0.5">En Mantenimiento</p>
+                <p class="text-xs text-slate-500 font-medium mt-0.5">Bienes En Mantenimiento</p>
             </div>
         </div>
 
@@ -73,7 +73,7 @@
             </div>
             <div>
                 <p class="text-2xl font-bold text-slate-900 leading-tight">{{ number_format($bienesDanados) }}</p>
-                <p class="text-xs text-slate-500 font-medium mt-0.5">Fuera de Servicio</p>
+                <p class="text-xs text-slate-500 font-medium mt-0.5">Bienes Fuera de Servicio</p>
             </div>
         </div>
 
@@ -91,7 +91,7 @@
             </div>
             <div>
                 <p class="text-2xl font-bold text-slate-900 leading-tight">{{ number_format($bienesDesincorporados) }}</p>
-                <p class="text-xs text-slate-500 font-medium mt-0.5">Desincorporados</p>
+                <p class="text-xs text-slate-500 font-medium mt-0.5">Bienes Desincorporados</p>
             </div>
         </div>
     </div>
@@ -116,7 +116,7 @@
                 <div class="bg-blue-50/50 border border-blue-100 rounded-lg p-3 flex items-center justify-between">
                     <div>
                         <p class="text-xs text-blue-600 font-semibold uppercase">Total Equipos</p>
-                        <p class="text-xl font-bold text-slate-800">42</p>
+                        <p class="text-xl font-bold text-slate-800">{{ $acTotal ?? 0 }}</p>
                     </div>
                     <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-snowflake">
@@ -133,12 +133,13 @@
                 <div class="bg-emerald-50/50 border border-emerald-100 rounded-lg p-3 flex items-center justify-between">
                     <div>
                         <p class="text-xs text-emerald-600 font-semibold uppercase">Operativos</p>
-                        <p class="text-xl font-bold text-slate-800">38</p>
+                        <p class="text-xl font-bold text-slate-800">{{ $acOperativos ?? 0 }}</p>
                     </div>
                     <div class="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="m9 12 2 2 4-4" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wind">
+                            <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2" />
+                            <path d="M9.6 4.6A2 2 0 1 1 11 8H2" />
+                            <path d="M12.6 19.4A2 2 0 1 0 14 16H2" />
                         </svg>
                     </div>
                 </div>
@@ -146,13 +147,11 @@
                 <div class="bg-red-50/50 border border-red-100 rounded-lg p-3 flex items-center justify-between">
                     <div>
                         <p class="text-xs text-red-600 font-semibold uppercase">Criticos/Falla</p>
-                        <p class="text-xl font-bold text-slate-800">4</p>
+                        <p class="text-xl font-bold text-slate-800">{{ $acCriticos ?? 0 }}</p>
                     </div>
                     <div class="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-triangle">
-                            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
-                            <path d="M12 9v4" />
-                            <path d="M12 17h.01" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-thermometer">
+                            <path d="M14 4v10.54a4 4 0 1 1-2.91 1 4 4 0 0 1 .91-.54V4a1 1 0 0 1 2 0Z" />
                         </svg>
                     </div>
                 </div>
@@ -172,46 +171,40 @@
             </h4>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <!-- Total Bienes -->
-                <div class="bg-indigo-50/50 border border-indigo-100 rounded-lg p-3 flex items-center justify-between">
+                <div class="bg-violet-50 border border-violet-100 rounded-lg p-3 flex items-center justify-between">
                     <div>
-                        <p class="text-xs text-indigo-600 font-semibold uppercase">Total Bienes</p>
-                        <p class="text-xl font-bold text-slate-800">1,525</p>
+                        <p class="text-xs text-violet-600 font-semibold uppercase">Total Bienes</p>
+                        <p class="text-xl font-bold text-slate-800">{{ $totalBienes ?? 0 }}</p>
                     </div>
-                    <div class="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-boxes">
-                            <path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .99 1.74l1 .59" />
-                            <path d="m7 16.5-4.74-2.85" />
-                            <path d="m7 16.5 5 3" />
-                            <path d="M7 16.5v5.17" />
-                            <path d="M12 13.5V19l3.97 2.38a2 2 0 0 0 1.99 0l3.97-2.38" />
-                            <path d="m17 16.5-5-3" />
-                            <path d="m17 16.5 4.74-2.85" />
-                            <path d="M17 16.5v5.17" />
-                            <path d="M7.97 4.42A2 2 0 0 0 7 2.69V.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v2.19a2 2 0 0 0-.97 1.73l-1 .59" />
-                            <path d="m12 6.5-4.74-2.85" />
-                            <path d="m12 6.5 5-3" />
-                            <path d="M12 6.5v5.17" />
+                    <div class="h-8 w-8 rounded-full bg-violet-100 flex items-center justify-center text-violet-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layers">
+                            <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" />
+                            <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65" />
+                            <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65" />
                         </svg>
                     </div>
                 </div>
-                <!-- Valor Total -->
-                <!-- <div class="bg-green-50/50 border border-green-100 rounded-lg p-3 flex items-center justify-between">
+                
+                <!-- Total Categorías -->
+                <div class="bg-green-50 border border-green-100 rounded-lg p-3 flex items-center justify-between">
                     <div>
-                        <p class="text-xs text-green-600 font-semibold uppercase">Valor Total</p>
-                        <p class="text-xl font-bold text-slate-800">$2.4M</p>
+                        <p class="text-xs text-green-600 font-semibold uppercase">Categorías</p>
+                        <p class="text-xl font-bold text-slate-800">{{ $totalCategorias ?? 0 }}</p>
                     </div>
                     <div class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign">
-                            <line x1="12" x2="12" y1="2" y2="22" />
-                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tags">
+                            <path d="m15 5 6.3 6.3a2.4 2.4 0 0 1 0 3.4L14.7 21.3a2.4 2.4 0 0 1-3.4 0L5 15" />
+                            <path d="M9 9h.01" />
+                            <path d="M4 9a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2Z" />
                         </svg>
                     </div>
-                </div> -->
+                </div>
+                
                 <!-- Pendientes -->
                 <div class="bg-amber-50/50 border border-amber-100 rounded-lg p-3 flex items-center justify-between">
                     <div>
                         <p class="text-xs text-amber-600 font-semibold uppercase">Mant. Pendientes</p>
-                        <p class="text-xl font-bold text-slate-800">23</p>
+                        <p class="text-xl font-bold text-slate-800">{{ $totalPendientes ?? 0 }}</p>
                     </div>
                     <div class="h-8 w-8 rounded-full bg-amber-100 flex items-center justify-center text-amber-600">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock">
@@ -239,7 +232,6 @@
             <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
                 <div class="recharts-responsive-container lg:h-[300px]" style="width: 100%; height: 250px; min-width: 0px;">
                     <div id="curve_chart" style="width: 100%; height: 100%;"></div>
-                    <!-- TODO: Backend - Cargar datos de tendencias mensuales (últimos 6 meses) -->
                 </div>
             </div>
         </div>
@@ -248,14 +240,12 @@
         <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl shadow-lg border-0">
             <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
                 <h4 data-slot="card-title" class="flex items-center gap-2 text-base lg:text-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package w-4 h-4 lg:w-5 lg:h-5 text-blue-600">
-                        <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path>
-                        <path d="M12 22V12"></path>
-                        <polyline points="3.29 7 12 12 20.71 7"></polyline>
-                        <path d="m7.5 4.27 9 5.15"></path>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pie-chart w-4 h-4 lg:w-5 lg:h-5 text-blue-600">
+                        <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                        <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
                     </svg>Distribución por Categoría
                 </h4>
-                <p data-slot="card-description" class="text-muted-foreground text-xs lg:text-sm">Total de bienes por tipo</p>
+                <p data-slot="card-description" class="text-muted-foreground text-xs lg:text-sm">Total de bienes y equipos por tipo</p>
             </div>
 
             <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6">
@@ -305,16 +295,28 @@
             var data = google.visualization.arrayToDataTable({!! $curveChartData !!});
 
             var options = {
-            title: 'Movimiento de Bienes (Últimos 6 meses)',
-            curveType: 'function',
-            legend: { position: 'bottom' },
-            backgroundColor: 'transparent',
-            chartArea: {width: '85%', height: '70%'}
+                title: 'Movimiento de Bienes (Histórico Completo)',
+                curveType: 'function',
+                legend: { position: 'bottom' },
+                backgroundColor: 'transparent',
+                chartArea: {width: '85%', height: '70%'},
+                hAxis: {
+                    slantedText: true,
+                    slantedTextAngle: 45,
+                    textStyle: { fontSize: 11 }
+                },
+                // Habilitar Zoom y Desplazamiento interno
+                explorer: { 
+                    actions: ['dragToZoom', 'rightClickToReset'],
+                    axis: 'horizontal',
+                    keepInBounds: true,
+                    maxZoomIn: 0.05
+                }
             };
 
             var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
             chart.draw(data, options);
-            }
+        }
 
         function drawPieChart() {
             var data = google.visualization.arrayToDataTable({!! $pieChartData !!});
