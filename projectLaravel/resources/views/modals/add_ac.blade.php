@@ -48,7 +48,7 @@
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold uppercase text-gray-700" for="nombre">Nombre del equipo <span class="text-red-500">*</span></label>
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="nombre">Nombre Del Equipo <span class="text-red-500">*</span></label>
                             <input name="nombre_aa" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="nombre" placeholder="Ej: Quirofano 1" required>
                         </div>
 
@@ -122,7 +122,7 @@
         </div>
 
         <!-- FOOTER FIJO -->
-        <div class="flex-shrink-0 px-6 py-4 border-t border-gray-200 bg-gray-50">
+        <div class="flex-shrink-0 rounded-xl px-6 py-4 border-t border-gray-200 bg-gray-50">
             <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
                 <button type="button" data-modal-close class="w-full sm:w-auto inline-flex justify-center items-center rounded-md bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-red-600 hover:ring-red-300 transition-all btn-color-red">
                     Cancelar

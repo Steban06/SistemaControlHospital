@@ -125,8 +125,8 @@
                          data-search="{{ strtolower($aire->numero_bn . ' ' . $aire->nombre_aa . ' ' . $aire->capacidad) }}"
                          data-status="{{ $aire->estado }}"
                          {{-- data-location="{{ $aire->bienNacional?->area?->descripcion ?? '' }}" --}}
-                         class="bg-white text-card-foreground flex flex-col gap-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all hover:border-blue-300 group">
-                        <div data-slot="card-header" class="px-6 pt-6 pb-3 space-y-2">
+                         class="bg-white text-card-foreground flex flex-col gap-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-all hover:border-blue-300 group h-full">
+                        <div data-slot="card-header" class="px-6 pt-6 pb-3 space-y-2 flex-1">
                              <div class="flex items-start justify-between gap-2">
                                 <div class="flex items-center gap-2">
                                     <div class="bg-blue-100 p-1.5 rounded">
@@ -161,7 +161,7 @@
                             </div>
                         </div>
                         <div data-slot="card-content" class="px-6 pb-6 pt-0 space-y-2">
-                             <button onclick="openViewACModal({{ $aire->id }})" class="cursor-pointer flex items-center justify-center w-full h-8 rounded-md bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 text-xs font-medium text-gray-700 hover:from-blue-100 hover:to-indigo-100 transition-colors gap-1.5">
+                             <button onclick="openViewACModal({{ $aire->id }})" class="cursor-pointer flex items-center justify-center w-full h-8 rounded-md bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 text-xs font-medium text-gray-700 hover:from-blue-100 hover:to-indigo-100 transition-colors gap-1.5 bg-blue-50  ">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                 Ver Más Información
                             </button>
@@ -188,6 +188,9 @@
 @include('modals.add_ac')
 @include('modals.edit_ac')
 @include('modals.view_ac')
+@include('modals.history_ac')
+@include('modals.missing_materials')
+@include('modals.add_missing_material')
 
 @push('scripts')
 <script src="{{ asset('js/modal.js') }}"></script>
@@ -250,6 +253,96 @@
                 });
             }
         }
+
+        // Event listeners para History AC Modal
+        const historyModal = document.getElementById('historyACModal');
+        if (historyModal) {
+            historyModal.querySelectorAll('[data-modal-close]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    ModalManager.closeModal(historyModal);
+                });
+            });
+            
+            const historyBackdrop = historyModal.querySelector('[data-modal-cancel]');
+            if (historyBackdrop) {
+                historyBackdrop.addEventListener('click', function(e) {
+                    if (e.target === historyBackdrop) {
+                        ModalManager.closeModal(historyModal);
+                    }
+                });
+            }
+        }
+
+        // Event listeners para Missing Materials Modal
+        const materialsModal = document.getElementById('missingMaterialsModal');
+        if (materialsModal) {
+             materialsModal.querySelectorAll('[data-modal-close]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    ModalManager.closeModal(materialsModal);
+                });
+            });
+            
+            const materialsBackdrop = materialsModal.querySelector('[data-modal-cancel]');
+            if (materialsBackdrop) {
+                materialsBackdrop.addEventListener('click', function(e) {
+                    if (e.target === materialsBackdrop) {
+                        ModalManager.closeModal(materialsModal);
+                    }
+                });
+            }
+
+            // Handle "Add Material" button inside Missing Materials Modal
+            const btnAddMaterial = document.getElementById('btnAddMissingMaterial');
+            if (btnAddMaterial) {
+                btnAddMaterial.addEventListener('click', function() {
+                    const acId = materialsModal.dataset.acId;
+                    const acName = materialsModal.dataset.acName;
+                    
+                    // Close Missing Materials Modal
+                    ModalManager.closeModal(materialsModal);
+                    
+                    // Open Add Material Modal with delay
+                    setTimeout(() => {
+                        openAddMaterialModal(acId, acName);
+                    }, 100);
+                });
+            }
+        }
+
+        // Event listeners para Add Material Modal
+        const addMaterialModal = document.getElementById('addMaterialModal');
+        if (addMaterialModal) {
+            addMaterialModal.querySelectorAll('[data-modal-close]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    ModalManager.closeModal(addMaterialModal);
+                    // Re-open Missing Materials Modal when Add Modal is closed (if needed context exists)
+                    const acId = addMaterialModal.dataset.acId;
+                    const acName = addMaterialModal.dataset.acName;
+                    if (acId) {
+                         setTimeout(() => {
+                            openMissingMaterialsModal(acId, acName);
+                        }, 100);
+                    }
+                });
+            });
+            
+             const addMaterialBackdrop = addMaterialModal.querySelector('[data-modal-cancel]');
+             if (addMaterialBackdrop) {
+                addMaterialBackdrop.addEventListener('click', function(e) {
+                    if (e.target === addMaterialBackdrop) {
+                         // Same close logic as buttons
+                         ModalManager.closeModal(addMaterialModal);
+                          const acId = addMaterialModal.dataset.acId;
+                          const acName = addMaterialModal.dataset.acName;
+                          if (acId) {
+                             setTimeout(() => {
+                                openMissingMaterialsModal(acId, acName);
+                            }, 100);
+                        }
+                    }
+                });
+            }
+        }
     });
 
     // Función para abrir el modal de edición y pre-llenar datos
@@ -264,25 +357,26 @@
                 document.getElementById('edit_codigo').value = data.numero_bn || '';
                 document.getElementById('edit_marca').value = data.marca || '';
                 document.getElementById('edit_modelo').value = data.modelo || '';
-                document.getElementById('edit_numeroSerie').value = data.numero_serie || '';
-                document.getElementById('edit_tipoUnidad').value = data.tipo_unidad || '';
+                // document.getElementById('edit_numeroSerie').value = data.numero_serie || '';
+                // document.getElementById('edit_tipoUnidad').value = data.tipo_unidad || '';
                 document.getElementById('edit_estado').value = data.estado || 'operativo';
                 
                 // Especificaciones técnicas
                 document.getElementById('edit_capacidad').value = data.capacidad || '';
                 document.getElementById('edit_voltaje').value = data.voltaje || '';
                 document.getElementById('edit_refrigerante').value = data.refrigerante || '';
-                document.getElementById('edit_consumoEnergetico').value = data.consumo_energetico || '';
+                // document.getElementById('edit_consumoEnergetico').value = data.consumo_energetico || '';
                 document.getElementById('edit_temperatura').value = data.temperatura || '';
                 document.getElementById('edit_horasUso').value = data.horas_uso || '';
                 
                 // Ubicación y mantenimiento
+                // Ubicación y mantenimiento
                 document.getElementById('edit_ubicacion').value = data.ubicacion || '';
-                document.getElementById('edit_area').value = data.area_especifica || '';
-                document.getElementById('edit_responsable').value = data.responsable || '';
-                document.getElementById('edit_fechaInstalacion').value = data.fecha_instalacion || '';
-                document.getElementById('edit_ultimoMantenimiento').value = data.ultimo_mantenimiento || '';
-                document.getElementById('edit_proximoMantenimiento').value = data.proximo_mantenimiento || '';
+                // document.getElementById('edit_area').value = data.area_especifica || '';
+                // document.getElementById('edit_responsable').value = data.responsable || '';
+                // document.getElementById('edit_fechaInstalacion').value = data.fecha_instalacion || '';
+                // document.getElementById('edit_ultimoMantenimiento').value = data.ultimo_mantenimiento || '';
+                // document.getElementById('edit_proximoMantenimiento').value = data.proximo_mantenimiento || '';
                 document.getElementById('edit_observaciones').value = data.observaciones || '';
                 
                 // Actualizar action del form con el ID correcto
@@ -361,6 +455,26 @@
                    }, 100);
                 };
 
+                // Handle History Button inside View Modal
+                const historyBtn = document.getElementById('view_btn_history');
+                historyBtn.onclick = function() {
+                    // ModalManager.closeModal(document.getElementById('viewACModal')); // Optional: close view modal first? Usually yes for stack clarity, or keep both?
+                    // Let's close view modal to avoid backdrop stacking issues unless managed well.
+                    ModalManager.closeModal(document.getElementById('viewACModal'));
+                    setTimeout(() => {
+                        openHistoryACModal(data.id, data.nombre_aa);
+                    }, 100);
+                };
+
+                // Handle Missing Materials Button
+                const materialsBtn = document.getElementById('view_btn_materials');
+                materialsBtn.onclick = function() {
+                    ModalManager.closeModal(document.getElementById('viewACModal'));
+                    setTimeout(() => {
+                        openMissingMaterialsModal(data.id, data.nombre_aa);
+                    }, 100);
+                };
+
                 // Open Modal
                 ModalManager.openModal(document.getElementById('viewACModal'));
             })
@@ -368,6 +482,73 @@
                 console.error('Error al cargar datos del AC:', error);
                 alert('Error al visualizar los datos');
             });
+    }
+
+    function openHistoryACModal(acId, acName) {
+        // Here you would fetch history data using acId
+        // fetch(`/aires-acondicionados/${acId}/history`) ...
+        
+        // For now, just set the title/subtitle
+        document.getElementById('history_ac_subtitle').innerText = acName || 'Aire Acondicionado';
+        
+        ModalManager.openModal(document.getElementById('historyACModal'));
+    }
+
+    function openMissingMaterialsModal(acId, acName) {
+        const modal = document.getElementById('missingMaterialsModal');
+        document.getElementById('missing_materials_subtitle').innerText = acName || 'Aire Acondicionado';
+
+        // Store context in dataset for navigation
+        modal.dataset.acId = acId;
+        modal.dataset.acName = acName;
+        
+        // Here you would fetch materials data
+        // fetch(`/aires-acondicionados/${acId}/materials`)
+        //    .then(res => res.json())
+        //    .then(materials => { ... populate table ... })
+
+        // Clear search input on open
+        const searchInput = document.getElementById('searchMaterialsInput');
+        if (searchInput) {
+            searchInput.value = '';
+            // Trigger event to reset table
+            searchInput.dispatchEvent(new Event('keyup')); 
+        }
+
+        // Open Modal
+        ModalManager.openModal(document.getElementById('missingMaterialsModal'));
+    }
+
+    // Filter Logic for Materials Modal
+    document.addEventListener('DOMContentLoaded', function() {
+        const materialSearchInput = document.getElementById('searchMaterialsInput');
+        if (materialSearchInput) {
+            materialSearchInput.addEventListener('keyup', function() {
+                const value = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#missing_materials_table_body tr');
+                
+                rows.forEach(row => {
+                    const text = row.innerText.toLowerCase();
+                    row.style.display = text.includes(value) ? '' : 'none';
+                });
+            });
+        }
+    });
+
+    function openAddMaterialModal(acId, acName) {
+        const modal = document.getElementById('addMaterialModal');
+        document.getElementById('add_material_subtitle').innerText = acName || 'Aire Acondicionado';
+        document.getElementById('add_material_aire_id').value = acId;
+        
+        // Store context for back navigation
+        modal.dataset.acId = acId;
+        modal.dataset.acName = acName;
+
+        // Reset form if exists
+        const form = document.getElementById('formAddMaterial');
+        if (form) form.reset();
+
+        ModalManager.openModal(modal);
     }
 </script>
 @endpush

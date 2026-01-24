@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_marca">Marca <span class="text-red-500">*</span></label>
+                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_marca">Nombre Del Equipo <span class="text-red-500">*</span></label>
                         <input name="marca" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_marca" placeholder="Ej: Carrier" required>
                     </div>
 
@@ -59,12 +59,12 @@
                         <input name="modelo" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_modelo" placeholder="Ej: Split 42QRF024">
                     </div>
 
-                    <div class="space-y-1.5">
+                    <!-- <div class="space-y-1.5">
                         <label class="text-xs font-semibold uppercase text-gray-700" for="edit_numeroSerie">Número de Serie</label>
                         <input name="numero_serie" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_numeroSerie" placeholder="Ej: CAR2024001234">
-                    </div>
+                    </div> -->
 
-                    <div class="space-y-1.5">
+                    <!-- <div class="space-y-1.5">
                         <label class="text-xs font-semibold uppercase text-gray-700" for="edit_tipoUnidad">Tipo de Unidad <span class="text-red-500">*</span></label>
                         <select name="tipo_unidad" id="edit_tipoUnidad" class="flex h-10 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" required>
                             <option value="">Seleccione tipo...</option>
@@ -75,7 +75,7 @@
                             <option value="Central">Central</option>
                             <option value="Portátil">Portátil</option>
                         </select>
-                    </div>
+                    </div> -->
 
                     <div class="space-y-1.5">
                         <label class="text-xs font-semibold uppercase text-gray-700" for="edit_estado">Estado Operativo <span class="text-red-500">*</span></label>
@@ -118,18 +118,18 @@
                         </select>
                     </div>
 
-                    <div class="space-y-1.5">
+                    <!-- <div class="space-y-1.5">
                         <label class="text-xs font-semibold uppercase text-gray-700" for="edit_consumoEnergetico">Consumo Energético</label>
                         <input name="consumo_energetico" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_consumoEnergetico" placeholder="Ej: 2.1 kW/h">
-                    </div>
+                    </div> -->
 
                     <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_temperatura">Temperatura Actual</label>
+                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_temperatura">Presión De Alta</label>
                         <input name="temperatura" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_temperatura" placeholder="Ej: 22°C">
                     </div>
 
                     <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_horasUso">Horas de Uso</label>
+                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_horasUso">Presión De Baja</label>
                         <input name="horas_uso" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_horasUso" placeholder="Ej: 4580">
                     </div>
                 </div>
@@ -149,28 +149,8 @@
                     </div>
 
                     <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_area">Área Específica</label>
-                        <input name="area_especifica" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_area" placeholder="Ej: Sala 1">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_responsable">Responsable</label>
-                        <input name="responsable" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_responsable" placeholder="Ej: Ing. Méndez">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_fechaInstalacion">Fecha de Instalación</label>
-                        <input type="date" name="fecha_instalacion" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_fechaInstalacion">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_ultimoMantenimiento">Último Mantenimiento</label>
-                        <input type="date" name="ultimo_mantenimiento" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_ultimoMantenimiento">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_proximoMantenimiento">Próximo Mantenimiento</label>
-                        <input type="date" name="proximo_mantenimiento" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_proximoMantenimiento">
+                        <!-- <label class="text-xs font-semibold uppercase text-gray-700" for="edit_voltaje">Voltaje</label>
+                        <input  class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_voltaje" placeholder="Ej: 220V"> -->
                     </div>
 
                     <!-- Observaciones - Full Width -->
@@ -184,7 +164,7 @@
         </div>
 
         <!-- FOOTER FIJO -->
-        <div class="flex-shrink-0 px-6 py-4 border-t border-gray-200 bg-gray-50">
+        <div class="flex-shrink-0 rounded-xl px-6 py-4 border-t border-gray-200 bg-gray-50">
             <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
                 <button type="button" data-modal-close class="w-full sm:w-auto inline-flex justify-center items-center rounded-md bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-red-600 hover:ring-red-300 transition-all btn-color-red">
                     Cancelar
