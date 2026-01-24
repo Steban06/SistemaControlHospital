@@ -28,6 +28,12 @@ Route::get('/aires-acondicionados/{id}/edit', [AirAcondController::class, 'edit'
 // Route::put('/aires-acondicionados/{id}', [AirAcondController::class, 'update'])->name('aires-acondicionados.update');
 Route::get('/aires-acondicionados/{id}', [AirAcondController::class, 'show'])->name('aires-acondicionados.show');
 
+use App\Http\Controllers\MaintenanceController;
+
+Route::get('/mantenimiento', [MaintenanceController::class, 'index'])->name('mantenimiento.index');
+Route::post('/mantenimiento', [MaintenanceController::class, 'store'])->name('mantenimiento.store');
+Route::get('/mantenimiento/{id}', [MaintenanceController::class, 'show'])->name('mantenimiento.show');
+
 Route::get('/configuracion', function () {
     return view('configuracion');
 })->name('configuracion');

@@ -10,7 +10,7 @@
                     </div>
                     <span class="text-sm font-semibold text-slate-900 tracking-tight">Sistema Hospitalario</span>
                 </div>
-                <p class="text-[10px] text-slate-500 font-medium">Versión 2.5.0 Stable &bull; Actualizado Ene 2026</p>
+                <p class="text-[10px] text-slate-500 font-medium">Versión 1.0.0 Stable &bull; Actualizado Ene 2026</p>
             </div>
 
             <!-- Documentation (Center) -->
