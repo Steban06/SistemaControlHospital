@@ -15,15 +15,13 @@ class DashboardController extends Controller
         $bienesDanados = BN::where('estado', 'Fuera de servicio')->count();
         $bienesDesincorporados = BN::where('estado', 'Desincorporado')->count();
 
-        // --- Data for Curve Chart (Tendencias Mensuales - Last 6 Months) ---
-        // --- Data for Curve Chart (Tendencias Mensuales - Full History) ---
+        // --- Data for Curve Chart (Últimos 6 Meses) ---
         $curveChartData = [['Mes', 'Altas', 'Bajas']];
         
-        // Find the date of the first record or default to 6 months ago if empty
-        $firstRecord = BN::orderBy('created_at', 'asc')->first();
-        $startDate = $firstRecord ? \Carbon\Carbon::parse($firstRecord->created_at)->startOfMonth() : \Carbon\Carbon::now()->subMonths(6)->startOfMonth();
+        // Calcular los últimos 6 meses incluyendo el mes actual
         $endDate = \Carbon\Carbon::now()->endOfMonth();
-
+        $startDate = \Carbon\Carbon::now()->subMonths(5)->startOfMonth(); // 5 meses atrás + actual = 6 meses
+        
         $currentDate = $startDate->copy();
 
         while ($currentDate <= $endDate) {

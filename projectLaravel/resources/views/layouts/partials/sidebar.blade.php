@@ -56,33 +56,15 @@
             <i class="fa-solid fa-circle-user"></i>
         </div>
         <div class="name-job">
-            <div class="name">
-                @auth
-                    {{ Auth::user()->name ?? 'Usuario' }}
-                @else
-                    Invitado
-                @endauth
-            </div>
-            <div class="job">
-                @auth
-                    {{ Auth::user()->email ?? 'Usuario' }}
-                @else
-                    No autenticado
-                @endauth
-            </div>
+            <div class="name">Admin Demo</div>
+            <div class="job">admin@hospital.com</div>
         </div>
-        @auth
-            <form method="POST" action="{{ route('logout') }}" class="inline">
-                @csrf
-                <button type="submit" class="inline-block">
-                    <i class="fa-solid fa-arrow-right-from-bracket" id="log-out" title="Cerrar sesión"></i>
-                </button>
-            </form>
-        @else
-            <a href="#">
-                <i class="fa-solid fa-arrow-right-from-bracket" id="log-out" title="Iniciar sesión"></i>
-            </a>
-        @endauth
+        <form method="POST" action="{{ route('logout') }}" class="inline">
+            @csrf
+            <button type="submit" class="inline-block bg-transparent border-0 p-0 cursor-pointer">
+                <i class="fa-solid fa-arrow-right-from-bracket" id="log-out" title="Cerrar sesión"></i>
+            </button>
+        </form>
     </div>
 </div>
 

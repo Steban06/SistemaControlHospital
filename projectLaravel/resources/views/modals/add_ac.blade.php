@@ -12,7 +12,7 @@
 
     <!-- Modal Container con Flexbox -->
     <div role="dialog" id="radix-:add-ac-modal:" 
-        class="bg-white fixed top-[50%] left-[50%] z-[100000] flex flex-col translate-x-[-50%] translate-y-[-50%] rounded-xl border shadow-2xl duration-200 sm:max-w-5xl w-[95vw] max-h-[90vh]" 
+        class="bg-white dark:bg-gray-800 fixed top-[50%] left-[50%] z-[100000] flex flex-col translate-x-[-50%] translate-y-[-50%] rounded-xl border dark:border-gray-700 shadow-2xl duration-200 sm:max-w-5xl w-[95vw] max-h-[90vh]" 
         tabindex="-1" style="pointer-events: auto; z-index: 100000;" onclick="event.stopPropagation()">
 
         <!-- Close Button (X) - FIJO -->
@@ -22,10 +22,10 @@
         </button>
 
         <!-- HEADER FIJO -->
-        <div class="flex-shrink-0 px-6 pt-6 pb-4 border-b border-gray-200">
+        <div class="flex-shrink-0 px-6 pt-6 pb-4 border-b border-gray-200 dark:border-gray-700">
             <div class="flex flex-col gap-1 text-center sm:text-left">
-                <h2 class="font-bold text-xl text-gray-900 pr-8">Agregar Nuevo Aire Acondicionado</h2>
-                <p class="text-sm text-gray-500">Complete la información técnica y administrativa del equipo de climatización.</p>
+                <h2 class="font-bold text-xl text-gray-900 dark:text-gray-100 pr-8">Agregar Nuevo Aire Acondicionado</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Complete la información técnica y administrativa del equipo de climatización.</p>
             </div>
         </div>
 
@@ -36,15 +36,15 @@
             
                 <!-- Section 1: Identificación del Equipo -->
                 <div class="mb-6">
-                    <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-4 flex items-center gap-2">
-                        <span class="bg-blue-100 text-blue-900 rounded-full w-6 h-6 flex items-center justify-center text-xs">1</span>
+                    <h3 class="text-sm font-bold text-blue-900 dark:text-blue-300 uppercase tracking-wide mb-4 flex items-center gap-2">
+                        <span class="bg-blue-100 dark:bg-blue-900/50 text-blue-900 dark:text-blue-300 rounded-full w-6 h-6 flex items-center justify-center text-xs">1</span>
                         Identificación del Equipo
                     </h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold uppercase text-gray-700" for="codigo">Código (BN) <span class="text-red-500">*</span></label>
-                            <input name="numero_bn" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="codigo" placeholder="Ej: AC-2026-0001" required>
+                            <label class="text-xs font-semibold uppercase text-gray-700 dark:text-gray-300" for="codigo">Código (BN) <span class="text-red-500">*</span></label>
+                            <input name="numero_bn" class="flex h-10 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm placeholder:text-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="codigo" placeholder="Ej: AC-2026-0001" required>
                         </div>
 
                         <div class="space-y-1.5">

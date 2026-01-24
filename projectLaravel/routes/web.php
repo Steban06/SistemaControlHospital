@@ -5,8 +5,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BNController;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('login');
+})->name('login');
+
+Route::post('/login', function () {
+    return redirect()->route('inicio');
+})->name('login.post');
+
+Route::any('/logout', function () {
+    return redirect()->route('login');
+})->name('logout');
 
 use App\Http\Controllers\DashboardController;
 

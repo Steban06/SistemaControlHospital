@@ -1,17 +1,17 @@
-<aside class="-translate-x-full lg:translate-x-0 fixed lg:static inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-blue-900 to-blue-800 text-white transition-transform duration-300 flex flex-col">
-    <div class="p-4 lg:p-6 border-b border-blue-700">
+<aside class="-translate-x-full lg:translate-x-0 fixed lg:static inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-blue-900 to-blue-800 dark:from-gray-900 dark:to-gray-950 text-white transition-transform duration-300 flex flex-col dark:border-r dark:border-gray-800">
+    <div class="p-4 lg:p-6 border-b border-blue-700 dark:border-gray-800">
         <div class="flex items-center justify-between lg:justify-start gap-3 mb-4 ">
-            <div class="bg-blue-800 p-2 rounded-lg">
+            <div class="bg-blue-800 dark:bg-gray-800 p-2 rounded-lg">
                 <img src="{{ asset('images/svg/virgen-compact.svg') }}" alt="Hospital Logo" class="w-10 h-10 lg:w-16 lg:h-16 object-contain">
             </div>
 
             <div class="flex-1">
                 <h1 class="font-bold text-base lg:text-lg">Hospital</h1>
-                <p class="text-xs text-blue-200">Virgen del Valle</p>
+                <p class="text-xs text-blue-200 dark:text-gray-400">Virgen del Valle</p>
             </div>
 
             <button data-slot="button"
-                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 lg:hidden text-white hover:bg-blue-800">
+                class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 lg:hidden text-white hover:bg-blue-800 dark:hover:bg-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x w-5 h-5">
@@ -25,8 +25,9 @@
     <!-- sidebar navegacion botones de redireccioanmiento -->
     <?php
     $current_page = basename($_SERVER['PHP_SELF']);
-    $active_class = 'bg-white text-blue-900 shadow-lg';
-    $inactive_class = 'text-blue-100 hover:bg-blue-800';
+    // Updated classes for dark mode support
+    $active_class = 'bg-white text-blue-900 shadow-lg dark:bg-blue-600 dark:text-white dark:shadow-none';
+    $inactive_class = 'text-blue-100 hover:bg-blue-800 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200';
     ?>
     <nav class="flex-1 p-3 lg:p-4 space-y-1 lg:space-y-2 overflow-y-auto">
         <a href="{{ route('inicio') }}" class="w-full flex items-center gap-3 px-3 lg:px-4 py-2.5 lg:py-3 rounded-lg transition-all text-sm lg:text-base {{ request()->routeIs('inicio') ? $active_class : $inactive_class }}">
@@ -102,27 +103,30 @@
         </a>
     </nav>
 
-    <div class="p-3 lg:p-4 border-t border-blue-700">
-        <div class="bg-blue-800 rounded-lg p-3 mb-3">
+    <div class="p-3 lg:p-4 border-t border-blue-700 dark:border-gray-800">
+        <div class="bg-blue-800 dark:bg-gray-800 rounded-lg p-3 mb-3">
             <div class="flex items-center gap-2 mb-2">
                 <svg
-                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user w-4 h-4 flex-shrink-0">
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user w-4 h-4 flex-shrink-0 text-white">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                <span class="text-sm font-medium truncate">admin</span>
+                <span class="text-sm font-medium truncate text-white">Admin Demo</span>
             </div>
-            <span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&amp;]:hover:bg-primary/90 bg-blue-600 text-white text-xs">
+            <span data-slot="badge" class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&amp;]:hover:bg-primary/90 bg-blue-600 dark:bg-blue-700 text-white text-xs">
                 administrador
             </span>
         </div>
-        <button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-accent/50 h-9 px-4 py-2 has-[&gt;svg]:px-3 w-full text-blue-100 hover:bg-blue-800 hover:text-white text-sm">
-            <svg
-                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out w-4 h-4 mr-2">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16 17 21 12 16 7"></polyline>
-                <line x1="21" x2="9" y1="12" y2="12"></line>
-            </svg>Cerrar Sesión
-        </button>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-gray-800 h-9 px-4 py-2 has-[&gt;svg]:px-3 w-full text-blue-100 hover:bg-blue-800 hover:text-white dark:text-gray-400 dark:hover:text-white text-sm cursor-pointer">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out w-4 h-4 mr-2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" x2="9" y1="12" y2="12"></line>
+                </svg>Cerrar Sesión
+            </button>
+        </form>
     </div>
 </aside>
