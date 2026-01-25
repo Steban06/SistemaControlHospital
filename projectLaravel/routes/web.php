@@ -21,9 +21,14 @@ use App\Http\Controllers\DashboardController;
 // Route::get('/inicio', [DashboardController::class, 'index'])->name('inicio');
 Route::get('/inicio', DashboardController::class)->name('inicio');
 
-Route::get('/reportes', function () {
-    return view('reportes');
-})->name('reportes');
+use App\Http\Controllers\ReportesController;
+
+Route::get('/reportes', [ReportesController::class, 'index'])->name('reportes');
+Route::get('/reportes/general', [ReportesController::class, 'reporteGeneral'])->name('reportes.general');
+Route::get('/reportes/aires', [ReportesController::class, 'reporteAires'])->name('reportes.aires');
+Route::get('/reportes/analitico', [ReportesController::class, 'reporteAnalitico'])->name('reportes.analitico');
+Route::get('/reportes/{tipo}/pdf', [ReportesController::class, 'generarPDF'])->name('reportes.pdf');
+Route::post('/reportes/custom', [ReportesController::class, 'generarReportePersonalizado'])->name('reportes.custom');
 
 Route::get('/bienes-nacionales', [BNController::class, 'index'])->name('bienes-nacionales.index');
 Route::post('/bienes-nacionales', [BNController::class, 'store'])->name('bienes-nacionales.store');
