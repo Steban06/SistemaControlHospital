@@ -7,28 +7,69 @@ const ModalManager = (function () {
 
     function openModal(modal) {
         if (!modal) return;
-        // Soporte para modales Tailwind (hidden) y modales antiguos (.active)
-        if (modal.classList.contains('hidden')) {
-            modal.classList.remove('hidden');
+        
+        // Remove hidden class first
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+
+        // Get elements
+        const backdrop = modal.querySelector('div[class*="fixed inset-0 bg-black"]');
+        const content = modal.querySelector('[role="dialog"]');
+
+        if (backdrop && content) {
+            // Sequential Animation: Backdrop first
+            // Ensure base transition classes are present
+           
+            // Frame 1: Show Backdrop
+            requestAnimationFrame(() => {
+                backdrop.classList.remove('opacity-0');
+                backdrop.classList.add('opacity-100');
+                
+                // Frame 2: Show Content after slight delay
+                setTimeout(() => {
+                    content.classList.remove('opacity-0', 'scale-95');
+                    content.classList.add('opacity-100', 'scale-100');
+                }, 150); // Wait for backdrop to start fading in
+            });
         } else {
+             // Fallback for old modals or simple toggles
             modal.classList.add('active');
         }
-        document.body.style.overflow = 'hidden';
     }
 
     function closeModal(modal) {
         if (!modal) return;
-        // Soporte para modales Tailwind (hidden) y modales antiguos (.active)
-        if (modal.classList.contains('hidden') === false && !modal.classList.contains('modal-overlay')) {
-            // Es un modal Tailwind, agregar hidden
-            modal.classList.add('hidden');
+
+        const backdrop = modal.querySelector('div[class*="fixed inset-0 bg-black"]');
+        const content = modal.querySelector('[role="dialog"]');
+
+        if (backdrop && content) {
+            // Sequential Animation: Content first
+            content.classList.remove('opacity-100', 'scale-100');
+            content.classList.add('opacity-0', 'scale-95');
+
+            // Wait for content animation then fade out backdrop
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-100');
+                backdrop.classList.add('opacity-0');
+
+                // Wait for backdrop animation then hide modal
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = '';
+                    const form = modal.querySelector('form');
+                    if (form) form.reset();
+                }, 300); // Match backdrop duration
+            }, 200); // Match content duration
+            
         } else {
-            // Es un modal antiguo, remover active
+            // Fallback
             modal.classList.remove('active');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            const form = modal.querySelector('form');
+             if (form) form.reset();
         }
-        document.body.style.overflow = '';
-        const form = modal.querySelector('form');
-        if (form) form.reset();
     }
 
     function attachCloseHandlers() {

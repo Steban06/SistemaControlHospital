@@ -9,29 +9,29 @@
 
 <div id="viewModalOverlay" class="fixed inset-0 z-[99999] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="z-index: 99999;">
     <!-- Overlay Background -->
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity z-[99998]" onclick="closeViewModal()" style="z-index: 99998; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"></div>
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ease-out z-[99998] opacity-0" onclick="closeViewModal()" style="z-index: 99998; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"></div>
 
     <div role="dialog" id="radix-:view-modal:" aria-describedby="radix-:view-desc:" aria-labelledby="radix-:view-title:" data-state="open" data-slot="dialog-content" 
-        class="bg-white fixed top-[50%] left-[50%] z-[100000] grid w-full translate-x-[-50%] translate-y-[-50%] gap-0 rounded-xl border shadow-2xl duration-200 sm:max-w-lg max-h-[90vh] overflow-hidden" tabindex="-1" style="pointer-events: auto; z-index: 100000;">
+        class="bg-white fixed top-[50%] left-[50%] z-[100000] grid w-full translate-x-[-50%] translate-y-[-50%] gap-0 rounded-xl border shadow-2xl duration-300 ease-out sm:max-w-lg max-h-[90vh] overflow-hidden opacity-0 scale-95 transition-all" tabindex="-1" style="pointer-events: auto; z-index: 100000;">
         
         <!-- Header with Solid Background -->
-        <div class="relative bg-blue-900 p-4 flex items-center justify-between text-white shrink-0 z-20" style="background-color: #1e3a8a !important; color: white !important;">
+        <div class="relative bg-white dark:bg-slate-900 p-4 flex items-center justify-between text-gray-900 dark:text-white shrink-0 z-20 border-b border-gray-100 dark:border-slate-800">
             <div class="flex flex-col gap-0.5">
                 <h2 id="radix-:view-title:" class="font-bold text-lg flex items-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-list text-blue-400"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2-2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-list text-blue-600 dark:text-blue-400"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2-2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
                     Ficha Técnica
                 </h2>
-                <p id="radix-:view-desc:" class="text-slate-200 text-xs font-light tracking-wide">
-                    ID: <span class="font-mono font-bold text-white" id="modal-bn-id">BN-2026-0001</span>
+                <p id="radix-:view-desc:" class="text-slate-500 dark:text-slate-400 text-xs font-light tracking-wide">
+                    ID: <span class="font-mono font-bold text-gray-900 dark:text-white" id="modal-bn-id">BN-2026-0001</span>
                 </p>
             </div>
-            <button data-modal-close type="button" class="text-slate-400 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-1.5 rounded-full backdrop-blur-sm cursor-pointer">
+            <button data-modal-close type="button" class="text-slate-400 hover:text-gray-900 dark:hover:text-white transition-colors bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 p-1.5 rounded-full backdrop-blur-sm cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             </button>
         </div>
 
         <!-- Main Content (Stacked) -->
-        <div class="flex flex-col h-full overflow-y-auto max-h-[calc(90vh-130px)] bg-slate-50/50">
+        <div class="flex flex-col h-full overflow-y-auto overflow-x-hidden max-h-[calc(90vh-130px)] bg-slate-50/50">
             <!-- Top Section: Image & Basic Info -->
             <div class="bg-white p-4 border-b border-gray-100 flex gap-4 items-start">
                 <div class="w-20 h-20 bg-slate-100 rounded-lg flex items-center justify-center shrink-0 border border-gray-200">
@@ -52,7 +52,8 @@
             </div>
 
             <!-- Quick Actions -->
-            <div class="grid grid-cols-2 gap-px bg-gray-200 border-b border-gray-200">
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-3 gap-px bg-gray-200 border-b border-gray-200">
                 <button id="btnEditFromView" class="flex items-center justify-center gap-2 py-2 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-blue-600 transition-colors w-full h-full">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pencil shrink-0"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>
                     Editar Bien
@@ -60,6 +61,10 @@
                 <button onclick="printAssetTag()" class="flex items-center justify-center gap-2 py-2 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-blue-600 transition-colors w-full h-full">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-printer shrink-0"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
                     Imprimir Etiqueta
+                </button>
+                <button onclick="viewAssetHistory()" class="flex items-center justify-center gap-2 py-2 text-xs font-medium text-gray-600 bg-white hover:bg-gray-50 hover:text-blue-600 transition-colors w-full h-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history shrink-0"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+                    Historial
                 </button>
             </div>
 
@@ -94,28 +99,14 @@
                     </div>
                 </div>
 
-                 <!-- Financial -->
-                 <div>
-                    <h4 class="text-xs font-bold text-gray-900 mb-2">Datos Financieros</h4>
-                    <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-gray-100">
-                        <div>
-                            <p class="text-[10px] text-gray-500">Valor Libro</p>
-                            <p class="text-base font-bold text-gray-900">$0.00</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-[10px] text-gray-500">Valor Compra</p>
-                            <p class="text-sm text-gray-600 strike-through decoration-gray-400">$0.00</p>
-                        </div>
-                    </div>
-                 </div>
+                
 
             </div>
         </div>
 
         <!-- Footer -->
-        <div data-slot="dialog-footer" class="p-3 bg-gray-50 border-t flex justify-between items-center shrink-0">
-            <button data-modal-cancel type="button" class="text-xs text-gray-500 hover:text-gray-800 underline">
-            <button onclick="closeViewModal()" class="px-3 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:border-red-600 hover:text-red-600 transition-colors modal-close_btn">
+        <div data-slot="dialog-footer" class="p-3 bg-gray-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 flex justify-between items-center shrink-0 w-full">
+            <button onclick="closeViewModal()" class="px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-md shadow-sm hover:border-red-600 hover:text-red-600 transition-colors modal-close_btn">
                 Cerrar
             </button>
             <button class="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 shadow-sm transition-colors flex items-center gap-1.5">

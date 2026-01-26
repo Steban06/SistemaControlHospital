@@ -290,9 +290,15 @@
     <!-- Modal Editar Bien -->
     @include('layouts.partials.modal-edit-bien')
 
+    <!-- Modal Historial Bien -->
+    @include('layouts.partials.modal-history-bien')
+
     <script>
+        let currentBien = null; // Store current asset for history navigation
+
         function openViewModal(bien) {
             if (!bien) return;
+            currentBien = bien; // Save state
             
             // Helper to safely set text
             const setText = (id, val) => {
@@ -424,6 +430,40 @@
             } else if (overlay) {
                 // Fallback si ModalManager no está disponible
                 overlay.classList.add('hidden');
+            }
+        }
+
+        function viewAssetHistory() {
+            closeViewModal();
+            
+            // Populate History Header if needed
+            if (currentBien) {
+                const subtitle = document.getElementById('history_bien_subtitle');
+                if (subtitle) {
+                    subtitle.textContent = `Historial completo de: ${currentBien.nombre} (${currentBien.numero_bn})`;
+                }
+            }
+
+            // Open History Modal using ModalManager
+            setTimeout(() => {
+                const historyModal = document.getElementById('historyBienModal');
+                if (historyModal && ModalManager) {
+                    ModalManager.openModal(historyModal);
+                }
+            }, 300); // Wait for close animation
+        }
+
+        function closeHistoryModal() {
+            const historyModal = document.getElementById('historyBienModal');
+            if (historyModal && ModalManager) {
+                ModalManager.closeModal(historyModal);
+            }
+
+            // Re-open View Modal if we have state
+            if (currentBien) {
+                setTimeout(() => {
+                    openViewModal(currentBien);
+                }, 400); // 300ms close animation + buffer
             }
         }
     </script>
