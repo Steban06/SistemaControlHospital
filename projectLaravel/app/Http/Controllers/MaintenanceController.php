@@ -14,7 +14,28 @@ class MaintenanceController extends Controller
         $correctivos = 4;
         $esteMes = 3;
 
-        // Datos de ejemplo para la lista
+        // Fetch assets
+        $bienes = \App\Models\BN::all()->map(function($item) {
+            return (object)[
+                'id' => $item->id,
+                'name' => $item->nombre,
+                'code' => $item->numero_bn,
+                'type' => 'Bien Nacional'
+            ];
+        });
+
+        $aires = \App\Models\AirAcond::all()->map(function($item) {
+            return (object)[
+                'id' => $item->id,
+                'name' => $item->nombre_aa,
+                'code' => $item->numero_bn,
+                'type' => 'Aire Acondicionado'
+            ];
+        });
+
+        $assets = $bienes->concat($aires)->sortBy('name')->values();
+
+        // Datos de ejemplo para la lista (Mantener por ahora)
         $mantenimientos = [
             (object)[
                 'id' => 1,
@@ -25,33 +46,7 @@ class MaintenanceController extends Controller
                 'tecnico' => 'Juan Pérez',
                 'costo' => 150.00
             ],
-            (object)[
-                'id' => 2,
-                'codigo_bien' => 'BN-2023-0156',
-                'nombre_bien' => 'Monitor LG 27"',
-                'tipo' => 'correctivo',
-                'fecha_realizada' => '2026-01-14',
-                'tecnico' => 'María González',
-                'costo' => 120.00
-            ],
-            (object)[
-                'id' => 3,
-                'codigo_bien' => 'BN-2024-0045',
-                'nombre_bien' => 'Equipo de Ultrasonido',
-                'tipo' => 'preventivo',
-                'fecha_realizada' => '2026-01-09',
-                'tecnico' => 'Carlos Ruiz',
-                'costo' => 450.00
-            ],
-            (object)[
-                'id' => 4,
-                'codigo_bien' => 'BN-2022-0089',
-                'nombre_bien' => 'Impresora HP LaserJet',
-                'tipo' => 'correctivo',
-                'fecha_realizada' => '2026-01-07',
-                'tecnico' => 'Luis Martínez',
-                'costo' => null
-            ],
+            // ... (keep logic if needed, or just keep minimal example)
         ];
 
         return view('mantenimiento', compact(
@@ -59,7 +54,8 @@ class MaintenanceController extends Controller
             'preventivos',
             'correctivos',
             'esteMes',
-            'mantenimientos'
+            'mantenimientos',
+            'assets'
         ));
     }
 }
