@@ -22,11 +22,13 @@
                     Ficha Técnica
                 </h2>
                 <p id="radix-:view-desc:" class="text-slate-500 dark:text-slate-400 text-xs font-light tracking-wide">
-                    ID: <span class="font-mono font-bold text-gray-900 dark:text-white" id="modal-bn-id">BN-2026-0001</span>
+                    <span class="text-[10px] text-gray-500 uppercase font-semibold">ID:</span> <span class="text-[10px] text-gray-500 uppercase font-semibold" id="modal-bn-id">1</span>
+                    <span class="text-[10px] text-gray-500 uppercase font-semibold">#BN: </span><span class="text-[10px] text-gray-500 uppercase font-semibold" id="modal-bn-numero">0000000</span>
                 </p>
             </div>
-            <button data-modal-close type="button" class="text-slate-400 hover:text-gray-900 dark:hover:text-white transition-colors bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 p-1.5 rounded-full backdrop-blur-sm cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            <button data-modal-close type="button" class="cursor-pointer absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none p-1 hover:bg-gray-100 hover:text-red-500 z-50 btn-color-red">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-5 w-5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <span class="sr-only">Close</span>
             </button>
         </div>
 
@@ -39,13 +41,13 @@
                 </div>
                 <div class="flex-1 min-w-0">
                     <h3 class="font-bold text-gray-900 text-base leading-tight mb-1" id="modal-bn-nombre">Monitor Multiparámetro</h3>
-                    <p class="text-xs text-gray-500 mb-2" id="modal-bn-desc">Philips / IntelliVue MX40</p>
+                    <p class="text-sm text-gray-700 mb-2" id="modal-bn-desc"></p>
                     <div class="flex items-center gap-2">
                         <span class="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium text-emerald-700" id="modal-bn-estado-badge">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
                             <span id="modal-bn-estado">Operativo</span>
                         </span>
-                        <span class="text-[10px] text-gray-400 font-mono" id="modal-bn-serial">PH-MX40-998877</span>
+                        {{-- <span class="text-[10px] text-gray-400 font-mono" id="modal-bn-serial">PH-MX40-998877</span> --}}
                     </div>
                 </div>
                  <img src="" id="modal-qr-code" alt="QR Code" class="w-12 h-12 mix-blend-multiply opacity-80">
@@ -76,21 +78,21 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin text-blue-600"><path d="M20 10c0 6-9 13-9 13s-9-7-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                     </div>
                     <div class="flex-1">
-                        <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold mb-0.5">Ubicación</p>
+                        <p class="text-[10px] text-gray-500 uppercase font-semibold">Ubicación</p>
                         <p class="text-sm font-medium text-gray-900" id="modal-bn-area">UCI - Unidad de Cuidados Intensivos</p>
                         <!-- <p class="text-xs text-gray-500">Piso 2, Ala Norte</p> -->
                         
-                        <div class="mt-2 pt-2 border-t border-gray-50 flex items-center gap-2">
-                            <!-- <div class="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] font-bold text-indigo-700">JL</div> -->
-                            <!-- <span class="text-xs text-gray-600">Responsable: <span class="font-medium text-gray-900">Dr. Juan López</span></span> -->
-                        </div>
+                        {{-- <div class="mt-2 pt-2 border-t border-gray-50 flex items-center gap-2">
+                            <div class="w-5 h-5 rounded-full bg-indigo-100 flex items-center justify-center text-[10px] font-bold text-indigo-700">JL</div>
+                            <span class="text-xs text-gray-600">Responsable: <span class="font-medium text-gray-900">Dr. Juan López</span></span>
+                        </div> --}}
                     </div>
                 </div>
 
                 <!-- More Info -->
                 <div class="grid grid-cols-2 gap-4">
                     <div class="bg-white p-3 rounded-lg border border-gray-100">
-                         <p class="text-[10px] text-gray-500 uppercase font-semibold mb-1">Adquisición</p>
+                         <p class="text-[10px] text-gray-500 uppercase font-semibold mb-1">Fecha de registro</p>
                          <p class="text-sm font-medium text-gray-900" id="modal-bn-fecha">15 Ene, 2024</p>
                     </div>
                     <div class="bg-white p-3 rounded-lg border border-gray-100">
@@ -106,7 +108,7 @@
 
         <!-- Footer -->
         <div data-slot="dialog-footer" class="p-3 bg-gray-50 dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 flex justify-between items-center shrink-0 w-full">
-            <button onclick="closeViewModal()" class="px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-md shadow-sm hover:border-red-600 hover:text-red-600 transition-colors modal-close_btn">
+            <button onclick="closeViewModal()" class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 shadow-sm bg-background hover:text-red-600 hover:border-red-500 h-10 px-4 py-2 w-full sm:w-auto modal-close_btn">
                 Cerrar
             </button>
             <button class="px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 shadow-sm transition-colors flex items-center gap-1.5">

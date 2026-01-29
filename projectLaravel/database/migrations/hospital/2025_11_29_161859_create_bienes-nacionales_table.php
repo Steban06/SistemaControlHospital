@@ -38,13 +38,15 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('reportes', function (Blueprint $table) {
+        Schema::create('reportes_bn', function (Blueprint $table) {
             $table->id();
             $table->foreignId('bienes_nacional_id')->constrained('bienes_nacionales')->onDelete('cascade');
             $table->string('titulo');
             $table->text('descripcion')->nullable();
             $table->enum('tipo', ['FALLA', 'MANTENIMIENTO', 'OTRO'])->default('FALLA');
             $table->enum('estado', ['Operativo', 'Dañado', 'En reparación', 'Desincorporado'])->default('Operativo');
+            $table->string('usuario_nombre');
+            $table->date('fecha_reporte');
             $table->timestamps();
             $table->softDeletes();
         });

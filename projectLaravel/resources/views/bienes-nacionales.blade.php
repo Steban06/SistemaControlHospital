@@ -306,10 +306,10 @@
                 if (el) el.textContent = val;
             };
 
-            setText('modal-bn-id', bien.numero_bn);
+            setText('modal-bn-id', bien.id);
+            setText('modal-bn-numero', bien.numero_bn);
             setText('modal-bn-nombre', bien.nombre);
-            setText('modal-bn-desc', (bien.marca || '') + ' ' + (bien.modelo || ''));
-            setText('modal-bn-serial', bien.serial || 'S/N');
+            setText('modal-bn-desc', (bien.marca ? `Marca: ${bien.marca}` : 'Sin marca') + ' | ' + (bien.modelo ? `Modelo: ${bien.modelo}` : 'Sin modelo') + ' | ' + (bien.serial ? `Serial: ${bien.serial}` : 'Sin serial'));
             
             // Relations
             setText('modal-bn-area', bien.area ? bien.area.descripcion : 'N/A');
@@ -318,7 +318,7 @@
             // Date
             if (bien.created_at) {
                 const date = new Date(bien.created_at);
-                setText('modal-bn-fecha', date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' }));
+                setText('modal-bn-fecha', date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }));
             }
 
             // Status Styling
@@ -433,25 +433,221 @@
             }
         }
 
+        // function viewAssetHistory() {
+        //     closeViewModal();
+            
+        //     // Populate History Header if needed
+        //     if (currentBien) {
+        //         const subtitle = document.getElementById('history_bien_subtitle');
+        //         if (subtitle) {
+        //             subtitle.textContent = `Historial completo de: ${currentBien.nombre} (${currentBien.numero_bn})`;
+        //         }
+
+        //         fetch(`{{ url('bienes-nacionales/history') }}/${currentBien.id}`)
+        //             .then(response => response.json())
+        //             .then(data => {
+        //                 const historyBody = document.getElementById('history_bien_list');
+        //                 console.log(data.history);
+                        
+        //                 if (historyBody) {
+        //                     historyBody.innerHTML = ''; // Limpiar lista
+
+        //                     const estilosPorTipo = {
+        //                         'ASIGNACION':     { border: 'border-l-blue-500',   bgIcon: 'bg-blue-100',   textIcon: 'text-blue-600',   bgBadge: 'bg-blue-100',   textBadge: 'text-blue-700',   borderBadge: 'border-blue-300',   bgDetalle: 'bg-blue-50' },
+        //                         'DESINCORPORADO': { border: 'border-l-slate-500',  bgIcon: 'bg-slate-100',  textIcon: 'text-slate-600',  bgBadge: 'bg-slate-100',  textBadge: 'text-slate-700',  borderBadge: 'border-slate-300',  bgDetalle: 'bg-slate-50' },
+        //                         'FALLA':          { border: 'border-l-red-500',    bgIcon: 'bg-red-100',    textIcon: 'text-red-600',    bgBadge: 'bg-red-100',    textBadge: 'text-red-700',    borderBadge: 'border-red-300',    bgDetalle: 'bg-red-50' },
+        //                         'MANTENIMIENTO':  { border: 'border-l-indigo-500', bgIcon: 'bg-indigo-100', textIcon: 'text-indigo-600', bgBadge: 'bg-indigo-100', textBadge: 'text-indigo-700', borderBadge: 'border-indigo-300', bgDetalle: 'bg-indigo-50' },
+        //                         'REPARACION':     { border: 'border-l-amber-500', bgIcon: 'bg-amber-100', textIcon: 'text-amber-600', bgBadge: 'bg-amber-100', textBadge: 'text-amber-700', borderBadge: 'border-amber-300', bgDetalle: 'bg-amber-50' },
+        //                         'TRASLADO':       { border: 'border-l-emerald-500',bgIcon: 'bg-emerald-100',textIcon: 'text-emerald-600',bgBadge: 'bg-emerald-100',textBadge: 'text-emerald-700',borderBadge: 'border-emerald-300',bgDetalle: 'bg-emerald-50' },
+        //                         'OTRO':           { border: 'border-l-gray-500',   bgIcon: 'bg-gray-100',   textIcon: 'text-gray-600',   bgBadge: 'bg-gray-100',   textBadge: 'text-gray-700',   borderBadge: 'border-gray-300',   bgDetalle: 'bg-gray-50' }
+        //                     };
+
+        //                     data.history.forEach(record => {
+        //                         // 1. Formatear la fecha (evitando el error del día menos)
+        //                         const dateObj = new Date(record.fecha_reporte);
+        //                         const fechaFormateada = dateObj.toLocaleDateString('es-ES', { 
+        //                             day: 'numeric', 
+        //                             month: 'long', 
+        //                             year: 'numeric',
+        //                             timeZone: 'UTC' 
+        //                         });
+
+        //                         // 2. Capitalizar el tipo de movimiento o nombre si es necesario
+        //                         const estilo = estilosPorTipo[record.tipo] || estilosPorTipo['OTRO'];
+        //                         const detalle = record.detalle || 'Sin descripción';
+        //                         const usuario = record.usuario_nombre || 'Sistema';
+
+        //                         // Tipos de movimientos: 'ASIGNACION','DESINCORPORADO','FALLA','MANTENIMIENTO','REPARACION','TRASLADO','OTRO'
+
+        //                         // 3. Inyectar el HTML con las variables ${}
+        //                         historyBody.innerHTML += `
+        //                             <div class="bg-white text-gray-900 flex flex-col gap-4 rounded-xl border border-l-4 ${estilo.border} shadow-sm hover:shadow-md transition-shadow p-6 mb-4">
+        //                                 <div class="grid grid-cols-[1fr_auto] gap-2">
+        //                                     <div class="flex items-start gap-3">
+        //                                         <div class="${estilo.bgIcon} p-2 rounded-full flex-shrink-0">
+        //                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${estilo.textIcon}">
+        //                                                 <path d="M12 20v-6M6 20V10M18 20V4"/>
+        //                                             </svg>
+        //                                         </div>
+        //                                         <div class="min-w-0">
+        //                                             <div class="flex items-center gap-2 mb-1">
+        //                                                 <span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium text-xs ${estilo.bgBadge} ${estilo.textBadge} ${estilo.borderBadge}">
+        //                                                     ${record.tipo}
+        //                                                 </span>
+        //                                                 <span class="text-xs text-gray-500">${fechaFormateada}</span>
+        //                                             </div>
+        //                                             <h4 class="font-semibold text-sm">${record.titulo || 'Actualización de Bien'}</h4>
+        //                                             <p class="text-xs text-gray-600 mt-1">Registrado por: ${record.usuario_nombre || 'Sistema'}</p>
+        //                                         </div>
+        //                                     </div>
+        //                                 </div>
+        //                                 <div class="${estilo.bgDetalle} p-2 rounded border border-opacity-50">
+        //                                     <p class="text-xs text-gray-600 font-medium mb-1">Descripción:</p>
+        //                                     <p class="text-xs text-gray-700">${record.descripcion || 'Sin descripción adicional.'}</p>
+        //                                 </div>
+        //                             </div>`;
+        //                     });
+        //                 }
+        //             })
+        //             .catch(error => {
+        //                 console.error('Error fetching history:', error);
+        //             });
+        //     }
+
+        //     // Open History Modal using ModalManager
+        //     setTimeout(() => {
+        //         const historyModal = document.getElementById('historyBienModal');
+        //         if (historyModal && ModalManager) {
+        //             ModalManager.openModal(historyModal);
+        //         }
+        //     }, 300); // Wait for close animation
+        // }
+
+        let allHistoryData = []; // Aquí guardaremos los datos originales
+
+        // Escuchadores de eventos para los filtros
+        document.getElementById('filter-desde')?.addEventListener('change', applyHistoryFilters);
+        document.getElementById('filter-hasta')?.addEventListener('change', applyHistoryFilters);
+        document.getElementById('filter-tipo')?.addEventListener('change', applyHistoryFilters);
+
+        function applyHistoryFilters() {
+            const desde = document.getElementById('filter-desde').value;
+            const hasta = document.getElementById('filter-hasta').value;
+            const tipo = document.getElementById('filter-tipo').value;
+
+            const filtrados = allHistoryData.filter(record => {
+                // Filtro de tipo
+                const matchesTipo = tipo === "" || record.tipo === tipo;
+                
+                // Filtro de fechas (YYYY-MM-DD)
+                const fechaRec = record.fecha_reporte.split('T')[0];
+                const matchesDesde = desde === "" || fechaRec >= desde;
+                const matchesHasta = hasta === "" || fechaRec <= hasta;
+
+                return matchesTipo && matchesDesde && matchesHasta;
+            });
+
+            renderHistoryCards(filtrados); // Llamamos a la función que dibuja
+        }
+
         function viewAssetHistory() {
             closeViewModal();
             
-            // Populate History Header if needed
             if (currentBien) {
                 const subtitle = document.getElementById('history_bien_subtitle');
                 if (subtitle) {
                     subtitle.textContent = `Historial completo de: ${currentBien.nombre} (${currentBien.numero_bn})`;
                 }
+
+                fetch(`{{ url('bienes-nacionales/history') }}/${currentBien.id}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        allHistoryData = data.history; // <--- GUARDAMOS LOS DATOS
+                        
+                        // Limpiar los inputs de filtro al abrir un nuevo bien
+                        document.getElementById('filter-desde').value = '';
+                        document.getElementById('filter-hasta').value = '';
+                        document.getElementById('filter-tipo').value = '';
+
+                        renderHistoryCards(allHistoryData); // <--- DIBUJAMOS
+                    })
+                    .catch(error => console.error('Error:', error));
             }
 
-            // Open History Modal using ModalManager
             setTimeout(() => {
                 const historyModal = document.getElementById('historyBienModal');
                 if (historyModal && ModalManager) {
                     ModalManager.openModal(historyModal);
                 }
-            }, 300); // Wait for close animation
+            }, 300);
         }
+
+        function renderHistoryCards(dataList) {
+            const historyBody = document.getElementById('history_bien_list');
+            if (!historyBody) return;
+
+            historyBody.innerHTML = ''; 
+
+            const estilosPorTipo = {
+                'ASIGNACION':     { border: 'border-l-blue-500',   bgIcon: 'bg-blue-100',   textIcon: 'text-blue-600',   bgBadge: 'bg-blue-100',   textBadge: 'text-blue-700',   borderBadge: 'border-blue-300',   bgDetalle: 'bg-blue-50' },
+                'DESINCORPORADO': { border: 'border-l-slate-500',  bgIcon: 'bg-slate-100',  textIcon: 'text-slate-600',  bgBadge: 'bg-slate-100',  textBadge: 'text-slate-700',  borderBadge: 'border-slate-300',  bgDetalle: 'bg-slate-50' },
+                'FALLA':          { border: 'border-l-red-500',    bgIcon: 'bg-red-100',    textIcon: 'text-red-600',    bgBadge: 'bg-red-100',    textBadge: 'text-red-700',    borderBadge: 'border-red-300',    bgDetalle: 'bg-red-50' },
+                'MANTENIMIENTO':  { border: 'border-l-indigo-500', bgIcon: 'bg-indigo-100', textIcon: 'text-indigo-600', bgBadge: 'bg-indigo-100', textBadge: 'text-indigo-700', borderBadge: 'border-indigo-300', bgDetalle: 'bg-indigo-50' },
+                'REPARACION':     { border: 'border-l-amber-500',  bgIcon: 'bg-amber-100',  textIcon: 'text-amber-600',  bgBadge: 'bg-amber-100',  textBadge: 'text-amber-700',  borderBadge: 'border-amber-300',  bgDetalle: 'bg-amber-50' },
+                'TRASLADO':       { border: 'border-l-emerald-500',bgIcon: 'bg-emerald-100',textIcon: 'text-emerald-600',bgBadge: 'bg-emerald-100',textBadge: 'text-emerald-700',borderBadge: 'border-emerald-300',bgDetalle: 'bg-emerald-50' },
+                'OTRO':           { border: 'border-l-gray-500',   bgIcon: 'bg-gray-100',   textIcon: 'text-gray-600',   bgBadge: 'bg-gray-100',   textBadge: 'text-gray-700',   borderBadge: 'border-gray-300',   bgDetalle: 'bg-gray-50' }
+            };
+
+            if (dataList.length === 0) {
+                historyBody.innerHTML = '<p class="text-center text-gray-500 py-10 text-sm">No hay registros que coincidan con los filtros.</p>';
+                return;
+            }
+
+            dataList.forEach(record => {
+                const dateObj = new Date(record.fecha_reporte);
+                const fechaFormateada = dateObj.toLocaleDateString('es-ES', { 
+                    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' 
+                });
+
+                const estilo = estilosPorTipo[record.tipo] || estilosPorTipo['OTRO'];
+
+                historyBody.innerHTML += `
+                    <div class="bg-white text-gray-900 flex flex-col gap-4 rounded-xl border border-l-4 ${estilo.border} shadow-sm hover:shadow-md transition-shadow p-6 mb-4">
+                        <div class="grid grid-cols-[1fr_auto] gap-2">
+                            <div class="flex items-start gap-3">
+                                <div class="${estilo.bgIcon} p-2 rounded-full flex-shrink-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${estilo.textIcon}"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium text-xs ${estilo.bgBadge} ${estilo.textBadge} ${estilo.borderBadge}">
+                                            ${record.tipo}
+                                        </span>
+                                        <span class="text-xs text-gray-500">${fechaFormateada}</span>
+                                    </div>
+                                    <h4 class="font-semibold text-sm">${record.titulo || 'Actualización de Bien'}</h4>
+                                    <p class="text-xs text-gray-600 mt-1">Registrado por: ${record.usuario_nombre || 'Sistema'}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="${estilo.bgDetalle} p-2 rounded border border-opacity-50">
+                            <p class="text-xs text-gray-600 font-medium mb-1">Descripción:</p>
+                            <p class="text-xs text-gray-700">${record.descripcion || 'Sin descripción adicional.'}</p>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        document.getElementById('btn-reset-filters')?.addEventListener('click', function() {
+            // 1. Limpiamos los valores de los inputs
+            document.getElementById('filter-desde').value = '';
+            document.getElementById('filter-hasta').value = '';
+            document.getElementById('filter-tipo').value = '';
+
+            // 2. Volvemos a mostrar la lista original completa
+            // Usamos la variable global que ya teníamos: allHistoryData
+            renderHistoryCards(allHistoryData);
+        });
 
         function closeHistoryModal() {
             const historyModal = document.getElementById('historyBienModal');

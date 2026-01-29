@@ -1,4 +1,3 @@
-
 <!-- View History Bien Modal -->
 <div id="historyBienModal" class="fixed inset-0 z-[99999] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="z-index: 99999;">
     <!-- Overlay Background -->
@@ -33,21 +32,28 @@
         <div class="flex-1 overflow-y-auto px-6 py-4">
             
             <!-- Filters -->
-            <div class="space-y-3 py-4 border-b mb-4">
+            <!-- <div class="space-y-3 py-4 border-b mb-4"> -->
+            <div class="space-y-3 pb-4 border-b mb-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div class="space-y-2">
                         <label class="flex items-center gap-2 font-medium text-xs text-gray-700">Desde</label>
-                        <input type="date" class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500">
+                        <input type="date" id="filter-desde" class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500">
                     </div>
                     <div class="space-y-2">
                         <label class="flex items-center gap-2 font-medium text-xs text-gray-700">Hasta</label>
-                        <input type="date" class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500">
+                        <input type="date" id="filter-hasta" class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500">
                     </div>
                     <div class="space-y-2">
                         <label class="flex items-center gap-2 font-medium text-xs text-gray-700">Tipo de Actividad</label>
-                        <select class="flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <select id="filter-tipo" class="flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
                             <option value="">Todos</option>
-                            <!-- Add options here -->
+                            <option value="ASIGNACION">Asignación</option>
+                            <option value="DESINCORPORADO">Desincorporado</option>
+                            <option value="MANTENIMIENTO">Mantenimiento</option>
+                            <option value="REPARACION">Reparación</option>
+                            <option value="TRASLADO">Traslado</option>
+                            <option value="FALLA">Falla</option>
+                            <option value="OTRO">Otro</option>
                         </select>
                     </div>
                 </div>
@@ -56,7 +62,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
                         Descargar PDF
                     </button>
-                    <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-gray-200 bg-white text-gray-700 hover:bg-gray-100 h-8 rounded-md px-3 text-xs shadow-sm">
+                    <button type="button" id="btn-reset-filters" class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-gray-200 bg-white text-gray-700 hover:bg-gray-100 h-8 rounded-md px-3 text-xs shadow-sm">
                         Limpiar Filtros
                     </button>
                 </div>
@@ -64,11 +70,11 @@
 
             <!-- List -->
             <div class="space-y-4">
-                <div class="relative">
+                <div class="relative" id="history_bien_list">
                     <div class="absolute left-4 top-12 w-0.5 h-full bg-gray-200"></div>
                     
                     <!-- Example Card 1 (Static for now as requested format) -->
-                    <div class="bg-white text-gray-900 flex flex-col gap-4 rounded-xl border border-l-4 border-l-blue-500 shadow-sm hover:shadow-md transition-shadow p-6 mb-4">
+                    <!-- <div class="bg-white text-gray-900 flex flex-col gap-4 rounded-xl border border-l-4 border-l-blue-500 shadow-sm hover:shadow-md transition-shadow p-6 mb-4">
                         <div class="grid grid-cols-[1fr_auto] gap-2">
                             <div class="flex items-start gap-3">
                                 <div class="bg-blue-100 p-2 rounded-full flex-shrink-0">
@@ -85,8 +91,7 @@
                             </div>
                         </div>
                         <div class="bg-blue-50 p-2 rounded border border-blue-100"><p class="text-xs text-gray-600 font-medium mb-1">Detalle:</p><p class="text-xs text-gray-700">Ingreso al sistema y asignación a área correspondiente.</p></div>
-                    </div>
-
+                    </div> -->
                 </div>
             </div>
             
