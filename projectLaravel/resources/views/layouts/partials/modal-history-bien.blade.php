@@ -16,7 +16,7 @@
 
         <!-- HEADER FIJO -->
         <div class="flex-shrink-0 px-6 pt-6 pb-4 border-b border-gray-200">
-            <div class="flex flex-col gap-2 text-center sm:text-left">
+            <div class="flex flex-col gap-2 text-center sm:text-left pb-4">
                 <h2 id="history_modal_title" class="font-bold text-xl text-gray-900 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history w-5 h-5 text-blue-600"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M12 7v5l4 2"></path></svg>
                     Historial de Bien Nacional
@@ -26,14 +26,8 @@
                     Historial completo de movimientos y cambios
                 </p>
             </div>
-        </div>
-
-        <!-- BODY CON SCROLL -->
-        <div class="flex-1 overflow-y-auto px-6 py-4">
             
-            <!-- Filters -->
-            <!-- <div class="space-y-3 py-4 border-b mb-4"> -->
-            <div class="space-y-3 pb-4 border-b mb-4">
+            <div class="space-y-3 mb-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div class="space-y-2">
                         <label class="flex items-center gap-2 font-medium text-xs text-gray-700">Desde</label>
@@ -58,16 +52,59 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-red-200 bg-white text-red-600 hover:bg-red-50 h-8 rounded-md px-3 text-xs shadow-sm">
+                    <button id="btn-download-history-pdf" class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 border h-8 rounded-md px-3 text-xs shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
                         Descargar PDF
                     </button>
+                    <script>
+                        (function() {
+                            const btn = document.getElementById('btn-download-history-pdf');
+                            if (!btn) return;
+                            
+                            function updateButtonStyles() {
+                                const isDark = document.documentElement.classList.contains('dark');
+                                if (isDark) {
+                                    btn.style.backgroundColor = '#0f172a';
+                                    btn.style.color = '#f87171';
+                                    btn.style.borderColor = '#7f1d1d';
+                                } else {
+                                    btn.style.backgroundColor = '#ffffff';
+                                    btn.style.color = '#dc2626';
+                                    btn.style.borderColor = '#fecaca';
+                                }
+                            }
+                            
+                            btn.addEventListener('mouseenter', function() {
+                                const isDark = document.documentElement.classList.contains('dark');
+                                if (isDark) {
+                                    this.style.backgroundColor = '#450a0a';
+                                    this.style.color = '#fca5a5';
+                                } else {
+                                    this.style.backgroundColor = '#fef2f2';
+                                }
+                            });
+                            
+                            btn.addEventListener('mouseleave', updateButtonStyles);
+                            
+                            updateButtonStyles();
+                            
+                            // Observar cambios en el tema
+                            const observer = new MutationObserver(updateButtonStyles);
+                            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+                        })();
+                    </script>
                     <button type="button" id="btn-reset-filters" class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-gray-200 bg-white text-gray-700 hover:bg-gray-100 h-8 rounded-md px-3 text-xs shadow-sm">
                         Limpiar Filtros
                     </button>
                 </div>
             </div>
 
+        </div>
+
+        <!-- BODY CON SCROLL -->
+        <div class="flex-1 overflow-y-auto px-6 py-4">
+            <!-- Filters -->
+            <!-- <div class="space-y-3 py-4 border-b mb-4"> -->
             <!-- List -->
             <div class="space-y-4">
                 <div class="relative" id="history_bien_list">

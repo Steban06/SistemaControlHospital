@@ -88,4 +88,50 @@ class BNController extends Controller
             'history' => $historial
         ], 200);
     }
+
+    public function downloadHistoryPDF(Request $request, $id)
+    {
+        $bien = BN::with(['area', 'categoria'])->findOrFail($id);
+        
+        $query = ReportesBN::where('bienes_nacional_id', $id);
+
+        // Aplicar filtros
+        if ($request->filled('desde')) {
+            $query->whereDate('fecha_reporte', '>=', $request->input('desde'));
+        }
+        if ($request->filled('hasta')) {
+            $query->whereDate('fecha_reporte', '<=', $request->input('hasta'));
+        }
+        if ($request->filled('tipo')) {
+            $query->where('tipo', $request->input('tipo'));
+        }
+
+        $historial = $query->orderBy('fecha_reporte', 'desc')->get();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.historial', compact('bien', 'historial'));
+        $pdf->setPaper('a4', 'portrait');
+
+        return $pdf->download("historial_{$bien->numero_bn}.pdf");
+    }
+
+    public function downloadPDF($id)
+    {
+        $bien = BN::with(['area', 'categoria'])->findOrFail($id);
+        
+        // Generar QR en base64 para incrustar en el PDF
+        $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('png')->size(100)->generate($bien->numero_bn);
+        $qrCodeBase64 = 'data:image/png;base64,' . base64_encode($qrCode);
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.detalle-bien', compact('bien', 'qrCodeBase64'));
+        $pdf->setPaper('a4', 'portrait');
+
+        return $pdf->download("detalle_bien_{$bien->numero_bn}.pdf");
+    }
+
+    public function generateQR($id)
+    {
+        $bien = BN::findOrFail($id);
+        $qr = \SimpleSoftwareIO\QrCode\Facades\QrCode::size(150)->generate($bien->numero_bn);
+        return response($qr)->header('Content-Type', 'image/svg+xml');
+    }
 }

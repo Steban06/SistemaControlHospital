@@ -248,6 +248,64 @@
 <script src="{{ asset('js/table-pagination.js') }}"></script>
 <script src="{{ asset('js/modal.js') }}"></script>
 <script>
+    // Fix status badge colors for dark mode
+    (function() {
+        function updateTableBadgeColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const badges = document.querySelectorAll('[data-slot="badge"]');
+            
+            badges.forEach(badge => {
+                const text = badge.textContent.trim();
+                let bgColor, textColor, borderColor;
+                
+                switch(text) {
+                    case 'Operativo':
+                        bgColor = isDark ? 'rgba(6, 78, 59, 0.3)' : '#d1fae5';
+                        textColor = isDark ? '#6ee7b7' : '#047857';
+                        borderColor = isDark ? '#064e3b' : '#a7f3d0';
+                        break;
+                    case 'Fuera de servicio':
+                    case 'Dañado':
+                        bgColor = isDark ? 'rgba(127, 29, 29, 0.3)' : '#fee2e2';
+                        textColor = isDark ? '#fca5a5' : '#b91c1c';
+                        borderColor = isDark ? '#7f1d1d' : '#fecaca';
+                        break;
+                    case 'En reparación':
+                        bgColor = isDark ? 'rgba(120, 53, 15, 0.3)' : '#fef3c7';
+                        textColor = isDark ? '#fcd34d' : '#b45309';
+                        borderColor = isDark ? '#78350f' : '#fde68a';
+                        break;
+                    case 'Desincorporado':
+                        bgColor = isDark ? 'rgba(55, 65, 81, 0.3)' : '#f3f4f6';
+                        textColor = isDark ? '#d1d5db' : '#374151';
+                        borderColor = isDark ? '#4b5563' : '#d1d5db';
+                        break;
+                    default:
+                        return; // No cambiar si no coincide
+                }
+                
+                badge.style.backgroundColor = bgColor;
+                badge.style.color = textColor;
+                badge.style.borderColor = borderColor;
+            });
+        }
+        
+        // Ejecutar al cargar
+        updateTableBadgeColors();
+        
+        // Observar cambios de tema
+        const observer = new MutationObserver(updateTableBadgeColors);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        
+        // Re-aplicar después de que la tabla se actualice (para paginación, filtros, etc.)
+        const tableObserver = new MutationObserver(updateTableBadgeColors);
+        const tableBody = document.querySelector('tbody');
+        if (tableBody) {
+            tableObserver.observe(tableBody, { childList: true, subtree: true });
+        }
+    })();
+</script>
+<script>
     document.addEventListener('DOMContentLoaded', function() {
         // Inicializar el ModalManager con las rutas necesarias
         ModalManager.init({
@@ -321,43 +379,62 @@
                 setText('modal-bn-fecha', date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }));
             }
 
-            // Status Styling
-            const estadoEl = document.getElementById('modal-bn-estado');
+            // Estado Badge
             const badge = document.getElementById('modal-bn-estado-badge');
-            
-            if (estadoEl && badge) {
-                estadoEl.textContent = bien.estado;
+            if (badge) {
+                const estadoText = bien.estado || 'Sin estado';
+                const estadoSpan = document.getElementById('modal-bn-estado');
+                if (estadoSpan) {
+                    estadoSpan.textContent = estadoText;
+                }
+                
                 const dot = badge.querySelector('span');
                 
-                let badgeClass = 'inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium';
-                let dotClass = 'w-1.5 h-1.5 rounded-full mr-1.5';
+                const isDark = document.documentElement.classList.contains('dark');
+                badge.className = 'inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium';
+                
+                let bgColor, textColor, dotColor;
                 
                 switch(bien.estado) {
                     case 'Operativo':
-                        badgeClass += ' bg-emerald-100 text-emerald-700';
-                        dotClass += ' bg-emerald-500';
+                        bgColor = isDark ? 'rgba(6, 78, 59, 0.3)' : '#d1fae5';
+                        textColor = isDark ? '#6ee7b7' : '#047857';
+                        dotColor = isDark ? '#10b981' : '#059669';
                         break; 
                     case 'Fuera de servicio':
-                        badgeClass += ' bg-red-100 text-red-700';
-                        dotClass += ' bg-red-500';
+                        bgColor = isDark ? 'rgba(127, 29, 29, 0.3)' : '#fee2e2';
+                        textColor = isDark ? '#fca5a5' : '#b91c1c';
+                        dotColor = isDark ? '#ef4444' : '#dc2626';
                         break;
                     case 'En reparación':
-                        badgeClass += ' bg-amber-100 text-amber-700';
-                        dotClass += ' bg-amber-500';
+                        bgColor = isDark ? 'rgba(120, 53, 15, 0.3)' : '#fef3c7';
+                        textColor = isDark ? '#fcd34d' : '#b45309';
+                        dotColor = isDark ? '#f59e0b' : '#d97706';
+                        break;
+                    case 'Dañado':
+                        bgColor = isDark ? 'rgba(127, 29, 29, 0.3)' : '#fee2e2';
+                        textColor = isDark ? '#fca5a5' : '#b91c1c';
+                        dotColor = isDark ? '#ef4444' : '#dc2626';
                         break;
                     default: 
-                        badgeClass += ' bg-gray-100 text-gray-700';
-                        dotClass += ' bg-gray-500';
+                        bgColor = isDark ? 'rgba(31, 41, 55, 0.3)' : '#f3f4f6';
+                        textColor = isDark ? '#d1d5db' : '#374151';
+                        dotColor = isDark ? '#9ca3af' : '#6b7280';
                 }
                 
-                badge.className = badgeClass;
-                if (dot) dot.className = dotClass;
+                badge.style.backgroundColor = bgColor;
+                badge.style.color = textColor;
+                
+                if (dot) {
+                    dot.className = 'w-1.5 h-1.5 rounded-full mr-1.5';
+                    dot.style.backgroundColor = dotColor;
+                }
             }
 
             // QR Code
             const qrEl = document.getElementById('modal-qr-code');
-            if (qrEl && bien.numero_bn) {
-                qrEl.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + bien.numero_bn;
+            if (qrEl && bien.id) {
+                qrEl.src = '{{ url("bienes-nacionales") }}/' + bien.id + '/qr';
             }
 
             // Populate Edit Button for ModalManager
@@ -588,18 +665,77 @@
 
             historyBody.innerHTML = ''; 
 
+            // Definir colores con CSS inline para garantizar que siempre se apliquen
+            const isDark = document.documentElement.classList.contains('dark');
+            
             const estilosPorTipo = {
-                'ASIGNACION':     { border: 'border-l-blue-500',   bgIcon: 'bg-blue-100',   textIcon: 'text-blue-600',   bgBadge: 'bg-blue-100',   textBadge: 'text-blue-700',   borderBadge: 'border-blue-300',   bgDetalle: 'bg-blue-50' },
-                'DESINCORPORADO': { border: 'border-l-slate-500',  bgIcon: 'bg-slate-100',  textIcon: 'text-slate-600',  bgBadge: 'bg-slate-100',  textBadge: 'text-slate-700',  borderBadge: 'border-slate-300',  bgDetalle: 'bg-slate-50' },
-                'FALLA':          { border: 'border-l-red-500',    bgIcon: 'bg-red-100',    textIcon: 'text-red-600',    bgBadge: 'bg-red-100',    textBadge: 'text-red-700',    borderBadge: 'border-red-300',    bgDetalle: 'bg-red-50' },
-                'MANTENIMIENTO':  { border: 'border-l-indigo-500', bgIcon: 'bg-indigo-100', textIcon: 'text-indigo-600', bgBadge: 'bg-indigo-100', textBadge: 'text-indigo-700', borderBadge: 'border-indigo-300', bgDetalle: 'bg-indigo-50' },
-                'REPARACION':     { border: 'border-l-amber-500',  bgIcon: 'bg-amber-100',  textIcon: 'text-amber-600',  bgBadge: 'bg-amber-100',  textBadge: 'text-amber-700',  borderBadge: 'border-amber-300',  bgDetalle: 'bg-amber-50' },
-                'TRASLADO':       { border: 'border-l-emerald-500',bgIcon: 'bg-emerald-100',textIcon: 'text-emerald-600',bgBadge: 'bg-emerald-100',textBadge: 'text-emerald-700',borderBadge: 'border-emerald-300',bgDetalle: 'bg-emerald-50' },
-                'OTRO':           { border: 'border-l-gray-500',   bgIcon: 'bg-gray-100',   textIcon: 'text-gray-600',   bgBadge: 'bg-gray-100',   textBadge: 'text-gray-700',   borderBadge: 'border-gray-300',   bgDetalle: 'bg-gray-50' }
+                'ASIGNACION': {
+                    borderColor: '#3b82f6',
+                    bgIcon: isDark ? 'rgba(30, 58, 138, 0.5)' : '#dbeafe',
+                    textIcon: isDark ? '#93c5fd' : '#2563eb',
+                    bgBadge: isDark ? 'rgba(30, 58, 138, 0.5)' : '#dbeafe',
+                    textBadge: isDark ? '#93c5fd' : '#1d4ed8',
+                    borderBadge: isDark ? '#1e3a8a' : '#93c5fd',
+                    bgDetalle: isDark ? 'rgba(30, 58, 138, 0.2)' : '#eff6ff'
+                },
+                'DESINCORPORADO': {
+                    borderColor: '#8b5cf6',
+                    bgIcon: isDark ? 'rgba(76, 29, 149, 0.5)' : '#ede9fe',
+                    textIcon: isDark ? '#c4b5fd' : '#7c3aed',
+                    bgBadge: isDark ? 'rgba(76, 29, 149, 0.5)' : '#ede9fe',
+                    textBadge: isDark ? '#c4b5fd' : '#6d28d9',
+                    borderBadge: isDark ? '#4c1d95' : '#c4b5fd',
+                    bgDetalle: isDark ? 'rgba(76, 29, 149, 0.2)' : '#f5f3ff'
+                },
+                'FALLA': {
+                    borderColor: '#ef4444',
+                    bgIcon: isDark ? 'rgba(127, 29, 29, 0.5)' : '#fee2e2',
+                    textIcon: isDark ? '#fca5a5' : '#dc2626',
+                    bgBadge: isDark ? 'rgba(127, 29, 29, 0.5)' : '#fee2e2',
+                    textBadge: isDark ? '#fca5a5' : '#b91c1c',
+                    borderBadge: isDark ? '#7f1d1d' : '#fca5a5',
+                    bgDetalle: isDark ? 'rgba(127, 29, 29, 0.2)' : '#fef2f2'
+                },
+                'MANTENIMIENTO': {
+                    borderColor: '#6366f1',
+                    bgIcon: isDark ? 'rgba(49, 46, 129, 0.5)' : '#e0e7ff',
+                    textIcon: isDark ? '#a5b4fc' : '#4f46e5',
+                    bgBadge: isDark ? 'rgba(49, 46, 129, 0.5)' : '#e0e7ff',
+                    textBadge: isDark ? '#a5b4fc' : '#4338ca',
+                    borderBadge: isDark ? '#312e81' : '#a5b4fc',
+                    bgDetalle: isDark ? 'rgba(49, 46, 129, 0.2)' : '#eef2ff'
+                },
+                'REPARACION': {
+                    borderColor: '#f59e0b',
+                    bgIcon: isDark ? 'rgba(120, 53, 15, 0.5)' : '#fef3c7',
+                    textIcon: isDark ? '#fcd34d' : '#d97706',
+                    bgBadge: isDark ? 'rgba(120, 53, 15, 0.5)' : '#fef3c7',
+                    textBadge: isDark ? '#fcd34d' : '#b45309',
+                    borderBadge: isDark ? '#78350f' : '#fcd34d',
+                    bgDetalle: isDark ? 'rgba(120, 53, 15, 0.2)' : '#fffbeb'
+                },
+                'TRASLADO': {
+                    borderColor: '#10b981',
+                    bgIcon: isDark ? 'rgba(6, 78, 59, 0.5)' : '#d1fae5',
+                    textIcon: isDark ? '#6ee7b7' : '#059669',
+                    bgBadge: isDark ? 'rgba(6, 78, 59, 0.5)' : '#d1fae5',
+                    textBadge: isDark ? '#6ee7b7' : '#047857',
+                    borderBadge: isDark ? '#064e3b' : '#6ee7b7',
+                    bgDetalle: isDark ? 'rgba(6, 78, 59, 0.2)' : '#ecfdf5'
+                },
+                'OTRO': {
+                    borderColor: '#6b7280',
+                    bgIcon: isDark ? '#1f2937' : '#f3f4f6',
+                    textIcon: isDark ? '#9ca3af' : '#4b5563',
+                    bgBadge: isDark ? '#1f2937' : '#f3f4f6',
+                    textBadge: isDark ? '#d1d5db' : '#374151',
+                    borderBadge: isDark ? '#4b5563' : '#d1d5db',
+                    bgDetalle: isDark ? 'rgba(31, 41, 55, 0.5)' : '#f9fafb'
+                }
             };
 
             if (dataList.length === 0) {
-                historyBody.innerHTML = '<p class="text-center text-gray-500 py-10 text-sm">No hay registros que coincidan con los filtros.</p>';
+                historyBody.innerHTML = '<p class="text-center text-gray-500 dark:text-gray-400 py-10 text-sm">No hay registros que coincidan con los filtros.</p>';
                 return;
             }
 
@@ -609,30 +745,40 @@
                     day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' 
                 });
 
-                const estilo = estilosPorTipo[record.tipo] || estilosPorTipo['OTRO'];
+                const tipoKey = record.tipo ? record.tipo.toUpperCase() : 'OTRO';
+                const estilo = estilosPorTipo[tipoKey] || estilosPorTipo['OTRO'];
 
                 historyBody.innerHTML += `
-                    <div class="bg-white text-gray-900 flex flex-col gap-4 rounded-xl border border-l-4 ${estilo.border} shadow-sm hover:shadow-md transition-shadow p-6 mb-4">
+                    <div class="flex flex-col gap-4 rounded-xl border shadow-sm hover:shadow-md transition-shadow p-6 mb-4" 
+                         style="background-color: ${isDark ? '#0f172a' : '#ffffff'}; 
+                                color: ${isDark ? '#ffffff' : '#111827'}; 
+                                border-left: 4px solid ${estilo.borderColor}; 
+                                border-color: ${isDark ? '#1e293b' : '#e5e7eb'}; 
+                                border-left-color: ${estilo.borderColor};">
                         <div class="grid grid-cols-[1fr_auto] gap-2">
                             <div class="flex items-start gap-3">
-                                <div class="${estilo.bgIcon} p-2 rounded-full flex-shrink-0">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${estilo.textIcon}"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+                                <div class="p-2 rounded-full flex-shrink-0" style="background-color: ${estilo.bgIcon};">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: ${estilo.textIcon};"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
                                 </div>
                                 <div class="min-w-0">
                                     <div class="flex items-center gap-2 mb-1">
-                                        <span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium text-xs ${estilo.bgBadge} ${estilo.textBadge} ${estilo.borderBadge}">
+                                        <span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium text-xs" 
+                                              style="background-color: ${estilo.bgBadge}; 
+                                                     color: ${estilo.textBadge}; 
+                                                     border-color: ${estilo.borderBadge};">
                                             ${record.tipo}
                                         </span>
-                                        <span class="text-xs text-gray-500">${fechaFormateada}</span>
+                                        <span class="text-xs" style="color: ${isDark ? '#9ca3af' : '#6b7280'};">${fechaFormateada}</span>
                                     </div>
-                                    <h4 class="font-semibold text-sm">${record.titulo || 'Actualización de Bien'}</h4>
-                                    <p class="text-xs text-gray-600 mt-1">Registrado por: ${record.usuario_nombre || 'Sistema'}</p>
+                                    <h4 class="font-semibold text-sm" style="color: ${isDark ? '#ffffff' : '#111827'};">${record.titulo || 'Actualización de Bien'}</h4>
+                                    <p class="text-xs mt-1" style="color: ${isDark ? '#9ca3af' : '#4b5563'};">Registrado por: ${record.usuario_nombre || 'Sistema'}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="${estilo.bgDetalle} p-2 rounded border border-opacity-50">
-                            <p class="text-xs text-gray-600 font-medium mb-1">Descripción:</p>
-                            <p class="text-xs text-gray-700">${record.descripcion || 'Sin descripción adicional.'}</p>
+                        <div class="p-2 rounded border" style="background-color: ${estilo.bgDetalle}; 
+                                                                border-color: ${isDark ? 'rgba(55, 65, 81, 0.2)' : 'rgba(229, 231, 235, 0.5)'};">
+                            <p class="text-xs font-medium mb-1" style="color: ${isDark ? '#d1d5db' : '#4b5563'};">Descripción:</p>
+                            <p class="text-xs" style="color: ${isDark ? '#e5e7eb' : '#374151'};">${record.descripcion || 'Sin descripción adicional.'}</p>
                         </div>
                     </div>`;
             });
@@ -647,6 +793,37 @@
             // 2. Volvemos a mostrar la lista original completa
             // Usamos la variable global que ya teníamos: allHistoryData
             renderHistoryCards(allHistoryData);
+        });
+
+        document.getElementById('btn-download-history-pdf')?.addEventListener('click', function() {
+            if (!currentBien) return;
+
+            const desde = document.getElementById('filter-desde').value;
+            const hasta = document.getElementById('filter-hasta').value;
+            const tipo = document.getElementById('filter-tipo').value;
+
+            let url = `{{ route('bienes-nacionales.history.pdf', ':id') }}`;
+            url = url.replace(':id', currentBien.id);
+
+            const params = new URLSearchParams();
+            if (desde) params.append('desde', desde);
+            if (hasta) params.append('hasta', hasta);
+            if (tipo) params.append('tipo', tipo);
+
+            if (params.toString()) {
+                url += '?' + params.toString();
+            }
+
+            window.open(url, '_blank');
+        });
+
+        document.getElementById('btn-export-pdf-view')?.addEventListener('click', function() {
+            if (!currentBien) return;
+            
+            let url = `{{ route('bienes-nacionales.pdf', ':id') }}`;
+            url = url.replace(':id', currentBien.id);
+            
+            window.open(url, '_blank');
         });
 
         function closeHistoryModal() {

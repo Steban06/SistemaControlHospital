@@ -23,7 +23,7 @@
         </button>
 
         <!-- HEADER FIJO -->
-        <div class="flex-shrink-0 px-6 pt-6 pb-4 border-b border-gray-200">
+        <div class="flex-shrink-0 px-6 pt-6  border-b border-gray-200">
             <div class="flex flex-col gap-2 text-center sm:text-left">
                 <h2 id="history_modal_title" class="font-bold text-xl text-gray-900 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-history w-5 h-5 text-blue-600"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M12 7v5l4 2"></path></svg>
@@ -33,13 +33,8 @@
                     <!-- Populated by JS -->
                 </p>
             </div>
-        </div>
 
-        <!-- BODY CON SCROLL -->
-        <div class="flex-1 overflow-y-auto px-6 py-4">
-            
-            <!-- Filters -->
-            <div class="space-y-3 py-4 border-b mb-4">
+            <div class="space-y-3 py-4 mb-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div class="space-y-2">
                         <label class="flex items-center gap-2 font-medium text-xs text-gray-700">Desde</label>
@@ -58,15 +53,22 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-2">
-                    <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-red-200 bg-white text-red-600 hover:bg-red-50 h-8 rounded-md px-3 text-xs shadow-sm">
+                    <button style="color: #dc2626 !important;" class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors h-8 rounded-md px-3 text-xs shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
                         Descargar PDF
                     </button>
-                    <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-gray-200 bg-white text-gray-700 hover:bg-gray-100 h-8 rounded-md px-3 text-xs shadow-sm">
+                    <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors h-8 rounded-md px-3 text-xs shadow-sm border-gray-300">
                         Limpiar Filtros
                     </button>
                 </div>
             </div>
+        </div>
+
+        <!-- BODY CON SCROLL -->
+        <div class="flex-1 overflow-y-auto px-6 py-4">
+            
+            <!-- Filters -->
+            
 
             <!-- List -->
             <div class="space-y-4">
@@ -141,3 +143,185 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Dark mode fixes for AC History Modal
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // Fix badge colors for dark mode
+        function updateHistoryACBadges() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const badges = document.querySelectorAll('#historyACModal .inline-flex.items-center.justify-center.rounded-md.border');
+            
+            badges.forEach(badge => {
+                const text = badge.textContent.trim().toUpperCase();
+                const card = badge.closest('.rounded-xl');
+                
+                let bgColor, textColor, borderColor, iconBg, iconColor, obsBg, obsBorder, cardBorderLeft;
+                
+                if (isDark) {
+                    // Determine badge type and apply colors
+                    if (text.includes('CAMBIO') || text.includes('ESTADO')) {
+                        // Red theme
+                        bgColor = 'rgba(127, 29, 29, 0.5)';
+                        textColor = '#fca5a5';
+                        borderColor = '#7f1d1d';
+                        iconBg = 'rgba(127, 29, 29, 0.5)';
+                        iconColor = '#fca5a5';
+                        obsBg = 'rgba(127, 29, 29, 0.2)';
+                        obsBorder = '#7f1d1d';
+                        cardBorderLeft = '#dc2626'; // red-600
+                    } else if (text.includes('REPARACIÓN') || text.includes('REPARACION')) {
+                        // Amber theme
+                        bgColor = 'rgba(120, 53, 15, 0.5)';
+                        textColor = '#fcd34d';
+                        borderColor = '#78350f';
+                        iconBg = 'rgba(120, 53, 15, 0.5)';
+                        iconColor = '#fcd34d';
+                        obsBg = 'rgba(120, 53, 15, 0.2)';
+                        obsBorder = '#78350f';
+                        cardBorderLeft = '#f59e0b'; // amber-500
+                    } else if (text.includes('MANTENIMIENTO')) {
+                        // Amber theme
+                        bgColor = 'rgba(120, 53, 15, 0.5)';
+                        textColor = '#fcd34d';
+                        borderColor = '#78350f';
+                        iconBg = 'rgba(120, 53, 15, 0.5)';
+                        iconColor = '#fcd34d';
+                        obsBg = 'rgba(120, 53, 15, 0.2)';
+                        obsBorder = '#78350f';
+                        cardBorderLeft = '#f59e0b'; // amber-500
+                    } else {
+                        // Default blue for other types
+                        bgColor = 'rgba(30, 58, 138, 0.5)';
+                        textColor = '#93c5fd';
+                        borderColor = '#1e3a8a';
+                        iconBg = 'rgba(30, 58, 138, 0.5)';
+                        iconColor = '#93c5fd';
+                        obsBg = 'rgba(30, 58, 138, 0.2)';
+                        obsBorder = '#1e3a8a';
+                        cardBorderLeft = '#3b82f6'; // blue-500
+                    }
+                    
+                    // Apply badge colors
+                    badge.style.setProperty('background-color', bgColor, 'important');
+                    badge.style.setProperty('color', textColor, 'important');
+                    badge.style.setProperty('border-color', borderColor, 'important');
+                    
+                    // Apply to card
+                    if (card) {
+                        // Card border left
+                        card.style.setProperty('border-left-color', cardBorderLeft, 'important');
+                        
+                        // Icon background color
+                        const iconContainer = card.querySelector('.p-2.rounded-full');
+                        if (iconContainer) {
+                            iconContainer.style.setProperty('background-color', iconBg, 'important');
+                            const icon = iconContainer.querySelector('svg');
+                            if (icon) {
+                                icon.style.setProperty('color', iconColor, 'important');
+                            }
+                        }
+                        
+                        // Observation box colors
+                        const obsBox = card.querySelector('.bg-blue-50');
+                        if (obsBox) {
+                            obsBox.style.setProperty('background-color', obsBg, 'important');
+                            obsBox.style.setProperty('border-color', obsBorder, 'important');
+                        }
+                    }
+                } else {
+                    // Light mode - determine colors based on type
+                    if (text.includes('CAMBIO') || text.includes('ESTADO')) {
+                        // Red theme
+                        bgColor = '#fee2e2';
+                        textColor = '#b91c1c';
+                        borderColor = '#fecaca';
+                        iconBg = '#fee2e2';
+                        iconColor = '#dc2626';
+                        obsBg = '#fee2e2';
+                        obsBorder = '#fecaca';
+                        cardBorderLeft = '#dc2626'; // red-600
+                    } else if (text.includes('REPARACIÓN') || text.includes('REPARACION')) {
+                        // Amber theme
+                        bgColor = '#fef3c7';
+                        textColor = '#b45309';
+                        borderColor = '#fde68a';
+                        iconBg = '#fef3c7';
+                        iconColor = '#f59e0b';
+                        obsBg = '#fef3c7';
+                        obsBorder = '#fde68a';
+                        cardBorderLeft = '#f59e0b'; // amber-500
+                    } else if (text.includes('MANTENIMIENTO')) {
+                        // Amber theme
+                        bgColor = '#fef3c7';
+                        textColor = '#b45309';
+                        borderColor = '#fde68a';
+                        iconBg = '#fef3c7';
+                        iconColor = '#f59e0b';
+                        obsBg = '#fef3c7';
+                        obsBorder = '#fde68a';
+                        cardBorderLeft = '#f59e0b'; // amber-500
+                    } else {
+                        // Default blue
+                        bgColor = '#dbeafe';
+                        textColor = '#1d4ed8';
+                        borderColor = '#93c5fd';
+                        iconBg = '#dbeafe';
+                        iconColor = '#2563eb';
+                        obsBg = '#dbeafe';
+                        obsBorder = '#bfdbfe';
+                        cardBorderLeft = '#3b82f6'; // blue-500
+                    }
+                    
+                    // Apply badge colors
+                    badge.style.setProperty('background-color', bgColor, 'important');
+                    badge.style.setProperty('color', textColor, 'important');
+                    badge.style.setProperty('border-color', borderColor, 'important');
+                    
+                    // Apply to card
+                    if (card) {
+                        // Card border left
+                        card.style.setProperty('border-left-color', cardBorderLeft, 'important');
+                        
+                        // Icon background color
+                        const iconContainer = card.querySelector('.p-2.rounded-full');
+                        if (iconContainer) {
+                            iconContainer.style.setProperty('background-color', iconBg, 'important');
+                            const icon = iconContainer.querySelector('svg');
+                            if (icon) {
+                                icon.style.setProperty('color', iconColor, 'important');
+                            }
+                        }
+                        
+                        // Observation box colors
+                        const obsBox = card.querySelector('.bg-blue-50');
+                        if (obsBox) {
+                            obsBox.style.setProperty('background-color', obsBg, 'important');
+                            obsBox.style.setProperty('border-color', obsBorder, 'important');
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Run on load
+        updateHistoryACBadges();
+        
+        // Watch for theme changes
+        const observer = new MutationObserver(function() {
+            updateHistoryACBadges();
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        
+        // Re-run when modal content changes (for dynamically loaded history)
+        const modalObserver = new MutationObserver(function() {
+            updateHistoryACBadges();
+        });
+        
+        const historyModal = document.getElementById('historyACModal');
+        if (historyModal) {
+            modalObserver.observe(historyModal, { childList: true, subtree: true });
+        }
+    });
+</script>

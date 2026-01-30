@@ -23,3 +23,23 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* Dark mode label improvements */
+.dark label.text-gray-700,
+.dark label .text-gray-700 {
+    color: #d1d5db !important; /* gray-300 */
+}
+
+.dark label.text-gray-600,
+.dark label .text-gray-600 {
+    color: #e5e7eb !important; /* gray-200 */
+}
+
+/* Also fix any text-gray-500 in dark mode for better readability */
+.dark .text-gray-500 {
+    color: #9ca3af !important; /* gray-400 */
+}
+
+/* Ensure form labels are readable in dark mode */
+.dark label {
+    color: #d1d5db; /* gray-300 */
+}

@@ -620,6 +620,17 @@
             background-color: #022c22 !important; /* emerald-950 hex */
             border-color: #064e3b !important; /* emerald-900 border */
         }
+
+        /* Label visibility improvements for dark mode */
+        html.dark label,
+        html.dark label.text-gray-700,
+        html.dark label.text-gray-600 {
+            color: #e5e7eb !important; /* gray-200 - much lighter */
+        }
+
+        html.dark label.text-gray-500 {
+            color: #d1d5db !important; /* gray-300 */
+        }
     </style>
 </head>
 <body>

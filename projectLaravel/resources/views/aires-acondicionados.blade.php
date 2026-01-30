@@ -227,6 +227,105 @@
 <script src="{{ asset('js/ac_filters.js') }}"></script>
 <script src="{{ asset('js/modalController.js') }}"></script>
 <script>
+    // Fix stat card badge colors for dark mode
+    (function() {
+        function updateStatBadgeColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            // Find all stat card badges
+            const badges = document.querySelectorAll('[data-slot="card"] .flex.items-center.gap-1.text-xs.font-medium');
+            
+            badges.forEach(badge => {
+                const text = badge.textContent.trim();
+                let bgColor, textColor, borderColor;
+                
+                // Identify badge by text content
+                if (text.includes('%')) {
+                    // Operativos badge (green)
+                    bgColor = isDark ? 'rgba(6, 78, 59, 0.5)' : '#d1fae5';
+                    textColor = isDark ? '#6ee7b7' : '#047857';
+                    borderColor = isDark ? '#064e3b' : '#a7f3d0';
+                } else if (text.includes('Pend')) {
+                    // Mantenimiento badge (amber)
+                    bgColor = isDark ? 'rgba(120, 53, 15, 0.5)' : '#fef3c7';
+                    textColor = isDark ? '#fcd34d' : '#b45309';
+                    borderColor = isDark ? '#78350f' : '#fde68a';
+                } else if (text.includes('Críticos')) {
+                    // Fuera de servicio badge (red)
+                    bgColor = isDark ? 'rgba(127, 29, 29, 0.5)' : '#fee2e2';
+                    textColor = isDark ? '#fca5a5' : '#b91c1c';
+                    borderColor = isDark ? '#7f1d1d' : '#fecaca';
+                } else {
+                    return; // Skip if no match
+                }
+                
+                badge.style.backgroundColor = bgColor;
+                badge.style.color = textColor;
+                badge.style.borderColor = borderColor;
+            });
+        }
+        
+        // Run on load
+        updateStatBadgeColors();
+        
+        // Watch for theme changes
+        const observer = new MutationObserver(updateStatBadgeColors);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    })();
+
+    // Fix delete button colors for dark mode
+    document.addEventListener('DOMContentLoaded', function() {
+        function updateDeleteButtonColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            // More specific selector - buttons with trash icon
+            const deleteButtons = document.querySelectorAll('button .lucide-trash2');
+            
+            deleteButtons.forEach(svg => {
+                const btn = svg.closest('button');
+                if (!btn) return;
+                
+                if (isDark) {
+                    btn.style.setProperty('background-color', '#1f2937', 'important'); // gray-800
+                    btn.style.setProperty('border-color', '#7f1d1d', 'important'); // red-900
+                    btn.style.setProperty('color', 'red', 'important'); // red-300
+                } else {
+                    btn.style.removeProperty('background-color');
+                    btn.style.removeProperty('border-color');
+                    btn.style.removeProperty('color');
+                }
+            });
+        }
+        
+        // Run immediately
+        updateDeleteButtonColors();
+        
+        // Watch for theme changes
+        const observer = new MutationObserver(updateDeleteButtonColors);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        
+        // Add hover effect
+        document.querySelectorAll('button .lucide-trash2').forEach(svg => {
+            const btn = svg.closest('button');
+            if (!btn) return;
+            
+            btn.addEventListener('mouseenter', function() {
+                const isDark = document.documentElement.classList.contains('dark');
+                if (isDark) {
+                    this.style.setProperty('background-color', '#450a0a', 'important'); // red-950
+                    this.style.setProperty('color', '#ffffff', 'important'); // white text
+                }
+            });
+            
+            btn.addEventListener('mouseleave', function() {
+                const isDark = document.documentElement.classList.contains('dark');
+                if (isDark) {
+                    this.style.setProperty('background-color', '#1f2937', 'important');
+                    this.style.setProperty('color', 'red', 'important'); // back to red
+                }
+            });
+        });
+    });
+
     // Asegurar que los botones de cierre funcionen para Add AC Modal
     document.addEventListener('DOMContentLoaded', function() {
         ModalManagerE.init({

@@ -37,6 +37,9 @@ Route::prefix('bienes-nacionales')->group(function () {
     Route::put('/{id}', [BNController::class, 'update'])->name('bienes-nacionales.update');
     // Route::delete('/{id}', [BNController::class, 'destroy'])->name('bienes-nacionales.destroy');
     Route::get('/history/{id}', [BNController::class, 'history'])->name('bienes-nacionales.history');
+    Route::get('/history/{id}/pdf', [BNController::class, 'downloadHistoryPDF'])->name('bienes-nacionales.history.pdf');
+    Route::get('/{id}/pdf', [BNController::class, 'downloadPDF'])->name('bienes-nacionales.pdf');
+    Route::get('/{id}/qr', [BNController::class, 'generateQR'])->name('bienes-nacionales.qr');
 });
 
 // Route::get('/bienes-nacionales', [BNController::class, 'index'])->name('bienes-nacionales.index');
@@ -56,6 +59,11 @@ Route::get('/aires-acondicionados/{id}', [AirAcondController::class, 'show'])->n
 Route::get('/mantenimiento', [MaintenanceController::class, 'index'])->name('mantenimiento.index');
 Route::post('/mantenimiento', [MaintenanceController::class, 'store'])->name('mantenimiento.store');
 Route::get('/mantenimiento/{id}', [MaintenanceController::class, 'show'])->name('mantenimiento.show');
+
+// Manual generation routes
+Route::get('/generate-manuals', [App\Http\Controllers\ManualController::class, 'generateBoth'])->name('manuals.generate');
+Route::get('/generate-manual-usuario', [App\Http\Controllers\ManualController::class, 'generateUserManual'])->name('manuals.usuario');
+Route::get('/generate-manual-tecnico', [App\Http\Controllers\ManualController::class, 'generateTechnicalManual'])->name('manuals.tecnico');
 
 Route::get('/configuracion', function () {
     return view('configuracion');
