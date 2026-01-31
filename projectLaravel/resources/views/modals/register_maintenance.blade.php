@@ -20,14 +20,124 @@
     .custom-scrollbar::-webkit-scrollbar-thumb:hover {
         background: #a8a8a8;
     }
-    .dark .custom-scrollbar::-webkit-scrollbar-track {
-        background: #1f2937;
-    }
-    .dark .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #4b5563;
-    }
     .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
         background: #6b7280;
+    }
+    
+    /* Fix for asset item hover in dark mode */
+    .dark .asset-item:hover {
+        background-color: #374151 !important; /* gray-700 */
+        border-color: #4b5563 !important; /* gray-600 */
+    }
+    .dark .asset-item {
+        border-color: #374151; /* gray-700 base border */
+    }
+
+    /* Custom Badge Styles for Dark Mode Reliability */
+    .badge-base {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.375rem; /* rounded-md */
+        border-width: 1px;
+        padding: 0.125rem 0.5rem; /* py-0.5 px-2 */
+        font-weight: 500;
+        font-size: 0.75rem; /* text-xs */
+        white-space: nowrap;
+    }
+    
+    /* Bien Nacional (Blue) */
+    .badge-bn {
+        background-color: #eff6ff; /* blue-50 */
+        color: #1d4ed8; /* blue-700 */
+        border-color: #bfdbfe; /* blue-200 */
+    }
+    .dark .badge-bn {
+        background-color: rgba(30, 58, 138, 0.4) !important; /* blue-900/40 */
+        color: #93c5fd !important; /* blue-300 */
+        border-color: rgba(30, 58, 138, 0.6) !important;
+    }
+
+    /* Stepper Custom Styles - Robust Dark Mode Fix */
+    .step-indicator {
+        width: 2rem; height: 2rem; /* w-8 h-8 */
+        border-radius: 9999px; /* rounded-full */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600; /* font-semibold */
+        font-size: 0.875rem; /* text-sm */
+        transition: background-color 0.3s, color 0.3s;
+    }
+    @media (min-width: 1024px) {
+        .step-indicator { width: 2.5rem; height: 2.5rem; } /* lg:w-10 lg:h-10 */
+    }
+
+    /* Active Step */
+    .step-active {
+        background-color: #2563eb !important; /* blue-600 */
+        color: #ffffff !important;
+    }
+    
+    /* Inactive/Pending Step */
+    .step-inactive {
+        background-color: #e5e7eb; /* gray-200 */
+        color: #6b7280; /* gray-500 */
+    }
+    .dark .step-inactive {
+        background-color: #374151 !important; /* gray-700 forced */
+        color: #9ca3af !important; /* gray-400 forced */
+    }
+
+    /* Progress Line */
+    .step-line {
+        flex: 1;
+        height: 0.25rem; /* h-1 */
+        margin-left: 0.5rem; margin-right: 0.5rem; /* mx-2 */
+        min-width: 3rem; /* min-w-12 */
+    }
+    .line-active {
+        background-color: #2563eb !important; /* blue-600 */
+    }
+    .line-inactive {
+        background-color: #e5e7eb; /* gray-200 */
+    }
+    .dark .line-inactive {
+        background-color: #374151 !important; /* gray-700 forced */
+    }
+
+    /* Labels */
+    .label-active {
+        color: #2563eb !important; /* blue-600 */
+    }
+    .dark .label-active {
+        color: #60a5fa !important; /* blue-400 */
+    }
+    .label-inactive {
+        color: #9ca3af; /* gray-400 */
+    }
+    .dark .label-inactive {
+        color: #6b7280 !important; /* gray-500 equivalent but visible */
+    }
+
+    /* Aire Acondicionado (Cyan/Teal) - Distinctive Color */
+    .badge-ac {
+        background-color: #ecfeff; /* cyan-50 */
+        color: #0e7490; /* cyan-700 */
+        border-color: #a5f3fc; /* cyan-200 */
+    }
+    .dark .badge-ac {
+        background-color: rgba(8, 145, 178, 0.25) !important; /* cyan-900/xxx */
+        color: #22d3ee !important; /* cyan-400 (Bright) */
+        border-color: rgba(8, 145, 178, 0.5) !important;
+    }
+
+    /* Force visible stepper colors in dark mode (Fix for compilation issues) */
+    .dark #registerMaintenanceModal .bg-gray-200 {
+        background-color: #4b5563 !important; /* gray-600 */
+    }
+    .dark #registerMaintenanceModal .text-gray-500 {
+        color: #9ca3af !important; /* gray-400 */
     }
 </style>
 
@@ -67,22 +177,22 @@
         <div class="flex items-center justify-between mb-6 px-4">
             <div class="flex items-center flex-1">
                 <div class="flex flex-col items-center gap-2">
-                    <div id="step1-indicator" class="w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-colors bg-blue-600 text-white">1</div>
-                    <p id="step1-label" class="text-xs font-medium text-blue-600">Bien</p>
+                    <div id="step1-indicator" class="step-indicator step-active">1</div>
+                    <p id="step1-label" class="text-xs font-medium label-active">Bien</p>
                 </div>
-                <div class="flex-1 h-1 mx-2 bg-gray-200 min-w-12" style="min-width: 3rem;" id="progress1"></div>
+                <div class="step-line line-inactive" id="progress1"></div>
             </div>
             <div class="flex items-center flex-1">
                 <div class="flex flex-col items-center gap-2">
-                    <div id="step2-indicator" class="w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-colors bg-gray-200 text-gray-500">2</div>
-                    <p id="step2-label" class="text-xs font-medium text-gray-400">Trabajo</p>
+                    <div id="step2-indicator" class="step-indicator step-inactive">2</div>
+                    <p id="step2-label" class="text-xs font-medium label-inactive">Trabajo</p>
                 </div>
-                <div class="flex-1 h-1 mx-2 bg-gray-200 min-w-12" style="min-width: 3rem;" id="progress2"></div>
+                <div class="step-line line-inactive" id="progress2"></div>
             </div>
             <div class="flex items-center flex-1">
                 <div class="flex flex-col items-center gap-2">
-                    <div id="step3-indicator" class="w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-colors bg-gray-200 text-gray-500">3</div>
-                    <p id="step3-label" class="text-xs font-medium text-gray-400">Detalles</p>
+                    <div id="step3-indicator" class="step-indicator step-inactive">3</div>
+                    <p id="step3-label" class="text-xs font-medium label-inactive">Detalles</p>
                 </div>
             </div>
         </div>
@@ -128,13 +238,13 @@
                 </div>
 
                 <div class="space-y-2">
-                    <label class="text-xs font-semibold uppercase text-gray-700" for="assetSearch">Buscar Bien</label>
+                    <label class="text-xs font-semibold uppercase text-gray-700 dark:text-gray-300" for="assetSearch">Buscar Bien</label>
                     <div class="relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500">
                             <circle cx="11" cy="11" r="8"></circle>
                             <path d="m21 21-4.3-4.3"></path>
                         </svg>
-                        <input class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-1 pl-10 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" id="assetSearch" placeholder="Buscar por nombre o código..." value="">
+                        <input class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-1 pl-10 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 dark:placeholder:text-gray-500" id="assetSearch" placeholder="Buscar por nombre o código..." value="">
                     </div>
                 </div>
 
@@ -152,15 +262,15 @@
 
                     <div class="flex flex-col gap-2" id="assetList">
                         @foreach($assets as $asset)
-                        <button type="button" class="w-full p-3 text-left hover:bg-gray-50 transition-colors asset-item border border-gray-200 rounded-md" 
+                        <button type="button" class="w-full p-3 text-left hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors asset-item border border-gray-200 dark:border-gray-700 rounded-md" 
                             data-asset-id="{{ $asset->id }}" 
                             data-asset-code="{{ $asset->code }}" 
                             data-asset-type="{{ $asset->type }}">
                             <div class="flex items-center justify-between">
                                 <div class="flex-1">
                                     <div class="flex items-center gap-2 mb-1">
-                                        <p class="font-mono text-xs text-gray-600">{{ $asset->code }}</p>
-                                        <span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium text-xs {{ $asset->type == 'Bien Nacional' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-green-50 text-green-700 border-green-200' }}">
+                                        <p class="font-mono text-xs text-gray-600 dark:text-gray-400">{{ $asset->code }}</p>
+                                        <span class="badge-base {{ $asset->type == 'Bien Nacional' ? 'badge-bn' : 'badge-ac' }}">
                                             @if($asset->type == 'Bien Nacional')
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package w-3 h-3 mr-1">
                                                 <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path>
@@ -178,9 +288,9 @@
                                             {{ $asset->type }}
                                         </span>
                                     </div>
-                                    <p class="text-sm font-medium asset-name">{{ $asset->name }}</p>
+                                    <p class="text-sm font-medium asset-name text-gray-900 dark:text-gray-100">{{ $asset->name }}</p>
                                 </div>
-                                <div class="hidden check-icon text-blue-600">
+                                <div class="hidden check-icon text-blue-600 dark:text-blue-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2">
                                         <circle cx="12" cy="12" r="10"></circle>
                                         <path d="m9 12 2 2 4-4"></path>

@@ -160,7 +160,7 @@
                              <div class="flex items-start justify-between gap-2">
                                 <div class="flex items-center gap-2">
                                     <div class="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wind w-3.5 h-3.5 text-blue-600 dark:text-blue-400"><path d="M12.8 19.6A2 2 0 1 0 14 16H2"></path><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"></path><path d="M9.8 4.4A2 2 0 1 1 11 8H2"></path></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wind w-3.5 h-3.5 text-blue-600 dark:text-white"><path d="M12.8 19.6A2 2 0 1 0 14 16H2"></path><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"></path><path d="M9.8 4.4A2 2 0 1 1 11 8H2"></path></svg>
                                     </div>
                                     <span class="font-mono text-xs text-gray-600 dark:text-gray-400">{{ $aire->numero_bn }}</span>
                                 </div>
@@ -208,6 +208,19 @@
                         </div>
                     </div>
                     @endforeach
+                    
+                    <!-- Registrar Nuevo Card -->
+                    <div data-slot="card" class="group relative dark:bg-gray-800 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all duration-300 min-h-[220px] flex items-center justify-center cursor-pointer" onclick="ModalManager.openModal(document.getElementById('addACModal'))">
+                        <div class="flex flex-col items-center gap-3 text-center p-6">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-6 h-6 text-blue-600 dark:text-white"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Registrar Nuevo</h3>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Haga clic para agregar un registro</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             <div id="countDisplay" class="text-xs lg:text-sm text-gray-500 pt-2 border-t dark:border-gray-700 dark:text-gray-400">Mostrando {{ count($aires) }} de {{ count($aires) }} unidades</div>
         </div>
@@ -679,6 +692,52 @@
 
         ModalManager.openModal(modal);
     }
+    // Fix for Icon Colors in Dark Mode
+    document.addEventListener('DOMContentLoaded', function() {
+        function updateIconColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            // 1. Register Card Icon
+            const addCard = document.querySelector('div[onclick*="addACModal"]');
+            if (addCard) {
+                const icon = addCard.querySelector('svg.lucide-plus');
+                if (icon) {
+                     if (isDark) {
+                        icon.classList.remove('text-blue-600');
+                        icon.classList.add('text-white');
+                        icon.style.setProperty('color', 'white', 'important');
+                    } else {
+                        icon.classList.add('text-blue-600');
+                        icon.classList.remove('text-white');
+                        icon.style.removeProperty('color');
+                    }
+                }
+            }
+
+            // 2. AC Card Icons (wind icons inside blue rounded backgrounds)
+            // Select all wind icons that are supposed to be blue
+            const acIcons = document.querySelectorAll('.bg-blue-100 svg.lucide-wind, .dark\\:bg-blue-900\\/50 svg.lucide-wind');
+            
+            acIcons.forEach(icon => {
+                 if (isDark) {
+                    icon.classList.remove('text-blue-600');
+                    icon.classList.add('text-white');
+                    icon.style.setProperty('color', 'white', 'important');
+                } else {
+                    icon.classList.add('text-blue-600');
+                    icon.classList.remove('text-white');
+                    icon.style.removeProperty('color');
+                }
+            });
+        }
+
+        // Run immediately
+        updateIconColors();
+        
+        // Watch for theme changes
+        const observer = new MutationObserver(updateIconColors);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    });
 </script>
 @endpush
 @endsection

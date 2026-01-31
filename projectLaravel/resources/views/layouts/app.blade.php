@@ -286,9 +286,9 @@
             color: #f8fafc !important;
         }
 
-        html.dark .bg-gray-50:not([role="dialog"] .bg-gray-50) {
-            background-color: #334155 !important; /* slate-700 */
-        }
+        /* html.dark .bg-gray-50:not([role="dialog"] .bg-gray-50) {
+            background-color: #334155 !important;
+        } */
 
         /* Card Borders */
         html.dark div[data-slot="card"] {

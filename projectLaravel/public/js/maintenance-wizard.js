@@ -123,27 +123,37 @@ function resetIndicators() {
     // Step 1 Active
     const s1 = document.getElementById('step1-indicator');
     if (s1) {
-        s1.classList.remove('bg-gray-200', 'text-gray-500');
-        s1.classList.add('bg-blue-600', 'text-white');
+        s1.classList.remove('step-inactive');
+        s1.classList.add('step-active');
     }
 
     // Step 2 Inactive
     const s2 = document.getElementById('step2-indicator');
     if (s2) {
-        s2.classList.remove('bg-blue-600', 'text-white');
-        s2.classList.add('bg-gray-200', 'text-gray-500');
+        s2.classList.remove('step-active');
+        s2.classList.add('step-inactive');
     }
-    document.getElementById('progress1').classList.remove('bg-blue-600');
-    document.getElementById('progress1').classList.add('bg-gray-200');
+
+    // Progress 1
+    const p1 = document.getElementById('progress1');
+    if (p1) {
+        p1.classList.remove('line-active');
+        p1.classList.add('line-inactive');
+    }
 
     // Step 3 Inactive
     const s3 = document.getElementById('step3-indicator');
     if (s3) {
-        s3.classList.remove('bg-blue-600', 'text-white');
-        s3.classList.add('bg-gray-200', 'text-gray-500');
+        s3.classList.remove('step-active');
+        s3.classList.add('step-inactive');
     }
-    document.getElementById('progress2').classList.remove('bg-blue-600');
-    document.getElementById('progress2').classList.add('bg-gray-200');
+
+    // Progress 2
+    const p2 = document.getElementById('progress2');
+    if (p2) {
+        p2.classList.remove('line-active');
+        p2.classList.add('line-inactive');
+    }
 }
 
 function initializeAssetSelection() {
@@ -200,10 +210,22 @@ function initializeAssetSelection() {
                     if (existingSvg) existingSvg.remove();
 
                     let iconSvg = '';
+                    // Define base classes that are always present + custom base
+                    const baseClasses = "badge-base "; // using the custom css class
+
                     if (selectedAsset.type === 'Bien Nacional') {
                         iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package w-4 h-4"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><path d="m7.5 4.27 9 5.15"></path></svg>`;
+                        // Apply Blue Styles via Class
+                        badgeStep1.className = baseClasses + 'badge-bn';
+                        // Remove inline styles to let CSS class handle it
+                        badgeStep1.removeAttribute('style');
+
                     } else {
                         iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wind w-4 h-4"><path d="M12.8 19.6A2 2 0 1 0 14 16H2"></path><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"></path><path d="M9.8 4.4A2 2 0 1 1 11 8H2"></path></svg>`;
+                        // Apply Cyan Styles via Class
+                        badgeStep1.className = baseClasses + 'badge-ac';
+                        // Remove inline styles to let CSS class handle it
+                        badgeStep1.removeAttribute('style');
                     }
                     badgeStep1.insertAdjacentHTML('afterbegin', iconSvg);
                 }
@@ -269,8 +291,8 @@ function nextStep() {
         // Update progress line to blue
         const progress = document.getElementById(`progress${currentStep}`);
         if (progress) {
-            progress.classList.remove('bg-gray-200');
-            progress.classList.add('bg-blue-600');
+            progress.classList.remove('line-inactive');
+            progress.classList.add('line-active');
         }
 
         // Move to next step
@@ -284,12 +306,12 @@ function nextStep() {
         const label = document.getElementById(`step${currentStep}-label`);
 
         if (indicator) {
-            indicator.classList.remove('bg-gray-200', 'text-gray-500');
-            indicator.classList.add('bg-blue-600', 'text-white');
+            indicator.classList.remove('step-inactive');
+            indicator.classList.add('step-active');
         }
         if (label) {
-            label.classList.remove('text-gray-400');
-            label.classList.add('text-blue-600');
+            label.classList.remove('label-inactive');
+            label.classList.add('label-active');
         }
 
         // Update buttons
@@ -312,7 +334,6 @@ function nextStep() {
             // Icon logic
             const badge = document.getElementById('selected-asset-badge');
             if (badge) {
-                // Remove existing SVG if any (keep span)
                 const existingSvg = badge.querySelector('svg');
                 if (existingSvg) existingSvg.remove();
 
@@ -338,12 +359,12 @@ function previousStep() {
         const label = document.getElementById(`step${currentStep}-label`);
 
         if (indicator) {
-            indicator.classList.remove('bg-blue-600', 'text-white');
-            indicator.classList.add('bg-gray-200', 'text-gray-500');
+            indicator.classList.remove('step-active');
+            indicator.classList.add('step-inactive');
         }
         if (label) {
-            label.classList.remove('text-blue-600');
-            label.classList.add('text-gray-400');
+            label.classList.remove('label-active');
+            label.classList.add('label-inactive');
         }
 
         currentStep--;
@@ -351,8 +372,8 @@ function previousStep() {
         // Revert progress line
         const progress = document.getElementById(`progress${currentStep}`);
         if (progress) {
-            progress.classList.remove('bg-blue-600');
-            progress.classList.add('bg-gray-200');
+            progress.classList.remove('line-active');
+            progress.classList.add('line-inactive');
         }
 
         document.getElementById(`step${currentStep}`).classList.remove('hidden');

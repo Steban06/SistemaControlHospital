@@ -378,6 +378,20 @@
 
         // Responsive redraw
         window.addEventListener('resize', drawCharts);
+
+        // Observer for dark mode changes
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    drawCharts();
+                }
+            });
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
         </script>
     @endpush
 

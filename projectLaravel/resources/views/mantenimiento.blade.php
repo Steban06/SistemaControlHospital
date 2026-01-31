@@ -3,6 +3,44 @@
 @section('title', 'Mantenimiento - Sistema de Control Hospital')
 
 @section('content')
+<style>
+    /* Custom Badge Styles for Dark Mode Reliability */
+    .badge-base {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.375rem;
+        border-width: 1px;
+        padding: 0.125rem 0.5rem;
+        font-weight: 500;
+        font-size: 0.75rem;
+        white-space: nowrap;
+    }
+    
+    /* Bien Nacional (Blue) */
+    .badge-bn {
+        background-color: #eff6ff;
+        color: #1d4ed8;
+        border-color: #bfdbfe;
+    }
+    .dark .badge-bn {
+        background-color: rgba(30, 58, 138, 0.4) !important;
+        color: #93c5fd !important;
+        border-color: rgba(30, 58, 138, 0.6) !important;
+    }
+
+    /* Aire Acondicionado (Cyan) */
+    .badge-ac {
+        background-color: #ecfeff;
+        color: #0e7490;
+        border-color: #a5f3fc;
+    }
+    .dark .badge-ac {
+        background-color: rgba(8, 145, 178, 0.25) !important;
+        color: #22d3ee !important;
+        border-color: rgba(8, 145, 178, 0.5) !important;
+    }
+</style>
 <div class="p-4 lg:p-6 space-y-4 lg:space-y-6">
 
     <div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border border-l-4 border-l-blue-600 bg-blue-50/50 dark:!bg-gray-900 border-blue-200 dark:!border-gray-700 shadow-sm dar">
@@ -164,7 +202,7 @@
                         <div>
                             <!-- Top Row details -->
                             <div class="flex justify-between items-start mb-2">
-                                <span data-badge="neutral" class="inline-flex items-center px-2 py-0.5 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 font-mono font-medium tracking-tight border border-gray-200 dark:border-gray-600 px-1.5 py-0.5 rounded-md" style="font-size: 10px;">
+                                <span class="badge-base badge-bn font-mono tracking-tight">
                                     BN-2024-0001
                                 </span>
                                 <span data-badge="preventivo" class="inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-300 ring-1 ring-inset ring-blue-500/20" style="font-size: 10px;">
@@ -231,7 +269,7 @@
                         <div>
                             <!-- Top Row details -->
                             <div class="flex justify-between items-start mb-2">
-                                <span data-badge="neutral" class="inline-flex items-center px-2 py-0.5 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 font-mono font-medium tracking-tight border border-gray-200 dark:border-gray-600 px-1.5 py-0.5 rounded-md" style="font-size: 10px;">
+                                <span class="badge-base badge-bn font-mono tracking-tight">
                                     BN-2023-0156
                                 </span>
                                 <span data-badge="correctivo" class="inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide bg-red-50 text-red-600 dark:bg-red-900 dark:text-red-300 ring-1 ring-inset ring-red-500/20" style="font-size: 10px;">
@@ -297,7 +335,7 @@
                         <div>
                             <!-- Top Row details -->
                             <div class="flex justify-between items-start mb-2">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-400 text-[10px] font-mono font-medium tracking-tight border border-gray-200 dark:border-white/10">
+                                <span class="badge-base badge-bn font-mono tracking-tight">
                                     BN-2024-0045
                                 </span>
                                 <span class="inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide bg-purple-50 text-purple-600 dark:bg-purple-900 dark:text-purple-300 ring-1 ring-inset ring-purple-500/20" style="font-size: 10px;"">
@@ -357,7 +395,7 @@
                 </div>
 
                 <!-- ADD NEW MAINTENANCE CARD -->
-                <div data-slot="card" class="maintenance-card-add group relative bg-gray-50 dark:bg-slate-800/50 rounded-xl border-2 border-dashed border-gray-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all duration-300 min-h-[220px] flex items-center justify-center cursor-pointer" onclick="openRegisterModal()">
+                <div data-slot="card" class="maintenance-card-add group relative dark:bg-gray-800/50 rounded-xl border-2 border-dashed border-gray-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all duration-300 min-h-[220px] flex items-center justify-center cursor-pointer" onclick="openRegisterModal()">
                     <div class="flex flex-col items-center gap-3 text-center p-6">
                         <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-6 h-6 text-blue-600 dark:text-blue-400"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
@@ -429,8 +467,37 @@
 
         updateMaintenanceBadges();
         
-        const observer = new MutationObserver(updateMaintenanceBadges);
+
+        const observer = new MutationObserver(function() {
+            updateMaintenanceBadges();
+            updateIconColors();
+        });
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+        // --- 3. Icon Color Logic (Force White in Dark Mode) ---
+        function updateIconColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            // Register New Card Icon
+            const addCard = document.querySelector('.maintenance-card-add');
+            if (addCard) {
+                const icon = addCard.querySelector('svg.lucide-plus');
+                if (icon) {
+                     if (isDark) {
+                        icon.classList.remove('text-blue-600');
+                        icon.classList.add('text-white');
+                        icon.style.setProperty('color', 'white', 'important');
+                    } else {
+                        icon.classList.add('text-blue-600');
+                        icon.classList.remove('text-white');
+                        icon.style.removeProperty('color');
+                    }
+                }
+            }
+        }
+        
+        // Initial call
+        updateIconColors();
 
         // --- 2. Search, Filter & Pagination Logic ---
         document.addEventListener('DOMContentLoaded', function() {

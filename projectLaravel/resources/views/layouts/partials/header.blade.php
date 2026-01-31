@@ -41,9 +41,9 @@
             </button>
 
             <!-- Dropdown Menu -->
-            <div id="notifications-dropdown" class="hidden absolute right-0 mt-3 w-[480px] sm:w-[500px] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-100 dark:border-gray-700 z-50 overflow-hidden ring-1 ring-black/5 mx-2 sm:mx-0">
+            <div id="notifications-dropdown" class="hidden absolute right-0 mt-3 w-[480px] sm:w-[500px] bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-100 dark:border-gray-700/50 z-50 overflow-hidden ring-1 ring-black/5 mx-2 sm:mx-0">
                 <!-- Header -->
-                <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700 flex justify-between items-baseline bg-gray-50/50 dark:bg-gray-800/50 backdrop-blur-sm">
+                <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700/50 flex justify-between items-baseline bg-gray-50/50 dark:bg-gray-800/50 backdrop-blur-sm">
                     <h3 class="font-bold text-base text-gray-900 dark:text-gray-100">Notificaciones</h3>
                     <button class="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 font-semibold hover:underline decoration-blue-600/30">
                         Marcar todo como leído
@@ -53,7 +53,7 @@
                 <!-- List -->
                 <div class="max-h-[350px] overflow-y-auto custom-scrollbar p-3">
                     <!-- Item 1 (New) -->
-                    <div class="group px-4 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all border-b border-gray-100 dark:border-gray-700/50 cursor-pointer flex gap-4 relative rounded-lg mb-2">
+                    <div class="flex gap-4 w-full px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700/50 cursor-pointer relative rounded-lg mb-2 group">
                         <div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
@@ -69,7 +69,7 @@
                     </div>
 
                     <!-- Item 2 -->
-                    <div class="group px-4 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all border-b border-gray-100 dark:border-gray-700/50 cursor-pointer flex gap-4 relative rounded-lg mb-2">
+                    <div class="flex gap-4 w-full px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700/50 cursor-pointer relative rounded-lg mb-2 group">
                         <div class="absolute left-0 top-0 bottom-0 w-1 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-cirecle"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
@@ -84,7 +84,7 @@
                     </div>
 
                     <!-- Item 3 -->
-                    <div class="group px-4 py-3.5 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all cursor-pointer flex gap-4 relative rounded-lg">
+                    <div class="flex gap-4 w-full px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer relative rounded-lg group">
                         <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-check"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>
@@ -100,8 +100,8 @@
                 </div>
 
                 <!-- Footer -->
-                <div class="p-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 text-center">
-                    <a href="{{ route('notificaciones.index') }}" class="inline-flex items-center justify-center text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 w-full hover:bg-blue-50 dark:hover:bg-blue-900/20 py-1.5 rounded-lg transition-colors">
+                <div class="p-3 dark:bg-transparent border-t border-gray-100 dark:border-gray-700/50 text-center">
+                    <a href="{{ route('notificaciones.index') }}" class="inline-flex items-center justify-center text-sm font-semibold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 w-full hover:bg-blue-50 dark:hover:bg-blue-900/30 py-1.5 rounded-lg transition-colors">
                         Ver todas las notificaciones
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right ml-1.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                     </a>
