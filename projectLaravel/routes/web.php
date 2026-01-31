@@ -60,6 +60,10 @@ Route::get('/mantenimiento', [MaintenanceController::class, 'index'])->name('man
 Route::post('/mantenimiento', [MaintenanceController::class, 'store'])->name('mantenimiento.store');
 Route::get('/mantenimiento/{id}', [MaintenanceController::class, 'show'])->name('mantenimiento.show');
 
+Route::get('/notificaciones', function () {
+    return view('notificaciones');
+})->name('notificaciones.index');
+
 // Manual generation routes
 Route::get('/generate-manuals', [App\Http\Controllers\ManualController::class, 'generateBoth'])->name('manuals.generate');
 Route::get('/generate-manual-usuario', [App\Http\Controllers\ManualController::class, 'generateUserManual'])->name('manuals.usuario');

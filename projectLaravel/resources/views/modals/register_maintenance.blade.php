@@ -334,7 +334,7 @@
     <!-- FOOTER FIJO -->
     <div class="flex-shrink-0 rounded-xl px-6 py-4 border-t border-gray-200 bg-gray-50">
         <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
-            <button type="button" id="btnCancel" onclick="closeRegisterModal()" class="w-full sm:w-auto inline-flex justify-center items-center rounded-md bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-red-600 hover:ring-red-300 transition-all btn-color-red">
+            <button type="button" id="btnCancel" onclick="closeRegisterModal()" class="w-full btn-color-red sm:w-auto inline-flex justify-center items-center rounded-md bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 hover:text-red-600 hover:ring-red-300 transition-all btn-color-red">
                 Cancelar
             </button>
             <button type="button" id="btnPrevious" onclick="previousStep()" class="hidden w-full sm:w-auto inline-flex justify-center items-center rounded-md bg-white px-6 py-2.5 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
