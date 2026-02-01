@@ -30,6 +30,7 @@ Route::get('/reportes/aires', [ReportesController::class, 'reporteAires'])->name
 Route::get('/reportes/analitico', [ReportesController::class, 'reporteAnalitico'])->name('reportes.analitico');
 Route::get('/reportes/{tipo}/pdf', [ReportesController::class, 'generarPDF'])->name('reportes.pdf');
 Route::post('/reportes/custom', [ReportesController::class, 'generarReportePersonalizado'])->name('reportes.custom');
+Route::post('/reportes/export-excel', [App\Http\Controllers\ExcelExportController::class, 'exportarExcel'])->name('reportes.excel');
 
 Route::prefix('bienes-nacionales')->group(function () {
     Route::get('/', [BNController::class, 'index'])->name('bienes-nacionales.index');
