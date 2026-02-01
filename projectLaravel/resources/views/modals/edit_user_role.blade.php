@@ -41,13 +41,31 @@
                 <input type="hidden" id="editUserId" name="id">
                 
                 <div class="space-y-4">
+                    <!-- Name -->
+                    <div>
+                        <label for="editUserName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre</label>
+                        <input type="text" id="editUserName" name="name" class="block w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="editUserEmail" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Correo Electrónico</label>
+                        <input type="email" id="editUserEmail" name="email" class="block w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2" required>
+                    </div>
+
+                    <!-- Password (Optional) -->
+                    <div id="password-field-container">
+                        <label for="editUserPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nueva Contraseña (Opcional)</label>
+                        <input type="password" id="editUserPassword" name="password" class="block w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2" placeholder="Dejar en blanco para mantener la actual" minlength="8">
+                    </div>
+
                     <!-- Role Selection -->
                     <div>
                         <label for="editUserRole" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Rol del Usuario</label>
                         <select id="editUserRole" name="role" class="block w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm px-3 py-2">
-                            <option value="Administrador">Administrador</option>
-                            <option value="Usuario">Usuario</option>
-                            <option value="Invitado">Invitado</option>
+                            <option value="admin">Administrador</option>
+                            <option value="user">Usuario</option>
+                            <option value="guest">Invitado</option>
                         </select>
                     </div>
 
@@ -60,22 +78,22 @@
                         </select>
                     </div>
                 </div>
+                
+                <!-- Footer inside form -->
+                <div class="bg-gray-50 rounded-lg dark:bg-gray-700/30 px-6 py-4 flex flex-row-reverse gap-3 border-t border-gray-100 dark:border-gray-700 rounded-b-xl">
+                    <button type="submit" 
+                            id="btn-save-edit-user"
+                            class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:w-auto transition-colors">
+                        Guardar Cambios
+                    </button>
+                    <button type="button" 
+                            data-edit-modal-close
+                            class="inline-flex w-full justify-center rounded-lg bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 sm:w-auto transition-colors btn-color-red">
+                        Cancelar
+                    </button>
+                </div>
             </form>
         </div>
 
-        <!-- Footer -->
-        <div class="bg-gray-50 rounded-lg dark:bg-gray-700/30 px-6 py-4 flex flex-row-reverse gap-3 border-t border-gray-100 dark:border-gray-700 rounded-b-xl">
-            <button type="button" 
-                    data-edit-modal-close
-                    class="inline-flex w-full justify-center rounded-lg bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 sm:w-auto transition-colors btn-color-red">
-                Cancelar
-            </button>
-            <button type="button" 
-                    onclick="document.getElementById('editUserForm').submit()"
-                    class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:w-auto transition-colors">
-                Guardar Cambios
-            </button>
-            
-        </div>
     </div>
 </div>

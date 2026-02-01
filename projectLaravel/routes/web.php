@@ -6,13 +6,31 @@ use App\Http\Controllers\BNController;
 use App\Http\Controllers\MaintenanceController;
 // Generacion de reportes
 use App\Http\Controllers\ReportesController;
+use App\Http\Controllers\UserPreferenceController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('login');
 })->name('login');
 
-Route::post('/login', function () {
-    return redirect()->route('inicio');
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+Route::post('/login', function (Request $request) {
+    $credentials = $request->validate([
+        'email' => ['required', 'email'],
+        'password' => ['required'],
+    ]);
+
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        return redirect()->route('inicio');
+    }
+
+    return back()->withErrors([
+        'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
+    ])->onlyInput('email');
 })->name('login.post');
 
 Route::any('/logout', function () {
@@ -61,15 +79,51 @@ Route::get('/mantenimiento', [MaintenanceController::class, 'index'])->name('man
 Route::post('/mantenimiento', [MaintenanceController::class, 'store'])->name('mantenimiento.store');
 Route::get('/mantenimiento/{id}', [MaintenanceController::class, 'show'])->name('mantenimiento.show');
 
-Route::get('/notificaciones', function () {
-    return view('notificaciones');
-})->name('notificaciones.index');
+
 
 // Manual generation routes
 Route::get('/generate-manuals', [App\Http\Controllers\ManualController::class, 'generateBoth'])->name('manuals.generate');
 Route::get('/generate-manual-usuario', [App\Http\Controllers\ManualController::class, 'generateUserManual'])->name('manuals.usuario');
 Route::get('/generate-manual-tecnico', [App\Http\Controllers\ManualController::class, 'generateTechnicalManual'])->name('manuals.tecnico');
 
-Route::get('/configuracion', function () {
-    return view('configuracion');
-})->name('configuracion');
+Route::middleware(['auth'])->group(function () {
+    // Notifications Routes
+    Route::get('/notificaciones', [App\Http\Controllers\NotificationController::class, 'index'])->name('notificaciones.index');
+    
+    // Notifications API Routes
+    Route::prefix('api/notifications')->group(function () {
+        Route::get('/unread', [App\Http\Controllers\NotificationController::class, 'getUnread'])->name('notifications.unread');
+        Route::get('/count', [App\Http\Controllers\NotificationController::class, 'getCount'])->name('notifications.count');
+        Route::post('/{id}/read', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+        Route::post('/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+        Route::delete('/{id}', [App\Http\Controllers\NotificationController::class, 'destroy'])->name('notifications.destroy');
+    });
+
+    Route::get('/configuracion', function () {
+        if (auth()->user()->role === 'guest') {
+            abort(403, 'No tiene permisos para acceder a esta sección.');
+        }
+
+        $users = App\Models\User::all(); 
+        
+        $stats = [
+            'admin' => $users->where('role', 'admin')->count(),
+            'user' => $users->where('role', 'user')->count(),
+            'guest' => $users->where('role', 'guest')->count(),
+        ];
+
+        return view('configuracion', compact('users', 'stats'));
+    })->name('configuracion');
+
+    // User Management Routes
+    Route::resource('users', UserController::class)->except(['create', 'show', 'edit']);
+
+    // Profile Routes
+    Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+
+    // User Preferences Routes
+    // User Preferences Routes
+    Route::get('/user-preferences', [UserPreferenceController::class, 'show'])->name('preferences.show');
+    Route::post('/user-preferences', [UserPreferenceController::class, 'update'])->name('preferences.update');
+    Route::post('/user-preferences/theme', [UserPreferenceController::class, 'updateTheme'])->name('preferences.theme');
+});

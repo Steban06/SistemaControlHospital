@@ -317,6 +317,28 @@ class ExcelExportController extends Controller
         // Generar archivo
         $writer = new Xlsx($spreadsheet);
         
+        // Crear Notificación si el usuario tiene activada la preferencia
+        try {
+            $user = auth()->user();
+            // Cargar preferencias si no están cargadas
+            if (!$user->preferences) {
+                \App\Models\UserPreference::getOrCreateForUser($user->id);
+                $user->load('preferences');
+            }
+
+            if ($user->preferences && $user->preferences->notify_reports) {
+                \App\Models\Notification::create([
+                    'user_id' => $user->id,
+                    'type' => 'reports',
+                    'title' => 'Reporte Generado',
+                    'message' => "Se ha generado exitosamente el reporte: {$tituloReporte}",
+                    'is_read' => false
+                ]);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error creando notificación de reporte: ' . $e->getMessage());
+        }
+
         // Crear respuesta de descarga
         return response()->streamDownload(function() use ($writer) {
             $writer->save('php://output');

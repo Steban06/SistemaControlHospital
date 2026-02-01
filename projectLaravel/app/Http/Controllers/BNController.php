@@ -40,6 +40,9 @@ class BNController extends Controller
 
     public function store(StoreBNRequest $request)
     {
+        if (auth()->user()->role === 'guest') {
+             return response()->json(['success' => false, 'message' => 'No tiene permisos para realizar esta acción.'], 403);
+        }
         // Validar los datos recibidos con FormRequest
         $bien = BN::create($request->validated());
 
@@ -52,6 +55,9 @@ class BNController extends Controller
 
     public function update(UpdateBNRequest $request, $id)
     {
+        if (auth()->user()->role === 'guest') {
+             return response()->json(['success' => false, 'message' => 'No tiene permisos para realizar esta acción.'], 403);
+        }
         try {
             $bien = BN::findOrFail($id);
 

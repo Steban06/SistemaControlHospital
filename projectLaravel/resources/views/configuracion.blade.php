@@ -7,6 +7,7 @@
     <div dir="ltr" data-orientation="horizontal" data-slot="tabs" class="flex flex-col gap-2 w-full">
         <!-- Tab List -->
         <div role="tablist" aria-orientation="horizontal" data-slot="tabs-list" class="bg-gray-100 dark:bg-transparent text-gray-500 dark:text-gray-400 h-10 items-center justify-center rounded-xl p-1 grid w-full grid-cols-3 mb-6 border border-transparent dark:border-gray-600" tabindex="0" data-orientation="horizontal" style="outline: none;">
+            @if(auth()->check() && auth()->user()->role === 'admin')
             <button type="button" role="tab" aria-selected="true" data-state="active" id="tab-trigger-users" onclick="switchConfigTab('users')" class="tab-trigger inline-flex h-full flex-1 items-center justify-center gap-2 rounded-lg px-2 py-1 text-sm font-medium whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-blue-500/50 disabled:pointer-events-none disabled:opacity-50 bg-white text-blue-700 shadow-sm dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-blue-400 dark:hover:text-gray-200">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users w-4 h-4 mr-1">
                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
@@ -16,7 +17,8 @@
                 </svg>
                 Usuarios
             </button>
-            <button type="button" role="tab" aria-selected="false" data-state="inactive" id="tab-trigger-security" onclick="switchConfigTab('security')" class="tab-trigger inline-flex h-full flex-1 items-center justify-center gap-2 rounded-lg px-2 py-1 text-sm font-medium whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-blue-500/50 disabled:pointer-events-none disabled:opacity-50 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-blue-400">
+            @endif
+            <button type="button" role="tab" aria-selected="{{ auth()->user()->role !== 'admin' ? 'true' : 'false' }}" data-state="{{ auth()->user()->role !== 'admin' ? 'active' : 'inactive' }}" id="tab-trigger-security" onclick="switchConfigTab('security')" class="tab-trigger inline-flex h-full flex-1 items-center justify-center gap-2 rounded-lg px-2 py-1 text-sm font-medium whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-blue-500/50 disabled:pointer-events-none disabled:opacity-50 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-blue-400 {{ auth()->user()->role !== 'admin' ? 'bg-white text-blue-700 shadow-sm' : '' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield w-4 h-4 mr-1">
                     <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
                 </svg>
@@ -31,6 +33,10 @@
             </button>
         </div>
 
+
+
+
+        @if(auth()->check() && auth()->user()->role === 'admin')
         <!-- Users Tab Content -->
         <div data-state="active" id="tab-content-users" class="tab-content flex-1 outline-none space-y-6 animate-in fade-in zoom-in duration-300">
             <!-- Stats Cards -->
@@ -58,15 +64,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                         <div class="p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-700">
                             <p class="text-sm text-blue-700 dark:text-blue-200 mb-1">Administradores</p>
-                            <p class="text-2xl font-bold text-blue-900 dark:text-blue-50">1</p>
+                            <p class="text-2xl font-bold text-blue-900 dark:text-blue-50">{{ $stats['admin'] }}</p>
                         </div>
                         <div class="p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg border border-emerald-200 dark:border-emerald-700">
                             <p class="text-sm text-emerald-700 dark:text-emerald-200 mb-1">Usuarios</p>
-                            <p class="text-2xl font-bold text-emerald-900 dark:text-emerald-50">2</p>
+                            <p class="text-2xl font-bold text-emerald-900 dark:text-emerald-50">{{ $stats['user'] }}</p>
                         </div>
-                        <div class="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                        <div class="p-4  dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                             <p class="text-sm text-gray-700 dark:text-gray-300 mb-1">Invitados</p>
-                            <p class="text-2xl font-bold text-gray-900 dark:text-gray-50">1</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $stats['guest'] }}</p>
                         </div>
                     </div>
 
@@ -138,78 +144,58 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tableBodyUsers" class="divide-y divide-gray-100">
+                                    @foreach($users as $user)
                                     <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="p-4 font-medium text-gray-900">María González</td>
-                                        <td class="p-4 text-gray-600">maria.gonzalez@hospital.com</td>
-                                        <td class="p-4"><span class="inline-flex items-center rounded-md bg-blue-600 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-blue-700/10">Administrador</span></td>
-                                        <td class="p-4 text-gray-600">Administración</td>
-                                        <td class="p-4"><span class="inline-flex items-center gap-1 rounded-md bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>Activo</span></td>
-                                        <td class="p-4 text-gray-400 text-xs">2026-01-12 09:30</td>
+                                        <td class="p-4 font-medium text-gray-900">{{ $user->name }}</td>
+                                        <td class="p-4 text-gray-600">{{ $user->email }}</td>
+                                        <td class="p-4">
+                                            @php
+                                                $roleClasses = [
+                                                    'admin' => 'bg-blue-600 ring-blue-700/10',
+                                                    'user' => 'bg-emerald-600 ring-emerald-700/10',
+                                                    'guest' => 'bg-gray-500 ring-gray-600/10'
+                                                ];
+                                                $roleNames = [
+                                                    'admin' => 'Administrador',
+                                                    'user' => 'Usuario',
+                                                    'guest' => 'Invitado'
+                                                ];
+                                                $role = $user->role ?? 'user';
+                                            @endphp
+                                            <span class="inline-flex items-center rounded-md {{ $roleClasses[$role] ?? 'bg-gray-600' }} px-2 py-1 text-xs font-medium text-white ring-1 ring-inset">{{ $roleNames[$role] ?? ucfirst($role) }}</span>
+                                        </td>
+                                        <td class="p-4 text-gray-600">General</td>
+                                        <td class="p-4">
+                                            @php
+                                                $status = $user->status ?? 'Activo';
+                                                $statusClasses = [
+                                                    'Activo' => 'bg-emerald-100 text-emerald-700 ring-emerald-600/20',
+                                                    'Inactivo' => 'bg-red-100 text-red-700 ring-red-600/20'
+                                                ];
+                                                $statusIcons = [
+                                                    'Activo' => '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>',
+                                                    'Inactivo' => '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>'
+                                                ];
+                                            @endphp
+                                            <span class="inline-flex items-center gap-1 rounded-md {{ $statusClasses[$status] ?? 'bg-gray-100 text-gray-700 ring-gray-600/20' }} px-2 py-1 text-xs font-medium ring-1 ring-inset">
+                                                {!! $statusIcons[$status] ?? '' !!}
+                                                {{ $status }}
+                                            </span>
+                                        </td>
+                                        <td class="p-4 text-gray-400 text-xs">{{ $user->updated_at->diffForHumans() }}</td>
                                         <td class="p-4 text-center">
                                             <button 
-                                                data-user-id="1" 
-                                                data-user-name="María González" 
-                                                data-user-role="Administrador" 
-                                                data-user-status="Activo"
+                                                data-user-id="{{ $user->id }}" 
+                                                data-user-name="{{ $user->name }}" 
+                                                data-user-email="{{ $user->email }}"
+                                                data-user-role="{{ $user->role }}" 
+                                                data-user-status="{{ $user->status ?? 'Activo' }}"
                                                 class="edit-user-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 text-blue-600" title="Editar Usuario/Rol">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen w-4 h-4"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"></path></svg>
                                             </button>
                                         </td>
                                     </tr>
-                                     <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="p-4 font-medium text-gray-900">Carlos Ramírez</td>
-                                        <td class="p-4 text-gray-600">carlos.ramirez@hospital.com</td>
-                                        <td class="p-4"><span class="inline-flex items-center rounded-md bg-emerald-600 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-emerald-700/10">Usuario</span></td>
-                                        <td class="p-4 text-gray-600">Urgencias</td>
-                                        <td class="p-4"><span class="inline-flex items-center gap-1 rounded-md bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>Activo</span></td>
-                                        <td class="p-4 text-gray-400 text-xs">2026-01-12 08:15</td>
-                                        <td class="p-4 text-center">
-                                            <button 
-                                                data-user-id="2"
-                                                data-user-name="Carlos Ramírez"
-                                                data-user-role="Usuario"
-                                                data-user-status="Activo"
-                                                class="edit-user-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 text-blue-600" title="Editar Usuario/Rol">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen w-4 h-4"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"></path></svg>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                     <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="p-4 font-medium text-gray-900">Ana Martínez</td>
-                                        <td class="p-4 text-gray-600">ana.martinez@hospital.com</td>
-                                        <td class="p-4"><span class="inline-flex items-center rounded-md bg-emerald-600 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-emerald-700/10">Usuario</span></td>
-                                        <td class="p-4 text-gray-600">Cirugía</td>
-                                        <td class="p-4"><span class="inline-flex items-center gap-1 rounded-md bg-emerald-100 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-inset ring-emerald-600/20"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>Activo</span></td>
-                                        <td class="p-4 text-gray-400 text-xs">2026-01-11 16:45</td>
-                                        <td class="p-4 text-center">
-                                            <button 
-                                                data-user-id="3"
-                                                data-user-name="Ana Martínez"
-                                                data-user-role="Usuario"
-                                                data-user-status="Activo"
-                                                class="edit-user-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 text-blue-600" title="Editar Usuario/Rol">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen w-4 h-4"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"></path></svg>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                     <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="p-4 font-medium text-gray-900">Pedro López</td>
-                                        <td class="p-4 text-gray-600">pedro.lopez@hospital.com</td>
-                                        <td class="p-4"><span class="inline-flex items-center rounded-md bg-gray-500 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-600/10">Invitado</span></td>
-                                        <td class="p-4 text-gray-600">Auditoría</td>
-                                        <td class="p-4"><span class="inline-flex items-center gap-1 rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>Inactivo</span></td>
-                                        <td class="p-4 text-gray-400 text-xs">2026-01-10 14:20</td>
-                                        <td class="p-4 text-center">
-                                            <button 
-                                                data-user-id="4"
-                                                data-user-name="Pedro López"
-                                                data-user-role="Invitado"
-                                                data-user-status="Inactivo"
-                                                class="edit-user-btn inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 w-8 text-blue-600" title="Editar Usuario/Rol">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen w-4 h-4"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"></path></svg>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -265,8 +251,10 @@
             </div>
         </div>
 
+        @endif
+
         <!-- Security Tab Content -->
-        <div data-state="inactive" id="tab-content-security" class="tab-content flex-1 outline-none space-y-6 hidden animate-in fade-in zoom-in duration-300">
+        <div data-state="{{ auth()->user()->role === 'admin' ? 'inactive' : 'active' }}" id="tab-content-security" class="tab-content flex-1 outline-none space-y-6 {{ auth()->user()->role === 'admin' ? 'hidden' : '' }} animate-in fade-in zoom-in duration-300">
             <div data-slot="card" class="bg-card dark:bg-gray-800 text-card-foreground dark:text-gray-100 flex flex-col gap-6 rounded-xl shadow-lg border-0 dark:border dark:border-gray-700">
                 <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 border-b-0 dark:border-b dark:border-gray-700">
                     <h4 data-slot="card-title" class="leading-none flex items-center gap-2 dark:text-gray-100">
@@ -382,7 +370,7 @@
                                     <p class="text-sm text-gray-600 dark:text-gray-400">Generar copia de seguridad diariamente</p>
                                 </div>
                             </div>
-                            <button type="button" role="switch" aria-checked="false" data-state="unchecked" value="on" data-slot="switch" class="peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
+                            <button type="button" role="switch" id="switch-auto-backup" data-preference="auto_backup_enabled" aria-checked="false" data-state="unchecked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
                                 <span data-state="unchecked" data-slot="switch-thumb" class="bg-card dark:data-[state=unchecked]:bg-card-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"></span>
                             </button>
                         </div>
@@ -417,7 +405,7 @@
                                     <p class="text-sm text-gray-600 dark:text-gray-400">Notificar cuando se registren nuevos bienes</p>
                                 </div>
                             </div>
-                            <button type="button" role="switch" aria-checked="true" data-state="checked" value="on" data-slot="switch" class="peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
+                            <button type="button" role="switch" id="switch-notify-new-assets" data-preference="notify_new_assets" aria-checked="true" data-state="checked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
                                 <span data-state="checked" data-slot="switch-thumb" class="bg-card dark:data-[state=unchecked]:bg-card-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"></span>
                             </button>
                         </div>
@@ -432,7 +420,7 @@
                                     <p class="text-sm text-gray-600 dark:text-gray-400">Recordatorios de mantenimientos programados</p>
                                 </div>
                             </div>
-                            <button type="button" role="switch" aria-checked="true" data-state="checked" value="on" data-slot="switch" class="peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
+                            <button type="button" role="switch" id="switch-notify-maintenance" data-preference="notify_maintenance" aria-checked="true" data-state="checked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
                                 <span data-state="checked" data-slot="switch-thumb" class="bg-card dark:data-[state=unchecked]:bg-card-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"></span>
                             </button>
                         </div>
@@ -450,12 +438,12 @@
                                     <p class="text-sm text-gray-600 dark:text-gray-400">Notificar cuando se generen reportes</p>
                                 </div>
                             </div>
-                            <button type="button" role="switch" aria-checked="false" data-state="unchecked" value="on" data-slot="switch" class="peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
+                            <button type="button" role="switch" id="switch-notify-reports" data-preference="notify_reports" aria-checked="false" data-state="unchecked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
                                 <span data-state="unchecked" data-slot="switch-thumb" class="bg-card dark:data-[state=unchecked]:bg-card-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"></span>
                             </button>
                         </div>
                     </div>
-                    <button data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 has-[&gt;svg]:px-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500">Guardar Preferencias</button>
+                    <button id="savePreferencesBtn" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 has-[&gt;svg]:px-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500">Guardar Preferencias</button>
                 </div>
             </div>
         </div>
@@ -579,6 +567,8 @@
             rowsPerPageSelectId: 'rowsPerPageUsers',
             statusFilterId: 'filterUserStatus',
             categoryFilterId: 'filterUserRole', // Reusamos el filtro de categoría para "Rol"
+            categoryColumnIndex: 2, // Rol
+            statusColumnIndex: 4,   // Estado
             defaultRowsPerPage: 10
         });
     });
@@ -667,6 +657,13 @@
                     const nameSpan = document.getElementById('editUserNameSpan');
                     if(nameSpan) nameSpan.textContent = userName;
                     
+                    const nameInput = document.getElementById('editUserName');
+                    if(nameInput) nameInput.value = userName;
+
+                    const emailInput = document.getElementById('editUserEmail');
+                    if(emailInput) emailInput.value = btn.dataset.userEmail;
+
+                    
                     const idInput = document.getElementById('editUserId');
                     if(idInput) idInput.value = userId;
                     
@@ -678,9 +675,19 @@
                     const statusSelect = document.getElementById('editUserStatus');
                     if (statusSelect) statusSelect.value = userStatus;
 
+                    // Hide Password Field for Admins
+                    const passwordContainer = document.getElementById('password-field-container');
+                    if (passwordContainer) {
+                         if (userRole === 'admin') {
+                             passwordContainer.classList.add('hidden');
+                         } else {
+                             passwordContainer.classList.remove('hidden');
+                         }
+                    }
+
                     // Update Form Action
                     const form = document.getElementById('editUserForm');
-                    if(form) form.action = `/usuarios/${userId}`;
+                    if(form) form.action = `/users/${userId}`;
 
                     // Show Modal
                     editModal.classList.remove('hidden');
@@ -703,6 +710,193 @@
                 }
             }
         });
+
+        // --- User Preferences Logic ---
+        
+        // Function to toggle switch state
+        function toggleSwitch(switchBtn) {
+            const currentState = switchBtn.getAttribute('data-state');
+            const newState = currentState === 'checked' ? 'unchecked' : 'checked';
+            const thumb = switchBtn.querySelector('[data-slot="switch-thumb"]');
+            
+            // Update attributes
+            switchBtn.setAttribute('data-state', newState);
+            switchBtn.setAttribute('aria-checked', newState === 'checked' ? 'true' : 'false');
+            thumb.setAttribute('data-state', newState);
+        }
+
+        // Add click handlers to all preference switches
+        document.querySelectorAll('.preference-switch').forEach(switchBtn => {
+            switchBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleSwitch(this);
+            });
+        });
+
+        // Load user preferences on page load
+        async function loadUserPreferences() {
+            try {
+                const response = await fetch('/user-preferences', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const prefs = data.preferences;
+
+                    // Update each switch based on loaded preferences
+                    Object.keys(prefs).forEach(key => {
+                        if (key === 'theme') return; // Skip theme for now
+                        
+                        const switchBtn = document.querySelector(`[data-preference="${key}"]`);
+                        if (switchBtn) {
+                            const shouldBeChecked = prefs[key];
+                            const currentState = switchBtn.getAttribute('data-state');
+                            const needsToggle = (shouldBeChecked && currentState === 'unchecked') || 
+                                              (!shouldBeChecked && currentState === 'checked');
+                            
+                            if (needsToggle) {
+                                toggleSwitch(switchBtn);
+                            }
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading preferences:', error);
+            }
+        }
+
+        // Save preferences button handler
+        const savePreferencesBtn = document.getElementById('savePreferencesBtn');
+        if (savePreferencesBtn) {
+            savePreferencesBtn.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                // Disable button during save
+                this.disabled = true;
+                const originalText = this.textContent;
+                this.textContent = 'Guardando...';
+
+                // Collect all preference values
+                const preferences = {};
+                document.querySelectorAll('.preference-switch').forEach(switchBtn => {
+                    const prefName = switchBtn.getAttribute('data-preference');
+                    const isChecked = switchBtn.getAttribute('data-state') === 'checked';
+                    preferences[prefName] = isChecked;
+                });
+
+                try {
+                    const response = await fetch('/user-preferences', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                        },
+                        body: JSON.stringify(preferences)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        // Show success message
+                        this.textContent = '✓ Guardado';
+                        this.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+                        this.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                        
+                        // Reset button after 2 seconds
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+                            this.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                            this.disabled = false;
+                        }, 2000);
+                    } else {
+                        throw new Error(data.message || 'Error al guardar');
+                    }
+                } catch (error) {
+                    console.error('Error saving preferences:', error);
+                    this.textContent = '✗ Error';
+                    this.classList.add('bg-red-600', 'hover:bg-red-700');
+                    this.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                    
+                    setTimeout(() => {
+                        this.textContent = originalText;
+                        this.classList.remove('bg-red-600', 'hover:bg-red-700');
+                        this.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                        this.disabled = false;
+                    }, 2000);
+                }
+            });
+        }
+
+        // Load preferences when page loads
+        loadUserPreferences();
+
+        // --- AJAX Handling for User Forms ---
+        const handleFormSubmit = async (event) => {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn ? submitBtn.innerText : '';
+            
+            if(submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'Procesando...';
+            }
+
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method, // Uses the form's method (POST/PUT via _method)
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    alert(result.message);
+                    window.location.reload(); 
+                } else {
+                    // Check for validation errors
+                    if(result.errors) {
+                         let errorMsg = 'Errores de validación:\n';
+                         for (const [key, messages] of Object.entries(result.errors)) {
+                             errorMsg += `- ${messages.join(', ')}\n`;
+                         }
+                         alert(errorMsg);
+                    } else {
+                        alert('Error: ' + (result.message || 'Error desconocido'));
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión o inesperado.');
+            } finally {
+                if(submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = originalBtnText;
+                }
+            }
+        };
+
+        const addUserForm = document.getElementById('formAddUser');
+        if(addUserForm) {
+            addUserForm.addEventListener('submit', handleFormSubmit);
+        }
+
+        const editUserForm = document.getElementById('editUserForm');
+        if(editUserForm) {
+            editUserForm.addEventListener('submit', handleFormSubmit);
+        }
     });
 </script>
 @endpush

@@ -151,6 +151,7 @@
                     </h4>
                     <p data-slot="card-description" class="text-muted-foreground text-xs lg:text-sm mt-1">Registro de mantenimientos realizados</p>
                 </div>
+                @if(auth()->user()->role !== 'guest')
                 <button onclick="openRegisterModal()" data-slot="button" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 bg-blue-600 hover:bg-blue-700">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-4 h-4 mr-2">
                         <path d="M5 12h14"></path>
@@ -158,6 +159,7 @@
                     </svg>
                     Registrar Mantenimiento
                 </button>
+                @endif
             </div>
         </div>
 
@@ -395,6 +397,8 @@
                 </div>
 
                 <!-- ADD NEW MAINTENANCE CARD -->
+                @if(auth()->user()->role !== 'guest')
+                <!-- ADD NEW MAINTENANCE CARD -->
                 <div data-slot="card" class="maintenance-card-add group relative dark:bg-gray-800/50 rounded-xl border-2 border-dashed border-gray-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all duration-300 min-h-[220px] flex items-center justify-center cursor-pointer" onclick="openRegisterModal()">
                     <div class="flex flex-col items-center gap-3 text-center p-6">
                         <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -406,6 +410,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
 
             <!-- Pagination Control (Dynamic) -->

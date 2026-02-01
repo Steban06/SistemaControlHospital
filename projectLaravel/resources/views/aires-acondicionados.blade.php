@@ -102,10 +102,12 @@
                         <p data-slot="card-description" class="text-muted-foreground text-xs lg:text-sm mt-1 text-gray-500 dark:text-gray-400">Sistema de gestión y control de climatización hospitalaria</p>
                     </div>
                     {{-- onclick="ModalManager.openModal(document.getElementById('addACModal'))" --}}
+                    @if(auth()->user()->role !== 'guest')
                     <button id="addACBtn" data-slot="button" class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white shadow hover:bg-blue-700 h-8 rounded-md gap-1.5 px-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-4 h-4 lg:mr-2"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
                         <span class="hidden lg:inline">Agregar Aire Acondicionado</span>
                     </button>
+                    @endif
                 </div>
             </div>
         </div>
@@ -210,6 +212,8 @@
                     @endforeach
                     
                     <!-- Registrar Nuevo Card -->
+                    @if(auth()->user()->role !== 'guest')
+                    <!-- Registrar Nuevo Card -->
                     <div data-slot="card" class="group relative dark:bg-gray-800 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all duration-300 min-h-[220px] flex items-center justify-center cursor-pointer" onclick="ModalManager.openModal(document.getElementById('addACModal'))">
                         <div class="flex flex-col items-center gap-3 text-center p-6">
                             <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
@@ -221,6 +225,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
             <div id="countDisplay" class="text-xs lg:text-sm text-gray-500 pt-2 border-t dark:border-gray-700 dark:text-gray-400">Mostrando {{ count($aires) }} de {{ count($aires) }} unidades</div>
         </div>

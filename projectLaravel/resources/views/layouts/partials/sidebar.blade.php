@@ -40,6 +40,7 @@
                 <li><a class="link_name" href="{{ url('/reportes') }}">Reportes</a></li>
             </ul>
         </li>
+        @if(auth()->user()->role !== 'guest')
         <li>
             <a href="{{ url('/configuracion') }}">
                 <i class="fa-solid fa-gear"></i>
@@ -49,6 +50,7 @@
                 <li><a class="link_name" href="{{ url('/configuracion') }}">Configuración</a></li>
             </ul>
         </li>
+        @endif
     </ul>
     
     <div class="profile-details">

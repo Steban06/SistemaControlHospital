@@ -36,6 +36,9 @@ class TablePagination {
             ? document.getElementById(config.categoryFilterId)
             : null;
 
+        this.categoryColumnIndex = config.categoryColumnIndex !== undefined ? config.categoryColumnIndex : 3;
+        this.statusColumnIndex = config.statusColumnIndex !== undefined ? config.statusColumnIndex : 5;
+
         this.tableContainerSelector = config.tableContainerSelector || '.table-container';
         this.defaultRowsPerPage = config.defaultRowsPerPage || 10;
         this.onAddButtonClick = config.onAddButtonClick || null;
@@ -123,22 +126,20 @@ class TablePagination {
                 return cell.textContent.toLowerCase().includes(searchTerm);
             });
 
-            // 2. Category Filter (Column Index 3 - 0-based)
-            // Verify index in your HTML table. Assuming 4th column (index 3).
+            // 2. Category Filter
             let matchesCategory = true;
             if (categoryValue !== '' && categoryValue !== 'todas') {
-                const categoryCell = cells[3]; // Adjust index if needed
+                const categoryCell = cells[this.categoryColumnIndex]; 
                 if (categoryCell) {
                     const cellText = categoryCell.textContent.toLowerCase().trim();
                     matchesCategory = cellText.includes(categoryValue);
                 }
             }
 
-            // 3. Status Filter (Column Index 5 - 0-based)
-            // Verify index in your HTML table. Assuming 6th column (index 5).
+            // 3. Status Filter
             let matchesStatus = true;
             if (statusValue !== '') {
-                const statusCell = cells[5]; // Adjust index if needed
+                const statusCell = cells[this.statusColumnIndex];
                 if (statusCell) {
                     const cellText = statusCell.textContent.toLowerCase().trim();
                     

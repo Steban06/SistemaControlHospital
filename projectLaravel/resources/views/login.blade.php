@@ -86,15 +86,15 @@
                     <form class="space-y-5" method="POST" action="{{ route('login.post') }}">
                         @csrf
                         <div class="space-y-2">
-                            <label data-slot="label" class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1" for="username">Usuario</label>
+                            <label data-slot="label" class="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 ml-1" for="email">Correo Electrónico</label>
                             <div class="relative group">
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 group-focus-within:text-blue-500 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
-                                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail">
+                                        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                                     </svg>
                                 </div>
-                                <input type="text" name="username" class="flex h-11 w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-1 text-sm shadow-sm transition-all file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:opacity-50 pl-10 dark:bg-gray-900 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-900" id="username" placeholder="Ingrese su usuario" required>
+                                <input type="email" name="email" class="flex h-11 w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-1 text-sm shadow-sm transition-all file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-visible:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:opacity-50 pl-10 dark:bg-gray-900 dark:border-gray-600 dark:text-gray-100 dark:focus:ring-blue-900" id="email" placeholder="Ingrese su correo" required>
                             </div>
                         </div>
                         <div class="space-y-2">

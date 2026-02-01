@@ -25,6 +25,9 @@ class AirAcondController extends Controller
 
     public function store(Request $request)
     {
+        if (auth()->user()->role === 'guest') {
+             return response()->json(['success' => false, 'message' => 'No tiene permisos para realizar esta acción.'], 403);
+        }
         $aire = AirAcond::create($request->all());
         return response()->json([
             'success' => true,
@@ -101,6 +104,9 @@ class AirAcondController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (auth()->user()->role === 'guest') {
+            abort(403, 'No tiene permisos para realizar esta acción.');
+        }
         $aire = AirAcond::findOrFail($id);
         
         $validated = $request->validate([

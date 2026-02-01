@@ -46,6 +46,8 @@
             const html = document.documentElement;
             const isDark = html.classList.contains('dark');
             
+            const newTheme = isDark ? 'light' : 'dark';
+            
             if (isDark) {
                 html.classList.remove('dark');
                 localStorage.theme = 'light';
@@ -54,6 +56,23 @@
                 localStorage.theme = 'dark';
             }
             updateThemeIcon();
+            
+            // Save theme preference to database
+            fetch('/user-preferences/theme', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({ theme: newTheme })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    console.error('Failed to save theme preference');
+                }
+            })
+            .catch(error => console.error('Error saving theme:', error));
         }
 
         function updateThemeIcon() {

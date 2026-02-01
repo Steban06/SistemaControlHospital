@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\BN;
 use App\Models\AirAcond; // Importar modelo de Aires
 use App\Models\Area; // Importar modelo Area
+use App\Models\Notification;
+use App\Models\UserPreference;
+use Illuminate\Support\Facades\Auth;
 
 class ReportesController extends Controller
 {
@@ -138,7 +141,65 @@ class ReportesController extends Controller
             $pdf->setPaper('a4', 'landscape');
         }
 
+        // Create notification if user has notify_reports enabled
+        $this->createReportNotification($tipo, $filename);
+
         return $pdf->download($filename);
+    }
+
+    /**
+     * Create a notification for report generation if user preferences allow it
+     */
+    private function createReportNotification($tipo, $filename)
+    {
+        $currentUserId = Auth::id();
+        $currentUser = Auth::user();
+        
+        $tipoNombre = match($tipo) {
+            'general' => 'General',
+            'aires' => 'Aires Acondicionados',
+            'mantenimiento' => 'Mantenimiento',
+            'analitico' => 'Analítico',
+            default => ucfirst($tipo)
+        };
+
+        // Get all users who should receive this notification
+        $usersToNotify = collect();
+        
+        // 1. Add current user if they have notify_reports enabled
+        $currentUserPreference = UserPreference::where('user_id', $currentUserId)->first();
+        if ($currentUserPreference && $currentUserPreference->notify_reports) {
+            $usersToNotify->push([
+                'user_id' => $currentUserId,
+                'message' => "Has generado el reporte de {$tipoNombre} ({$filename}) exitosamente."
+            ]);
+        }
+        
+        // 2. Add all administrators who have notify_reports enabled
+        $admins = \App\Models\User::where('role', 'admin')
+            ->where('id', '!=', $currentUserId) // Exclude current user if they're admin
+            ->get();
+        
+        foreach ($admins as $admin) {
+            $adminPreference = UserPreference::where('user_id', $admin->id)->first();
+            if ($adminPreference && $adminPreference->notify_reports) {
+                $usersToNotify->push([
+                    'user_id' => $admin->id,
+                    'message' => "{$currentUser->name} ha generado el reporte de {$tipoNombre} ({$filename})."
+                ]);
+            }
+        }
+        
+        // Create notifications for all users
+        foreach ($usersToNotify as $notificationData) {
+            Notification::create([
+                'user_id' => $notificationData['user_id'],
+                'type' => 'reports',
+                'title' => 'Reporte Generado',
+                'message' => $notificationData['message'],
+                'is_read' => false,
+            ]);
+        }
     }
 
     public function reporteGeneral()

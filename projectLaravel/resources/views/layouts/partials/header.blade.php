@@ -31,13 +31,14 @@
         </button>
 
         <!-- Notifications -->
+        @if(auth()->user()->role !== 'guest')
         <div class="relative" id="notifications-container">
             <button onclick="toggleNotifications()" class="inline-flex items-center justify-center whitespace-nowrap rounded-full w-10 h-10 transition-all hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 focus:outline-none relative group" title="Notificaciones">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell group-hover:scale-105 transition-transform">
                     <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
                     <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
                 </svg>
-                <span class="absolute top-0 right-0 h-4 w-4 rounded-full bg-red-500 border border-white dark:border-gray-900 flex items-center justify-center text-[9px] font-bold text-white">3</span>
+                <span class="absolute top-0 right-0 h-4 w-4 rounded-full bg-red-500 border border-white dark:border-gray-900 flex items-center justify-center text-[9px] font-bold text-white" id="notification-badge" style="{{ isset($unreadCount) && $unreadCount > 0 ? '' : 'display: none;' }}">{{ $unreadCount ?? 0 }}</span>
             </button>
 
             <!-- Dropdown Menu -->
@@ -45,58 +46,54 @@
                 <!-- Header -->
                 <div class="px-4 py-3 border-b border-gray-100 dark:border-gray-700/50 flex justify-between items-baseline bg-gray-50/50 dark:bg-gray-800/50 backdrop-blur-sm">
                     <h3 class="font-bold text-base text-gray-900 dark:text-gray-100">Notificaciones</h3>
-                    <button class="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 font-semibold hover:underline decoration-blue-600/30">
+                    <button onclick="markAllAsRead()" class="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 font-semibold hover:underline decoration-blue-600/30">
                         Marcar todo como leído
                     </button>
                 </div>
                 
                 <!-- List -->
-                <div class="max-h-[350px] overflow-y-auto custom-scrollbar p-3">
-                    <!-- Item 1 (New) -->
-                    <div class="flex gap-4 w-full px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700/50 cursor-pointer relative rounded-lg mb-2 group">
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-amber-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div class="bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                <div class="max-h-[350px] overflow-y-auto custom-scrollbar p-3" id="notifications-list">
+                    @forelse($recentNotifications ?? [] as $notification)
+                    <!-- Notification Item -->
+                    <div class="flex gap-4 w-full px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700/50 cursor-pointer relative rounded-lg mb-2 group notification-item" data-id="{{ $notification->id }}" onclick="markNotificationAsRead({{ $notification->id }})">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 
+                            @if($notification->type === 'maintenance') bg-amber-500
+                            @elseif($notification->type === 'inventory') bg-red-500
+                            @elseif($notification->type === 'reports') bg-purple-500
+                            @else bg-blue-500 @endif
+                            opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="
+                            @if($notification->type === 'maintenance') bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400
+                            @elseif($notification->type === 'inventory') bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400
+                            @elseif($notification->type === 'reports') bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400
+                            @else bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 @endif
+                            w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200">
+                            @if($notification->type === 'maintenance')
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                            @elseif($notification->type === 'inventory')
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-circle"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                            @elseif($notification->type === 'reports')
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-check"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>
+                            @else
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                            @endif
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex justify-between items-start mb-1">
-                                <p class="text-xs font-semibold text-gray-900 dark:text-gray-100 truncate">Mantenimiento Pendiente</p>
+                                <p class="text-xs font-semibold text-gray-900 dark:text-gray-100 truncate">{{ $notification->title }}</p>
                                 <span class="text-[9px] font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-1.5 py-0.5 rounded-full">Nuevo</span>
                             </div>
-                            <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2 mb-1.5">El equipo de <strong>Aire Acondicionado Sala de Espera</strong> requiere su revisión trimestral programada.</p>
-                            <p class="text-[10px] text-gray-400 font-medium">Hace 2 horas</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2 mb-1.5">{{ $notification->message }}</p>
+                            <p class="text-[10px] text-gray-400 font-medium">{{ $notification->created_at->diffForHumans() }}</p>
                         </div>
                     </div>
-
-                    <!-- Item 2 -->
-                    <div class="flex gap-4 w-full px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700/50 cursor-pointer relative rounded-lg mb-2 group">
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div class="bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-cirecle"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex justify-between items-start mb-1">
-                                <p class="text-xs font-semibold text-gray-900 dark:text-gray-100 truncate">Stock Crítico</p>
-                            </div>
-                            <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mb-1.5">Quedan menos de 5 unidades de <strong>Filtros de Aire (Modelo X-200)</strong>.</p>
-                            <p class="text-[10px] text-gray-400 font-medium">Ayer a las 14:30</p>
-                        </div>
+                    @empty
+                    <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-off mx-auto mb-2 opacity-50"><path d="M8.7 3A6 6 0 0 1 18 8a21.3 21.3 0 0 0 .6 5"/><path d="M17 17H3s3-2 3-9a4.67 4.67 0 0 1 .3-1.7"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/><path d="m2 2 20 20"/></svg>
+                        <p class="text-sm font-medium">No hay notificaciones</p>
+                        <p class="text-xs mt-1">Te avisaremos cuando haya novedades</p>
                     </div>
-
-                    <!-- Item 3 -->
-                    <div class="flex gap-4 w-full px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer relative rounded-lg group">
-                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div class="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-check"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex justify-between items-start mb-1">
-                                <p class="text-xs font-semibold text-gray-900 dark:text-gray-100 truncate">Reporte Generado</p>
-                            </div>
-                            <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed mb-1.5">El <strong>Reporte Mensual de Activos</strong> de Octubre ha sido generado.</p>
-                            <p class="text-[10px] text-gray-400 font-medium">Hace 1 día</p>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
 
                 <!-- Footer -->
@@ -122,8 +119,182 @@
                         dropdown.classList.add('hidden');
                     }
                 });
+
+                // Mark notification as read
+                function markNotificationAsRead(notificationId) {
+                    fetch(`/api/notifications/${notificationId}/read`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Remove notification from list
+                            const notificationElement = document.querySelector(`.notification-item[data-id="${notificationId}"]`);
+                            if (notificationElement) {
+                                notificationElement.style.opacity = '0';
+                                setTimeout(() => {
+                                    notificationElement.remove();
+                                    updateNotificationCount();
+                                    
+                                    // Check if list is empty
+                                    const list = document.getElementById('notifications-list');
+                                    if (list.querySelectorAll('.notification-item').length === 0) {
+                                        list.innerHTML = `
+                                            <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-off mx-auto mb-2 opacity-50"><path d="M8.7 3A6 6 0 0 1 18 8a21.3 21.3 0 0 0 .6 5"/><path d="M17 17H3s3-2 3-9a4.67 4.67 0 0 1 .3-1.7"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/><path d="m2 2 20 20"/></svg>
+                                                <p class="text-sm font-medium">No hay notificaciones</p>
+                                                <p class="text-xs mt-1">Te avisaremos cuando haya novedades</p>
+                                            </div>
+                                        `;
+                                    }
+                                }, 300);
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+
+                // Update notification count
+                function updateNotificationCount() {
+                    fetch('/api/notifications/count', {
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const badge = document.getElementById('notification-badge');
+                        if (data.count > 0) {
+                            badge.textContent = data.count;
+                            badge.style.display = 'flex';
+                        } else {
+                            badge.style.display = 'none';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+
+                // Mark all notifications as read
+                function markAllAsRead() {
+                    fetch('/api/notifications/mark-all-read', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Clear all notifications from dropdown
+                            const list = document.getElementById('notifications-list');
+                            list.innerHTML = `
+                                <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-off mx-auto mb-2 opacity-50"><path d="M8.7 3A6 6 0 0 1 18 8a21.3 21.3 0 0 0 .6 5"/><path d="M17 17H3s3-2 3-9a4.67 4.67 0 0 1 .3-1.7"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/><path d="m2 2 20 20"/></svg>
+                                    <p class="text-sm font-medium">No hay notificaciones</p>
+                                    <p class="text-xs mt-1">Te avisaremos cuando haya novedades</p>
+                                </div>
+                            `;
+                            updateNotificationCount();
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
+
+                // Refresh notifications list in dropdown
+                function refreshNotifications() {
+                    fetch('/api/notifications/unread', {
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const list = document.getElementById('notifications-list');
+                            const notifications = data.notifications;
+                            
+                            if (notifications.length === 0) {
+                                list.innerHTML = `
+                                    <div class="text-center py-8 text-gray-500 dark:text-gray-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-off mx-auto mb-2 opacity-50"><path d="M8.7 3A6 6 0 0 1 18 8a21.3 21.3 0 0 0 .6 5"/><path d="M17 17H3s3-2 3-9a4.67 4.67 0 0 1 .3-1.7"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/><path d="m2 2 20 20"/></svg>
+                                        <p class="text-sm font-medium">No hay notificaciones</p>
+                                        <p class="text-xs mt-1">Te avisaremos cuando haya novedades</p>
+                                    </div>
+                                `;
+                            } else {
+                                list.innerHTML = notifications.map(notification => {
+                                    const typeColors = {
+                                        maintenance: { bg: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400', border: 'bg-amber-500' },
+                                        inventory: { bg: 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400', border: 'bg-red-500' },
+                                        reports: { bg: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400', border: 'bg-purple-500' },
+                                        default: { bg: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400', border: 'bg-blue-500' }
+                                    };
+                                    
+                                    const colors = typeColors[notification.type] || typeColors.default;
+                                    const icon = getNotificationIcon(notification.type);
+                                    const timeAgo = formatTimeAgo(notification.created_at);
+                                    
+                                    return `
+                                        <div class="flex gap-4 w-full px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700/50 cursor-pointer relative rounded-lg mb-2 group notification-item" data-id="${notification.id}" onclick="markNotificationAsRead(${notification.id})">
+                                            <div class="absolute left-0 top-0 bottom-0 w-1 ${colors.border} opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                            <div class="${colors.bg} w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200">
+                                                ${icon}
+                                            </div>
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex justify-between items-start mb-1">
+                                                    <p class="text-xs font-semibold text-gray-900 dark:text-gray-100 truncate">${notification.title}</p>
+                                                    <span class="text-[9px] font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-1.5 py-0.5 rounded-full">Nuevo</span>
+                                                </div>
+                                                <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-2 mb-1.5">${notification.message}</p>
+                                                <p class="text-[10px] text-gray-400 font-medium">${timeAgo}</p>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('');
+                            }
+                            
+                            updateNotificationCount();
+                        }
+                    })
+                    .catch(error => console.error('Error refreshing notifications:', error));
+                }
+
+                // Helper function to get notification icon
+                function getNotificationIcon(type) {
+                    const icons = {
+                        maintenance: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+                        inventory: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alert-circle"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>',
+                        reports: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-check"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m9 15 2 2 4-4"/></svg>',
+                        default: '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>'
+                    };
+                    return icons[type] || icons.default;
+                }
+
+                // Helper function to format time ago
+                function formatTimeAgo(dateString) {
+                    const date = new Date(dateString);
+                    const now = new Date();
+                    const seconds = Math.floor((now - date) / 1000);
+                    
+                    if (seconds < 60) return 'Hace unos segundos';
+                    if (seconds < 3600) return `Hace ${Math.floor(seconds / 60)} minutos`;
+                    if (seconds < 86400) return `Hace ${Math.floor(seconds / 3600)} horas`;
+                    return `Hace ${Math.floor(seconds / 86400)} días`;
+                }
+
+                // Auto-update count and refresh notifications every 30 seconds
+                setInterval(() => {
+                    updateNotificationCount();
+                    refreshNotifications();
+                }, 30000);
             </script>
         </div>
+        @endif
 
         <span data-slot="badge" class="items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-primary/90 bg-emerald-100 text-emerald-700 border-emerald-300 text-xs hidden sm:flex">
             En línea
