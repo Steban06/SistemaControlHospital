@@ -25,7 +25,7 @@ Route::post('/login', function (Request $request) {
 
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
-        return redirect()->route('inicio');
+        return redirect()->route('inicio')->with('login_success', 'Bienvenido de nuevo, ' . Auth::user()->name);
     }
 
     return back()->withErrors([

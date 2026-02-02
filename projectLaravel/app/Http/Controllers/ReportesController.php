@@ -134,10 +134,10 @@ class ReportesController extends Controller
         if ($tipo === 'general' || $tipo === 'mantenimiento') {
             // Reutilizamos la vista general, pasando los bienes filtrados
             // Si es mantenimiento, la vista general mostrará solo esos
-            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.general', ['bienes' => $data]);
+            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.general', ['bienes' => $data, 'user' => Auth::user()]);
             $pdf->setPaper('a4', 'landscape');
         } elseif ($tipo === 'aires') {
-            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.aires', ['aires' => $data]);
+            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.aires', ['aires' => $data, 'user' => Auth::user()]);
             $pdf->setPaper('a4', 'landscape');
         }
 
@@ -249,13 +249,15 @@ class ReportesController extends Controller
         switch($tipo) {
             case 'general':
                 $bienes = BN::with(['area', 'categoria'])->orderBy('created_at', 'desc')->get();
-                $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.general', compact('bienes'));
+                $user = Auth::user();
+                $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.general', compact('bienes', 'user'));
                 $filename = 'reporte_general_' . date('Y-m-d') . '.pdf';
                 break;
 
             case 'aires':
                 $aires = AirAcond::with('bienNacional.area')->orderBy('created_at', 'desc')->get();
-                $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.aires', compact('aires'));
+                $user = Auth::user();
+                $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.aires', compact('aires', 'user'));
                 $filename = 'reporte_aires_' . date('Y-m-d') . '.pdf';
                 break;
 
@@ -274,7 +276,8 @@ class ReportesController extends Controller
                     ->limit(5)
                     ->get();
 
-                $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.analitico', compact('estadoPorcentajes', 'bienesPorArea'));
+                $user = Auth::user();
+                $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.analitico', compact('estadoPorcentajes', 'bienesPorArea', 'user'));
                 $filename = 'reporte_analitico_' . date('Y-m-d') . '.pdf';
                 break;
 

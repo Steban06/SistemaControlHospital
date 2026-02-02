@@ -166,6 +166,7 @@
                     <div class="center-section">
                         <h1>REPORTE ANALÍTICO</h1>
                         <p class="subtitle-center">Estadísticas y Tendencias</p>
+                        <p class="subtitle-center" style="margin-top: 5px;">Generado por: <span style="font-weight: bold; color: #7e22ce;">{{ $user->name ?? 'Sistema' }}</span></p>
                     </div>
                 </td>
             </tr>

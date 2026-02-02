@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/newCSS/tuestilo.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/newCSS/theme.css') }}" type="text/css">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <!-- Tailwind CDN (Backup if local build fails) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -152,5 +155,18 @@
             </div>
         </div>
     </div>
+    @if ($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de Acceso',
+                text: '{{ $errors->first() }}',
+                confirmButtonColor: '#2563eb',
+                confirmButtonText: 'Reintentar'
+            });
+        });
+    </script>
+    @endif
 </body>
 </html>

@@ -534,7 +534,11 @@
             })
             .catch(error => {
                 console.error('Error al cargar datos del AC:', error);
-                alert('Error al cargar los datos del aire acondicionado');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al cargar los datos del aire acondicionado'
+                });
             });
     }
 
@@ -627,7 +631,11 @@
             })
             .catch(error => {
                 console.error('Error al cargar datos del AC:', error);
-                alert('Error al visualizar los datos');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al visualizar los datos'
+                });
             });
     }
 

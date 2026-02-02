@@ -67,7 +67,7 @@
                         </h4>
                         <p class="text-sm text-gray-500 dark:text-gray-400">Administre los usuarios y sus permisos en el sistema</p>
                     </div>
-                    <button id="addUserBtn" data-slot="button" data-slot="badge" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 has-[&gt;svg]:px-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus w-4 h-4 mr-2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" x2="19" y1="8" y2="14"></line><line x1="22" x2="16" y1="11" y2="11"></line></svg>Agregar Usuario</button>
+                    <button id="addUserBtn" data-slot="button" data-slot="badge" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-9 px-4 py-2 has-[&gt;svg]:px-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white dark:text-white"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus w-4 h-4 mr-2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" x2="19" y1="8" y2="14"></line><line x1="22" x2="16" y1="11" y2="11"></line></svg>Agregar Usuario</button>
                 </div>
                 
                 <div class="px-6 pb-6">
@@ -148,7 +148,7 @@
                                         <th class="h-12 px-6 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 sticky top-0 z-20 bg-gray-50 dark:bg-gray-800 shadow-sm py-4 whitespace-nowrap text-gray-700 dark:text-gray-300">Nombre</th>
                                         <th class="h-12 px-6 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 sticky top-0 z-20 bg-gray-50 dark:bg-gray-800 shadow-sm py-4 whitespace-nowrap text-gray-700 dark:text-gray-300">Email</th>
                                         <th class="h-12 px-6 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 sticky top-0 z-20 bg-gray-50 dark:bg-gray-800 shadow-sm py-4 whitespace-nowrap text-gray-700 dark:text-gray-300">Rol</th>
-                                        <th class="h-12 px-6 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 sticky top-0 z-20 bg-gray-50 dark:bg-gray-800 shadow-sm py-4 whitespace-nowrap text-gray-700 dark:text-gray-300">Departamento</th>
+                                        <!-- <th class="h-12 px-6 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 sticky top-0 z-20 bg-gray-50 dark:bg-gray-800 shadow-sm py-4 whitespace-nowrap text-gray-700 dark:text-gray-300">Departamento</th> -->
                                         <th class="h-12 px-6 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 sticky top-0 z-20 bg-gray-50 dark:bg-gray-800 shadow-sm py-4 whitespace-nowrap text-gray-700 dark:text-gray-300">Estado</th>
                                         <th class="h-12 px-6 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 sticky top-0 z-20 bg-gray-50 dark:bg-gray-800 shadow-sm py-4 whitespace-nowrap text-gray-700 dark:text-gray-300">Último Acceso</th>
                                         <th class="h-12 px-6 align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0 sticky top-0 z-20 bg-gray-50 dark:bg-gray-800 shadow-sm py-4 whitespace-nowrap text-gray-700 dark:text-gray-300 text-center">Acciones</th>
@@ -175,13 +175,13 @@
                                             @endphp
                                             <span data-slot="badge" class="inline-flex items-center rounded-md {{ $roleClasses[$role] ?? 'bg-gray-600' }} px-2 py-1 text-xs font-medium text-white ring-1 ring-inset">{{ $roleNames[$role] ?? ucfirst($role) }}</span>
                                         </td>
-                                        <td class="p-4 text-gray-600">General</td>
+                                        <!-- <td class="p-4 text-gray-600">General</td> -->
                                         <td class="p-4">
                                             @php
                                                 $status = $user->status ?? 'Activo';
                                                 $statusClasses = [
                                                     'Activo' => 'bg-emerald-100 text-emerald-700 ring-emerald-600/20 dark:bg-emerald-900/30 dark:text-emerald-400 dark:ring-emerald-900',
-                                                    'Inactivo' => 'bg-red-100 text-red-700 ring-red-600/20 dark:bg-red-900/30 dark:text-red-400 dark:ring-red-900'
+                                                    'Inactivo' => 'text-red-700 ring-red-600/20 dark:bg-red-900/30 dark:text-red-400 dark:ring-red-900'
                                                 ];
                                                 $statusIcons = [
                                                     'Activo' => '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>',
@@ -317,11 +317,12 @@
                     <p data-slot="card-description" class="text-muted-foreground dark:text-gray-400">Actualice su contraseña y configure opciones de seguridad</p>
                 </div>
                 <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6 space-y-6">
-                    <div class="space-y-4">
+                    <form onsubmit="handlePasswordUpdate(event)" class="space-y-4">
+                        @csrf
                         <div class="space-y-2">
                             <label data-slot="label" class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 dark:text-gray-200" for="current-password">Contraseña Actual</label>
                             <div class="relative">
-                                <input type="password" data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 border-input flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base bg-input-background transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" id="current-password" placeholder="Ingrese contraseña actual" maxlength="20" minlength="8">
+                                <input type="password" name="current_password" data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 border-input flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base bg-input-background transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" id="current-password" placeholder="Ingrese contraseña actual" maxlength="20" minlength="8">
                                 <button type="button" onclick="togglePasswordVisibility('current-password', this)" data-slot="button" data-slot="badge" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-gray-600 dark:text-gray-400 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 absolute right-2 top-1/2 -translate-y-1/2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye w-4 h-4">
                                         <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path>
@@ -333,35 +334,35 @@
                         <div class="space-y-2">
                             <label data-slot="label" class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 dark:text-gray-200" for="new-password">Nueva Contraseña</label>
                             <div class="relative">
-                                <input type="password" data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 border-input flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base bg-input-background transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" id="new-password" placeholder="Ingrese nueva contraseña" maxlength="20" minlength="8">
+                                <input type="password" name="password" data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 border-input flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base bg-input-background transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" id="new-password" placeholder="Ingrese nueva contraseña" maxlength="20" minlength="8">
                                 <button type="button" onclick="togglePasswordVisibility('new-password', this)" data-slot="badge" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 rounded-md gap-1.5 px-3 absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 dark:hover:bg-gray-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                 </button>
                             </div>
                             <!-- Password Requirements List -->
-                            <div id="password-requirements" class="text-xs space-y-1 mt-2 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-md hidden">
-                                <p class="font-medium text-gray-700 dark:text-gray-200 mb-2">La contraseña debe contener:</p>
-                                <ul class="space-y-1 text-gray-500 dark:text-gray-400">
-                                    <li id="req-length" class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"/></svg> Mínimo 8 caracteres</li>
-                                    <li id="req-uppercase" class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"/></svg> Al menos una mayúscula</li>
-                                    <li id="req-lowercase" class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"/></svg> Al menos una minúscula</li>
-                                    <li id="req-number" class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"/></svg> Al menos un número</li>
-                                    <li id="req-special" class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"/></svg> Caracteres especiales (@$!%*?&)</li>
+                            <div id="password-requirements" class="text-xs space-y-1 mt-2 p-3 bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-800 rounded-md hidden">
+                                <p class="font-medium text-blue-900 dark:text-blue-100 mb-2">La contraseña debe contener:</p>
+                                <ul class="space-y-1 text-blue-800 dark:text-blue-300">
+                                    <li id="req-length" class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"></circle></svg> Mínimo 8 caracteres</li>
+                                    <li id="req-uppercase" class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"></circle></svg> Al menos una mayúscula</li>
+                                    <li id="req-lowercase" class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"></circle></svg> Al menos una minúscula</li>
+                                    <li id="req-number" class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"></circle></svg> Al menos un número</li>
+                                    <li id="req-special" class="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle"><circle cx="12" cy="12" r="10"></circle></svg> Caracteres especiales (@$!%*?&)</li>
                                 </ul>
                             </div>
                         </div>
                         <div class="space-y-2">
                             <label data-slot="label" class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 dark:text-gray-200" for="confirm-password">Confirmar Nueva Contraseña</label>
                             <div class="relative">
-                                <input type="password" data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 border-input flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base bg-input-background transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" id="confirm-password" placeholder="Confirme nueva contraseña" maxlength="20" minlength="8">
+                                <input type="password" name="password_confirmation" data-slot="input" class="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400 border-input flex h-9 w-full min-w-0 rounded-md border px-3 py-1 text-base bg-input-background transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive" id="confirm-password" placeholder="Confirme nueva contraseña" maxlength="20" minlength="8">
                                 <button type="button" onclick="togglePasswordVisibility('confirm-password', this)" data-slot="badge" class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 rounded-md gap-1.5 px-3 absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 dark:hover:bg-gray-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg>
                                 </button>
                             </div>
                             <p id="password-match-message" class="text-xs font-medium hidden"></p>
                         </div>
-                        <button data-slot="button" data-slot="badge" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 has-[&gt;svg]:px-3 bg-blue-600 hover:bg-blue-700">Actualizar Contraseña</button>
-                    </div>
+                        <button type="submit" data-slot="button" data-slot="badge" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-9 px-4 py-2 has-[&gt;svg]:px-3 bg-blue-600 hover:bg-blue-700 text-white dark:text-white">Actualizar Contraseña</button>
+                    </form>
                     
                 </div>
             </div>
@@ -398,7 +399,7 @@
                                     <p class="text-sm text-gray-600 dark:text-gray-400">Último respaldo: <span class="font-semibold text-gray-800 dark:text-gray-100">Nunca</span></p>
                                 </div>
                             </div>
-                            <button data-slot="button" data-slot="badge" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 has-[&gt;svg]:px-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500">
+                            <button data-slot="button" data-slot="badge" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-9 px-4 py-2 has-[&gt;svg]:px-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white dark:text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                     <polyline points="7 10 12 15 17 10"></polyline>
@@ -425,6 +426,36 @@
                                 <span data-state="unchecked" data-slot="switch-thumb" class="bg-card dark:data-[state=unchecked]:bg-card-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"></span>
                             </button>
                         </div>
+
+                        <div class="flex items-center justify-between p-4 dark:!bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-upload-cloud w-5 h-5 text-purple-600 dark:text-purple-400">
+                                    <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path>
+                                    <path d="M12 12v9"></path>
+                                    <path d="m16 16-4-4-4 4"></path>
+                                </svg>
+                                <div>
+                                    <p class="font-medium dark:text-gray-200">Restaurar Sistema</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">Importar archivo de respaldo (.sql)</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <form id="restoreBackupForm" action="#" method="POST" enctype="multipart/form-data" class="flex items-center gap-2">
+                                    @csrf
+                                    <input type="file" id="backupUpload" name="backup_file" class="hidden" accept=".sql" onchange="handleBackupFileSelect(this)">
+                                    <button type="button" onclick="document.getElementById('backupUpload').click()" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 border border-gray-200 bg-white hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600 h-9 px-4 py-2">
+                                        Seleccionar
+                                    </button>
+                                    <button type="submit" id="btnRestoreBackup" disabled data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 bg-purple-600 hover:bg-purple-700 dark:bg-purple-600 dark:hover:bg-purple-500 text-white dark:text-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw">
+                                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                                            <path d="M3 3v5h5"></path>
+                                        </svg>
+                                        Subir Respaldo
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -447,7 +478,7 @@
                 <div data-slot="card-content" class="px-6 [&amp;:last-child]:pb-6 space-y-6">
                     <div class="space-y-4">
                         <!-- Notification 1: New Assets - Visible to all users -->
-                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                        <div class="flex items-center justify-between p-4 dark:!bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
                             <div class="flex items-center gap-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell w-5 h-5 text-emerald-600 dark:text-emerald-400">
                                     <path d="M10.268 21a2 2 0 0 0 3.464 0"></path>
@@ -464,13 +495,13 @@
                                     </p>
                                 </div>
                             </div>
-                            <button type="button" role="switch" id="switch-notify-new-assets" data-preference="notify_new_assets" aria-checked="true" data-state="checked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
+                            <button type="button" role="switch" id="switch-notify-new-assets" data-preference="notify_new_assets" aria-checked="true" data-state="checked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-gray-600 dark:border dark:border-gray-500 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
                                 <span data-state="checked" data-slot="switch-thumb" class="bg-card dark:data-[state=unchecked]:bg-card-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"></span>
                             </button>
                         </div>
 
                         <!-- Notification 2: Recent Maintenance - Visible to all users (OPTION 1) -->
-                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                        <div class="flex items-center justify-between p-4 dark:!bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
                             <div class="flex items-center gap-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench w-5 h-5 text-amber-600 dark:text-amber-400">
                                     <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
@@ -486,14 +517,14 @@
                                     </p>
                                 </div>
                             </div>
-                            <button type="button" role="switch" id="switch-notify-maintenance" data-preference="notify_maintenance" aria-checked="true" data-state="checked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
+                            <button type="button" role="switch" id="switch-notify-maintenance" data-preference="notify_maintenance" aria-checked="true" data-state="checked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-gray-600 dark:border dark:border-gray-500 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
                                 <span data-state="checked" data-slot="switch-thumb" class="bg-card dark:data-[state=unchecked]:bg-card-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"></span>
                             </button>
                         </div>
 
                         <!-- Notification 3: Predictive Alerts - ADMIN ONLY (OPTION 3) -->
                         @if(auth()->user()->role === 'admin')
-                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border-2 border-blue-200 dark:border-blue-800">
+                        <div class="flex items-center justify-between p-4 dark:!bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
                             <div class="flex items-center gap-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain-circuit w-5 h-5 text-indigo-600 dark:text-indigo-400">
                                     <path d="M12 5a3 3 0 1 0-5.83 2.83l-1.91 1.91a2 2 0 1 0 0 2.83L6.17 14.5a3 3 0 1 0 2.83 5.83l1.91-1.91a2 2 0 1 0 2.83 0l1.91 1.91a3 3 0 1 0 5.83-2.83l-1.91-1.91a2 2 0 1 0 0-2.83l1.91-1.91a3 3 0 1 0-2.83-5.83L12.5 6.17a3 3 0 0 0 .83-2Z"/>
@@ -506,14 +537,14 @@
                                     <p class="text-sm text-gray-600 dark:text-gray-400">Recomendaciones automáticas basadas en el historial de fallas</p>
                                 </div>
                             </div>
-                            <button type="button" role="switch" id="switch-notify-repairs" data-preference="notify_repairs" aria-checked="true" data-state="checked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
+                            <button type="button" role="switch" id="switch-notify-repairs" data-preference="notify_repairs" aria-checked="true" data-state="checked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-gray-600 dark:border dark:border-gray-500 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
                                 <span data-state="checked" data-slot="switch-thumb" class="bg-card dark:data-[state=unchecked]:bg-card-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"></span>
                             </button>
                         </div>
                         @endif
 
                         <!-- Notification 4: Reports Generated - Visible to all users -->
-                        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                        <div class="flex items-center justify-between p-4 dark:!bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
                             <div class="flex items-center gap-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text w-5 h-5 text-purple-600 dark:text-purple-400">
                                     <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
@@ -527,12 +558,12 @@
                                     <p class="text-sm text-gray-600 dark:text-gray-400">Notificar cuando se generen reportes</p>
                                 </div>
                             </div>
-                            <button type="button" role="switch" id="switch-notify-reports" data-preference="notify_reports" aria-checked="false" data-state="unchecked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-input/80 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
+                            <button type="button" role="switch" id="switch-notify-reports" data-preference="notify_reports" aria-checked="false" data-state="unchecked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-gray-600 dark:border dark:border-gray-500 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
                                 <span data-state="unchecked" data-slot="switch-thumb" class="bg-card dark:data-[state=unchecked]:bg-card-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"></span>
                             </button>
                         </div>
                     </div>
-                    <button id="savePreferencesBtn" data-slot="button" data-slot="badge" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 has-[&gt;svg]:px-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500">Guardar Preferencias</button>
+                    <button id="savePreferencesBtn" data-slot="button" data-slot="badge" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive text-primary-foreground h-9 px-4 py-2 has-[&gt;svg]:px-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white dark:text-white">Guardar Preferencias</button>
                 </div>
             </div>
         </div>
@@ -559,6 +590,87 @@
             // Change back to eye icon
             icon.innerHTML = '<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle>';
         }
+    }
+
+    // --- Backup Restore Logic ---
+    function handleBackupFileSelect(input) {
+        const btnRestore = document.getElementById('btnRestoreBackup');
+        if (input.files && input.files.length > 0) {
+            btnRestore.removeAttribute('disabled');
+        } else {
+            btnRestore.setAttribute('disabled', 'true');
+        }
+    }
+
+    // --- Password Update Logic ---
+    function handlePasswordUpdate(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const formData = new FormData(form);
+        const btn = form.querySelector('button[type="submit"]');
+        const originalText = btn.innerHTML;
+        
+        // Remove old alerts
+        
+        btn.disabled = true;
+        btn.innerHTML = 'Actualizando...';
+
+        fetch('{{ route("profile.password") }}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+             // Check if response is JSON
+             const contentType = response.headers.get("content-type");
+             if (contentType && contentType.indexOf("application/json") !== -1) {
+                 return response.json().then(data => ({ status: response.status, body: data }));
+             } else {
+                 throw new Error("Respuesta no válida del servidor");
+             }
+        })
+        .then(({ status, body }) => {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+
+            if (status === 200 && body.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: body.message,
+                    confirmButtonColor: '#3085d6',
+                });
+                form.reset();
+            } else {
+                let message = body.message || 'Error al actualizar contraseña.';
+                if (body && body.errors) {
+                    // Extract errors
+                     message = Object.values(body.errors).flat().join('\n');
+                }
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: message,
+                    confirmButtonColor: '#d33',
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+             Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error al procesar la solicitud. ' + error.message,
+                confirmButtonColor: '#d33',
+            });
+        });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -954,8 +1066,13 @@
                 const result = await response.json();
 
                 if (response.ok && result.success) {
-                    alert(result.message);
-                    window.location.reload(); 
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Resultado',
+                        text: result.message
+                    }).then(() => {
+                        window.location.reload();
+                    }); 
                 } else {
                     // Check for validation errors
                     if(result.errors) {
@@ -963,14 +1080,26 @@
                          for (const [key, messages] of Object.entries(result.errors)) {
                              errorMsg += `- ${messages.join(', ')}\n`;
                          }
-                         alert(errorMsg);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: errorMsg
+                        });
                     } else {
-                        alert('Error: ' + (result.message || 'Error desconocido'));
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: result.message || 'Error desconocido'
+                        });
                     }
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error de conexión o inesperado.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error Conexión',
+                    text: 'Error de conexión o inesperado.'
+                });
             } finally {
                 if(submitBtn) {
                     submitBtn.disabled = false;

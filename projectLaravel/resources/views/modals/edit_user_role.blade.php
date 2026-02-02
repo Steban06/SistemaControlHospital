@@ -81,16 +81,19 @@
                 
                 <!-- Footer inside form -->
                 <div class="bg-gray-50 rounded-lg dark:bg-gray-700/30 px-6 py-4 flex flex-row-reverse gap-3 border-t border-gray-100 dark:border-gray-700 rounded-b-xl">
-                    <button type="submit" 
-                            id="btn-save-edit-user"
-                            class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:w-auto transition-colors">
-                        Guardar Cambios
-                    </button>
+                    
                     <button type="button" 
                             data-edit-modal-close
                             class="inline-flex w-full justify-center rounded-lg bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-300 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 sm:w-auto transition-colors btn-color-red">
                         Cancelar
                     </button>
+
+                    <button type="submit" 
+                            id="btn-save-edit-user"
+                            class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:w-auto transition-colors">
+                        Guardar Cambios
+                    </button>
+                    
                 </div>
             </form>
         </div>

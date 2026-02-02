@@ -94,30 +94,43 @@ const ModalManagerE = (function () {
             },
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(data.message || 'Operación realizada con éxito');
-                // Buscar el modal padre (soporta ambas estructuras)
-                // const modal = form.closest('.modal-overlay') || form.closest('[id*="ModalOverlay"]') || form.closest('[id*="modal"]');
-                // if (modal) closeModal(modal);
-                window.location.reload();
-            } else {
-                let errorMessage = 'Error al guardar:\n';
-                if (data.errors) {
-                    Object.keys(data.errors).forEach(key => { errorMessage += '- ' + data.errors[key][0] + '\n'; });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: data.message || 'Operación realizada con éxito'
+                    }).then(() => {
+                        // Buscar el modal padre (soporta ambas estructuras)
+                        // const modal = form.closest('.modal-overlay') || form.closest('[id*="ModalOverlay"]') || form.closest('[id*="modal"]');
+                        // if (modal) closeModal(modal);
+                        window.location.reload();
+                    });
                 } else {
-                    errorMessage += data.message || 'Error desconocido';
+                    let errorMessage = 'Error al guardar:\n';
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(key => { errorMessage += '- ' + data.errors[key][0] + '\n'; });
+                    } else {
+                        errorMessage += data.message || 'Error desconocido';
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMessage
+                    });
+                    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalBtnText; }
                 }
-                alert(errorMessage);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al procesar la solicitud. Por favor, intente nuevamente.'
+                });
                 if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalBtnText; }
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al procesar la solicitud. Por favor, intente nuevamente.');
-            if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalBtnText; }
-        });
+            });
     }
 
     function init(config) {
@@ -142,11 +155,18 @@ const ModalManagerE = (function () {
                 e.preventDefault();
                 // Aquí puedes agregar la lógica para manejar el envío del formulario
                 console.log('Formulario enviado');
-                if (!idRef.storeUrl) { alert('No storeUrl configured for ModalManager'); return; }
+                if (!idRef.storeUrl) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Configuration Error',
+                        text: 'No storeUrl configured for ModalManager'
+                    });
+                    return;
+                }
                 manejoEnvioFormularioRegis(formAdd, idRef.storeUrl, 'POST');
             });
         }
-        
+
     }
 
     return {

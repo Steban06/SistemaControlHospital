@@ -29,9 +29,15 @@
 
     <!-- Scripts -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
 
     @stack('styles')
+    
+    <style>
+        .swal2-container {
+            z-index: 99999 !important;
+        }
+    </style>
     
     <!-- Dark Mode Script -->
     <script>

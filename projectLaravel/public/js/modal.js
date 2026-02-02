@@ -7,7 +7,7 @@ const ModalManager = (function () {
 
     function openModal(modal) {
         if (!modal) return;
-        
+
         // Remove hidden class first
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
@@ -19,12 +19,12 @@ const ModalManager = (function () {
         if (backdrop && content) {
             // Sequential Animation: Backdrop first
             // Ensure base transition classes are present
-           
+
             // Frame 1: Show Backdrop
             requestAnimationFrame(() => {
                 backdrop.classList.remove('opacity-0');
                 backdrop.classList.add('opacity-100');
-                
+
                 // Frame 2: Show Content after slight delay
                 setTimeout(() => {
                     content.classList.remove('opacity-0', 'scale-95');
@@ -32,7 +32,7 @@ const ModalManager = (function () {
                 }, 150); // Wait for backdrop to start fading in
             });
         } else {
-             // Fallback for old modals or simple toggles
+            // Fallback for old modals or simple toggles
             modal.classList.add('active');
         }
     }
@@ -61,14 +61,14 @@ const ModalManager = (function () {
                     if (form) form.reset();
                 }, 300); // Match backdrop duration
             }, 200); // Match content duration
-            
+
         } else {
             // Fallback
             modal.classList.remove('active');
             modal.classList.add('hidden');
             document.body.style.overflow = '';
             const form = modal.querySelector('form');
-             if (form) form.reset();
+            if (form) form.reset();
         }
     }
 
@@ -142,30 +142,43 @@ const ModalManager = (function () {
             },
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(data.message || 'Operación realizada con éxito');
-                // Buscar el modal padre (soporta ambas estructuras)
-                const modal = form.closest('.modal-overlay') || form.closest('[id*="ModalOverlay"]') || form.closest('[id*="modal"]');
-                if (modal) closeModal(modal);
-                window.location.reload();
-            } else {
-                let errorMessage = 'Error al guardar:\n';
-                if (data.errors) {
-                    Object.keys(data.errors).forEach(key => { errorMessage += '- ' + data.errors[key][0] + '\n'; });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: data.message || 'Operación realizada con éxito'
+                    }).then(() => {
+                        // Buscar el modal padre (soporta ambas estructuras)
+                        const modal = form.closest('.modal-overlay') || form.closest('[id*="ModalOverlay"]') || form.closest('[id*="modal"]');
+                        if (modal) closeModal(modal);
+                        window.location.reload();
+                    });
                 } else {
-                    errorMessage += data.message || 'Error desconocido';
+                    let errorMessage = 'Error al guardar:\n';
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(key => { errorMessage += '- ' + data.errors[key][0] + '\n'; });
+                    } else {
+                        errorMessage += data.message || 'Error desconocido';
+                    }
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: errorMessage
+                    });
+                    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalBtnText; }
                 }
-                alert(errorMessage);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al procesar la solicitud. Por favor, intente nuevamente.'
+                });
                 if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalBtnText; }
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al procesar la solicitud. Por favor, intente nuevamente.');
-            if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalBtnText; }
-        });
+            });
     }
 
     function init(options) {
@@ -187,7 +200,14 @@ const ModalManager = (function () {
         if (formAdd) {
             formAdd.addEventListener('submit', function (e) {
                 e.preventDefault();
-                if (!cfg.storeUrl) { alert('No storeUrl configured for ModalManager'); return; }
+                if (!cfg.storeUrl) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Configuration Error',
+                        text: 'No storeUrl configured for ModalManager'
+                    });
+                    return;
+                }
                 handleFormSubmit(formAdd, cfg.storeUrl, 'POST');
             });
         }
@@ -228,8 +248,22 @@ const ModalManager = (function () {
             formEdit.addEventListener('submit', function (e) {
                 e.preventDefault();
                 const id = formEdit.dataset.recordId;
-                if (!id) { alert('No se encontró el ID del registro a actualizar.'); return; }
-                if (!cfg.updateBaseUrl) { alert('No updateBaseUrl configured for ModalManager'); return; }
+                if (!id) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se encontró el ID del registro a actualizar.'
+                    });
+                    return;
+                }
+                if (!cfg.updateBaseUrl) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Configuration Error',
+                        text: 'No updateBaseUrl configured for ModalManager'
+                    });
+                    return;
+                }
                 const url = cfg.updateBaseUrl + '/' + id;
 
                 // Spoof HTTP method using hidden input so Laravel parses the form data correctly

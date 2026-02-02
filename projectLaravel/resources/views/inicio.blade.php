@@ -392,6 +392,20 @@
             attributes: true,
             attributeFilter: ['class']
         });
+
+        // Alerta de Bienvenida (Login Exitoso)
+        @if (session('login_success'))
+            Swal.fire({
+                title: '¡Bienvenido!',
+                text: {!! json_encode(session('login_success')) !!},
+                icon: 'success',
+                timer: 4000,
+                timerProgressBar: true,
+                confirmButtonText: 'Continuar',
+                background: document.documentElement.classList.contains('dark') ? '#1f2937' : '#ffffff',
+                color: document.documentElement.classList.contains('dark') ? '#f3f4f6' : '#111827'
+            });
+        @endif
         </script>
     @endpush
 

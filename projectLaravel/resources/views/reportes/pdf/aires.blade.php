@@ -119,6 +119,7 @@
                     <div class="center-section">
                         <h1>REPORTE DE AIRES ACONDICIONADOS</h1>
                         <p class="record-count">Total de equipos: {{ $aires->count() }}</p>
+                        <p class="record-count" style="margin-top: 5px;">Generado por: <span style="font-weight: bold; color: #0d9488;">{{ $user->name ?? 'Sistema' }}</span></p>
                     </div>
                 </td>
             </tr>

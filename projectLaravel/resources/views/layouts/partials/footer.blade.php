@@ -21,12 +21,14 @@
                     </div>
                     <span class="text-xs font-medium text-slate-600 dark:text-slate-300 group-hover:text-blue-700 dark:group-hover:text-blue-400">Manual Usuario</span>
                 </a>
+                @if(auth()->user() && auth()->user()->role === 'admin')
                 <a href="/docs/Manual_Tecnico.pdf" class="group flex items-center gap-2 px-3 py-1.5 rounded-md bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-500 hover:shadow-sm transition-all" target="_blank">
                      <div class="p-1 rounded bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code-2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
                     </div>
                     <span class="text-xs font-medium text-slate-600 dark:text-slate-300 group-hover:text-indigo-700 dark:group-hover:text-indigo-400">Manual Técnico</span>
                 </a>
+                @endif
             </div>
 
             <!-- Credits & Copyright -->

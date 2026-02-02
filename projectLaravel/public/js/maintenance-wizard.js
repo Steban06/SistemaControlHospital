@@ -461,7 +461,11 @@ function updateSummary() {
 }
 
 function submitMaintenance() {
-    alert('Funcionalidad de guardado pendiente de implementación completa');
+    Swal.fire({
+        icon: 'info',
+        title: 'Pendiente',
+        text: 'Funcionalidad de guardado pendiente de implementación completa'
+    });
     closeRegisterModal();
 }
 

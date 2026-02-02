@@ -123,6 +123,7 @@
                     <div class="center-section">
                         <h1>REPORTE GENERAL DE INVENTARIO</h1>
                         <p class="record-count">Total de registros: {{ $bienes->count() }}</p>
+                        <p class="record-count" style="margin-top: 5px;">Generado por: <span style="font-weight: bold; color: #1e40af;">{{ $user->name ?? 'Sistema' }}</span></p>
                     </div>
                 </td>
             </tr>
