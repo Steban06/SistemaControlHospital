@@ -2,26 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
     /**
-     * Display a listing of notifications for the authenticated user.
+     * Get user notifications (paginated) for the view.
      */
     public function index(Request $request)
     {
-        $query = Notification::where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc');
+        $query = auth()->user()->notifications();
 
-        // Filtrar por tipo si se especifica
+        // Filter by type if specified
         if ($request->has('type') && $request->type !== 'all') {
-            $query->where('type', $request->type);
+            $query->where('type', 'like', "%{$request->type}%");
         }
 
-        // Filtrar por estado de lectura
+        // Filter by read status
         if ($request->has('read_status')) {
             if ($request->read_status === 'unread') {
                 $query->where('is_read', false);
@@ -30,74 +27,73 @@ class NotificationController extends Controller
             }
         }
 
-        $notifications = $query->paginate(10);
+        $notifications = $query->paginate(20);
 
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'notifications' => $notifications
+            ]);
+        }
+        
+        // Return view if not making an API call (if you have a dedicated notifications page)
         return view('notificaciones', compact('notifications'));
     }
 
     /**
-     * Get unread notifications for dropdown (max 5 recent).
+     * Get unread notifications (API).
      */
     public function getUnread()
     {
-        $notifications = Notification::where('user_id', Auth::id())
-            ->where('is_read', false)
-            ->orderBy('created_at', 'desc')
-            ->limit(5)
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'notifications' => $notifications,
-            'count' => $notifications->count()
-        ]);
+        // Custom logic for 'is_read'
+        $notifications = auth()->user()->notifications()
+                            ->where('is_read', false)
+                            ->limit(10)
+                            ->get();
+        return response()->json(['success' => true, 'notifications' => $notifications]);
     }
 
     /**
-     * Get count of unread notifications.
+     * Get count of unread notifications (API).
      */
     public function getCount()
     {
-        $count = Notification::where('user_id', Auth::id())
-            ->where('is_read', false)
-            ->count();
-
-        return response()->json([
-            'success' => true,
-            'count' => $count
-        ]);
+        $count = auth()->user()->notifications()
+                    ->where('is_read', false)
+                    ->count();
+        return response()->json(['success' => true, 'count' => $count]);
     }
 
     /**
-     * Mark a specific notification as read.
+     * Mark a notification as read.
      */
     public function markAsRead($id)
     {
-        $notification = Notification::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        $notification = auth()->user()
+            ->notifications()
+            ->where('id', $id)
+            ->first();
 
-        $notification->update(['is_read' => true]);
+        if ($notification) {
+            // Update custom column
+            $notification->is_read = true;
+            $notification->save();
+            return response()->json(['success' => true]);
+        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Notificación marcada como leída.'
-        ]);
+        return response()->json(['success' => false, 'message' => 'Notification not found'], 404);
     }
-
+    
     /**
-     * Mark all notifications as read for the authenticated user.
+     * Mark all notifications as read.
      */
     public function markAllAsRead()
     {
-        Notification::where('user_id', Auth::id())
+        auth()->user()->notifications()
             ->where('is_read', false)
             ->update(['is_read' => true]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Todas las notificaciones han sido marcadas como leídas.'
-        ]);
+            
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -105,15 +101,16 @@ class NotificationController extends Controller
      */
     public function destroy($id)
     {
-        $notification = Notification::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        $notification = auth()->user()
+            ->notifications()
+            ->where('id', $id)
+            ->first();
 
-        $notification->delete();
+        if ($notification) {
+            $notification->delete();
+            return response()->json(['success' => true, 'message' => 'Notificación eliminada']);
+        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Notificación eliminada.'
-        ]);
+        return response()->json(['success' => false, 'message' => 'Notification not found'], 404);
     }
 }

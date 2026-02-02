@@ -9,6 +9,13 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    protected $notificationService;
+
+    public function __construct(\App\Services\NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -61,43 +68,64 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (auth()->user()->role !== 'admin') {
+        $user = User::findOrFail($id);
+        $currentUser = auth()->user();
+
+        // Check Permissions: Admin can edit anyone; User can only edit themselves
+        if ($currentUser->role !== 'admin' && $currentUser->id !== $user->id) {
             abort(403, 'Unauthorized action.');
         }
 
-        $user = User::findOrFail($id);
-
-        $validated = $request->validate([
+        // Validation Rules
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'password' => 'nullable|string|min:8',
-            'role' => ['required', Rule::in(['admin', 'user', 'guest'])],
-            'status' => ['nullable', Rule::in(['Activo', 'Inactivo'])],
-        ]);
+        ];
+
+        // Only Admin can update Role and Status
+        if ($currentUser->role === 'admin') {
+            $rules['role'] = ['required', Rule::in(['admin', 'user', 'guest'])];
+            $rules['status'] = ['nullable', Rule::in(['Activo', 'Inactivo'])];
+        }
+
+        $validated = $request->validate($rules);
 
         $dataToUpdate = [
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'role' => $validated['role'],
         ];
 
-        // Update status if provided
-        if (isset($validated['status'])) {
-            $dataToUpdate['status'] = $validated['status'];
+        // Apply Role and Status changes only if Admin
+        if ($currentUser->role === 'admin') {
+            $dataToUpdate['role'] = $validated['role'];
+            if (isset($validated['status'])) {
+                $dataToUpdate['status'] = $validated['status'];
+            }
         }
 
-        // Only update password if provided
+        // Update password if provided
         if (!empty($validated['password'])) {
             $dataToUpdate['password'] = Hash::make($validated['password']);
         }
 
         $user->update($dataToUpdate);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Usuario actualizado correctamente',
-            'user' => $user
-        ]);
+        // Notify Admins if a normal user updated their profile
+        if ($currentUser->role !== 'admin') {
+             $this->notificationService->notifyProfileUpdated($user, $dataToUpdate);
+        }
+
+        // Return logic: If it's a JSON request (AJAX) or HTML form
+        if ($request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Usuario actualizado correctamente',
+                'user' => $user
+            ]);
+        }
+        
+        return redirect()->back()->with('success', 'Información actualizada correctamente');
     }
 
     /**

@@ -10,9 +10,17 @@ use App\Models\BN;
 use App\Models\Categoria;
 use App\Models\Area;
 use App\Models\ReportesBN;
+use App\Services\NotificationService;
 
 class BNController extends Controller
 {
+    protected $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
     public function index()
     {
         $bienesNacionales = BN::with(['categoria', 'area'])->get();
@@ -45,6 +53,9 @@ class BNController extends Controller
         }
         // Validar los datos recibidos con FormRequest
         $bien = BN::create($request->validated());
+
+        // Enviar notificación a todos los usuarios configurados
+        $this->notificationService->notifyNewAsset($bien, auth()->user());
 
         return response()->json([
             'success' => true,
