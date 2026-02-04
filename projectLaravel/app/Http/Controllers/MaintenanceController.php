@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreReportesAARequest;
+use App\Http\Requests\StoreReportesBNRequest;
 use Illuminate\Http\Request;
 use App\Models\Maintenance;
 use App\Services\NotificationService;
@@ -29,7 +31,7 @@ use Carbon\Carbon;
         // $esteMes = 3;
 
         // // Fetch assets
-        $bienes = \App\Models\BN::all()->map(function($item) {
+        $bienes = BN::all()->map(function($item) {
             return (object)[
                 'id' => $item->id,
                 'name' => $item->nombre,
@@ -39,7 +41,7 @@ use Carbon\Carbon;
             ];
         });
 
-        $aires = \App\Models\AirAcond::all()->map(function($item) {
+        $aires = AirAcond::all()->map(function($item) {
             return (object)[
                 'id' => $item->id,
                 'name' => $item->nombre_aa,
@@ -50,28 +52,6 @@ use Carbon\Carbon;
         });
 
         $assets = $bienes->concat($aires)->sortBy('name')->values();
-
-        // // Datos de ejemplo para la lista
-        // $mantenimientos = [
-        //     (object)[
-        //         'id' => 1,
-        //         'codigo_bien' => 'BN-2024-0001',
-        //         'nombre_bien' => 'Computadora Dell OptiPlex 7090',
-        //         'tipo' => 'preventivo',
-        //         'fecha_realizada' => '2026-01-19',
-        //         'tecnico' => 'Juan Pérez',
-        //         'costo' => 150.00
-        //     ],
-        // ];
-
-        // return view('mantenimiento', compact(
-        //     'totalMantenimientos',
-        //     'preventivos',
-        //     'correctivos',
-        //     'esteMes',
-        //     'mantenimientos',
-        //     'assets'
-        // ));
 
         $reporteBN = ReportesBN::with('bn')->get()->map(function ($item) {
             $item->origen = 'bien_nacional';
@@ -107,35 +87,67 @@ use Carbon\Carbon;
         return view('mantenimiento', compact('reporteBN', 'reporteAA', 'reportesCombinados', 'assets'));
     }
 
-    public function store(Request $request)
+    public function storeBN(StoreReportesBNRequest $request)
     {
-        $validated = $request->validate([
-            'asset_id' => 'required', // ID del activo
-            'asset_type' => 'required', // 'App\Models\BN' o 'App\Models\AirAcond' (o manejar lógica manual)
-            'tipo' => 'required|in:preventivo,correctivo',
-            'fecha_realizada' => 'required|date',
-            'descripcion' => 'required|string',
-            'costo' => 'nullable|numeric',
-            'tecnico' => 'required|string',
+        $data = $request->validated();
+        
+        // 1. Buscar el Bien Nacional
+        $bien = BN::where('numero_bn', $request->bienes_nacional_id)->first();
+
+        if (!$bien) {
+            return response()->json(['message' => 'El número de bien nacional no existe.'], 422);
+        }
+
+        // 2. ACTUALIZAR EL ESTADO EN LA TABLA "bienes_nacionales"
+        // Tomamos el estado que viene del formulario y lo guardamos en el bien
+        $bien->update([
+            'estado' => $request->estado
         ]);
 
-        // Crear el mantenimiento
-        // NOTA: Ajusta 'asset_type' y 'asset_id' según tu esquema real de BD (polimórfico o columnas separadas)
-        // Asumo un diseño simple o polimórfico por ahora.
-        $maintenance = Maintenance::create([
-            'asset_id' => $request->asset_id,
-            'asset_type' => $request->asset_type, // Asegúrate de enviar esto desde el formulario
-            'tipo' => $request->tipo,
-            'fecha_realizada' => $request->fecha_realizada,
-            'descripcion' => $request->descripcion,
-            'costo' => $request->costo,
-            'tecnico' => $request->tecnico,
-            'user_id' => auth()->id(), // Usuario que registra
+        // 3. Preparar los datos para el reporte
+        $data['bienes_nacional_id'] = $bien->id;
+        $data['usuario_nombre'] = auth()->user()->name;
+
+        // 4. Crear el reporte
+        $reporte = ReportesBN::create($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Reporte registrado y estado del bien actualizado.',
+            'data' => $reporte
+        ], 201);
+    }
+
+    public function storeAA(StoreReportesAARequest $request)
+    {
+        $data = $request->validated();
+
+        // 1. Buscar el aire acondicionado por su número de etiqueta
+        // (Asegúrate de que 'AirAcond' sea el nombre correcto de tu modelo)
+        $aire = AirAcond::where('numero_bn', $request->aire_id)->first();
+
+        if (!$aire) {
+            return response()->json(['message' => 'El número de aire acondicionado no existe.'], 422);
+        }
+
+        // 2. ACTUALIZAR EL ESTADO EN LA TABLA "aires_acondicionados"
+        // Esto sincroniza el estado del equipo con el estado del reporte
+        $aire->update([
+            'estado' => $request->estado_final
         ]);
 
-        // Enviar notificación
-        $this->notificationService->notifyMaintenance($maintenance, auth()->user());
+        // 3. Preparar los datos para el reporte
+        // Reemplazamos el valor del input por el ID real y asignamos el usuario
+        $data['aire_id'] = $aire->id;
+        $data['usuario_nombre'] = auth()->user()->name;
 
-        return redirect()->back()->with('success', 'Mantenimiento registrado correctamente');
+        // 4. Crear el registro del reporte
+        $reporte = ReportesAA::create($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Reporte de Aire Acondicionado registrado y estado del equipo actualizado.',
+            'data' => $reporte
+        ], 201);
     }
 }
