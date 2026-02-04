@@ -63,9 +63,9 @@
 
     <!-- Statistics Cards -->
 <!-- Statistics Cards (Compact) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+    {{-- <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4"> --}}
         <!-- Card 1: Total Mantenimientos (Blue) -->
-        <div data-slot="card" class="bg-white dark:bg-gray-800 text-slate-800 dark:text-gray-100 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all p-4 group">
+        {{-- <div data-slot="card" class="bg-white dark:bg-gray-800 text-slate-800 dark:text-gray-100 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all p-4 group">
             <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 dark:bg-blue-900/20 rounded-full -mr-6 -mt-6 opacity-50 group-hover:scale-110 transition-transform"></div>
             <div class="flex items-center justify-between z-10">
                 <div class="p-2 bg-blue-100 dark:bg-blue-900/50 rounded-md text-blue-600 dark:text-blue-400">
@@ -78,10 +78,10 @@
                 <p class="text-2xl font-bold text-slate-900 dark:text-gray-100 leading-tight">12</p>
                 <p class="text-xs text-slate-500 dark:text-gray-400 font-medium mt-0.5">Total Mantenimientos</p>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Card 2: Preventivos (Emerald) -->
-        <div data-slot="card" class="bg-white dark:bg-gray-800 text-slate-800 dark:text-gray-100 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all p-4 group">
+        {{-- <div data-slot="card" class="bg-white dark:bg-gray-800 text-slate-800 dark:text-gray-100 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all p-4 group">
             <div class="absolute top-0 right-0 w-16 h-16 bg-emerald-50 dark:bg-emerald-900/20 rounded-full -mr-6 -mt-6 opacity-50 group-hover:scale-110 transition-transform"></div>
             <div class="flex items-center justify-between z-10">
                 <div class="p-2 bg-emerald-100 dark:bg-emerald-900/50 rounded-md text-emerald-600 dark:text-emerald-400">
@@ -96,10 +96,10 @@
                 <p class="text-2xl font-bold text-slate-900 dark:text-gray-100 leading-tight">4</p>
                 <p class="text-xs text-slate-500 dark:text-gray-400 font-medium mt-0.5">Preventivos</p>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Card 3: Correctivos (Red) -->
-        <div data-slot="card" class="bg-white dark:bg-gray-800 text-slate-800 dark:text-gray-100 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all p-4 group">
+        {{-- <div data-slot="card" class="bg-white dark:bg-gray-800 text-slate-800 dark:text-gray-100 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all p-4 group">
             <div class="absolute top-0 right-0 w-16 h-16 bg-red-50 dark:bg-red-900/20 rounded-full -mr-6 -mt-6 opacity-50 group-hover:scale-110 transition-transform"></div>
             <div class="flex items-center justify-between z-10">
                 <div class="p-2 bg-red-100 dark:bg-red-900/50 rounded-md text-red-600 dark:text-red-400">
@@ -114,10 +114,10 @@
                 <p class="text-2xl font-bold text-slate-900 dark:text-gray-100 leading-tight">2</p>
                 <p class="text-xs text-slate-500 dark:text-gray-400 font-medium mt-0.5">Correctivos</p>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Card 4: Este Mes (Amber) -->
-        <div data-slot="card" class="bg-white dark:bg-gray-800 text-slate-800 dark:text-gray-100 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all p-4 group">
+        {{-- <div data-slot="card" class="bg-white dark:bg-gray-800 text-slate-800 dark:text-gray-100 flex flex-col gap-3 rounded-lg relative overflow-hidden border border-slate-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-all p-4 group">
             <div class="absolute top-0 right-0 w-16 h-16 bg-amber-50 dark:bg-amber-900/20 rounded-full -mr-6 -mt-6 opacity-50 group-hover:scale-110 transition-transform"></div>
             <div class="flex items-center justify-between z-10">
                 <div class="p-2 bg-amber-100 dark:bg-amber-900/50 rounded-md text-amber-600 dark:text-amber-400">
@@ -135,8 +135,8 @@
                 <p class="text-2xl font-bold text-slate-900 dark:text-gray-100 leading-tight">3</p>
                 <p class="text-xs text-slate-500 dark:text-gray-400 font-medium mt-0.5">Realizados Este Mes</p>
             </div>
-        </div>
-    </div>
+        </div> --}}
+    {{-- </div> --}}
 
     <!-- Main Content Card -->
     <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl shadow-lg border-0">
@@ -344,10 +344,10 @@
                                             <div class="inline-flex items-center justify-center px-1.5 py-0.5 rounded bg-gray-100 dark:bg-white/5 text-[9px] text-gray-600 dark:text-gray-300 font-medium z-10 border border-gray-200 dark:border-white/10" data-badge="neutral">Bien Nacional</div>
                                             {{-- <div class="inline-flex items-center justify-center px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-medium border border-gray-200 dark:border-gray-600 px-1.5 py-0.5 rounded" style="font-size: 9px;" data-badge="neutral">Ventilador</div> --}}
                                         </div>
-                                        <button onclick="openViewModal()" class="group/btn inline-flex items-center gap-1.5 px-2 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-medium rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/40 hover:border-blue-300 dark:hover:border-blue-700 transition-all shadow-sm" style="font-size: 10px;"">
+                                        {{-- <button onclick="openViewModal()" class="group/btn inline-flex items-center gap-1.5 px-2 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-medium rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/40 hover:border-blue-300 dark:hover:border-blue-700 transition-all shadow-sm" style="font-size: 10px;"">
                                             Ver detalles
                                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
-                                        </button>
+                                        </button> --}}
                                     </div>
                                 </div>
                             </div>
@@ -399,8 +399,8 @@
                                                 </span>
                                             </div>
                                             <div class="text-right">
-                                                <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Duración</p>
-                                                <p class="text-base font-bold text-gray-900 dark:text-white">4h 00m</p>
+                                                {{-- <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Duración</p>
+                                                <p class="text-base font-bold text-gray-900 dark:text-white">4h 00m</p> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -410,10 +410,10 @@
                                         <div class="flex -space-x-1 overflow-hidden">
                                             <div class="inline-flex items-center justify-center px-1.5 py-0.5 rounded bg-gray-100 dark:bg-white/5 text-[9px] text-gray-600 dark:text-gray-300 font-medium z-10 border border-gray-200 dark:border-white/10" data-badge="neutral">Aire Acondicionado</div>
                                         </div>
-                                        <button onclick="openViewModal()" class="group/btn inline-flex items-center gap-1.5 px-2 py-1 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-300 border border-purple-200 dark:border-purple-800 font-medium rounded-md hover:bg-purple-100 dark:hover:bg-purple-900/40 hover:border-purple-300 dark:hover:border-purple-700 transition-all shadow-sm" style="font-size: 10px;"">
+                                        {{-- <button onclick="openViewModal()" class="group/btn inline-flex items-center gap-1.5 px-2 py-1 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-300 border border-purple-200 dark:border-purple-800 font-medium rounded-md hover:bg-purple-100 dark:hover:bg-purple-900/40 hover:border-purple-300 dark:hover:border-purple-700 transition-all shadow-sm" style="font-size: 10px;"">
                                             Ver detalles
                                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
-                                        </button>
+                                        </button> --}}
                                     </div>
                                 </div>
                             </div>

@@ -83,7 +83,8 @@ Route::get('/aires-acondicionados/{id}', [AirAcondController::class, 'show'])->n
 
 
 Route::get('/mantenimiento', [MaintenanceController::class, 'index'])->name('mantenimiento.index');
-Route::post('/mantenimiento', [MaintenanceController::class, 'store'])->name('mantenimiento.store');
+Route::post('/mantenimiento/bien-nacional', [MaintenanceController::class, 'storeBN'])->name('mantenimiento.storeBN');
+Route::post('/mantenimiento/aire-acondicionado', [MaintenanceController::class, 'storeAA'])->name('mantenimiento.storeAA');
 
 
 

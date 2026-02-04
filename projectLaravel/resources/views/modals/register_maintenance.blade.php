@@ -143,7 +143,7 @@
 
 <!-- ✅ ARCHIVO ACTUALIZADO - 27 ENE 2026 19:05 -->
 <!-- Modal Registrar Mantenimiento -->
-<div role="dialog" id="radix-:register-maintenance:" 
+{{-- <div role="dialog" id="radix-:register-maintenance:" 
     class="bg-white dark:bg-gray-800 fixed top-[50%] left-[50%] z-50 flex flex-col translate-x-[-50%] translate-y-[-50%] rounded-xl border dark:border-gray-700 shadow-2xl max-h-[90vh]" 
     tabindex="-1" style="pointer-events: auto; width: 500px; max-width: 95vw;">
     
@@ -467,5 +467,291 @@
             </button>
         </div>
     </div>
-</div>
+</div> --}}
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity z-[99998]" data-modal-cancel style="z-index: 99998; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);"></div>
+
+    {{-- Modal Content --}}
+    <div role="dialog" id="radix-:regist-modal:" 
+        class="bg-white fixed top-[50%] left-[50%] z-[100000] grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl border p-6 shadow-2xl duration-200 sm:max-w-lg max-h-[90vh] overflow-y-auto" 
+        tabindex="-1" style="pointer-events: auto; z-index: 100000;">
+
+        <!-- Header -->
+        <div class="flex flex-col gap-2 text-center sm:text-left mb-2">
+            <h2 class="font-semibold text-xl text-gray-900 flex items-center gap-2">
+                <div class="p-2 bg-blue-50 rounded-full text-blue-600">
+                    <svg title="Cerrar modal" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+                </div>
+                Agregar Nueva intervencion de mantenimiento
+            </h2>
+            <p class="text-sm text-gray-500">
+                Complete la información detallada para registrar el activo en el sistema.
+            </p>
+        </div>
+
+        <form id="formAddReporte" action="" method="POST">
+            @csrf
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Numero BN -->
+                <div class="space-y-2">
+                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="numeroreporteBN">
+                        Número de Bien Nacional <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="numeroreporteBN" name="bienes_nacional_id" required placeholder="Ingrese el número de Bien"
+                        class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                </div>
+
+                <!-- Nombre -->
+                <div class="space-y-2">
+                    <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="tiporeporte">
+                        Tipo de reporte<span class="text-red-500">*</span>
+                    </label>
+                    <select id="tiporeporte" name="tipo_reporte" required
+                        class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                        <option value="">Seleccione un tipo de reporte</option>
+                        <option value="BN">Bien Nacional</option>
+                        <option value="AA">Aire Acondicionado</option>
+                    </select>
+                </div>
+
+
+
+
+
+
+                <div id="campos-BN" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-6 lg:col-span-2">
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="tituloreporteBN">
+                            Titulo
+                        </label>
+                        <input type="text" id="tituloreporteBN" name="titulo" placeholder="Ingrese el titulo"
+                            class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="descripcionreporteBN">
+                            Descripción
+                        </label>
+                        <input type="text" id="descripcionreporteBN" name="descripcion" placeholder="Ingrese la descripción"
+                            class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="tipomantenimientoBN">
+                            Tipo intervencion <span class="text-red-500">*</span>
+                        </label>
+                        <select id="tipomantenimientoBN" name="tipo" required
+                            class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                             <option value="...">Seleccionar</option>
+                            <option value="ASIGNACION">Asignación</option>
+                            <option value="DESINCORPERADO">Desincorporado</option>
+                            <option value="MANTENIMIENTO">Mantenimiento</option>
+                            <option value="REPARACION">reparación</option>
+                            <option value="TRASLADO">Traslado</option>
+                            <option value="OTRO">Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="estadomantenimientoBN">
+                            Estado Final <span class="text-red-500">*</span>
+                        </label>
+                        <select id="estadomantenimientoBN" name="estado" required
+                            class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                            <option value="Operativo">Operativo</option>
+                            <option value="Fuera de servicio">Fuera de servicio</option>
+                            <option value="En reparación">En reparación</option>
+                            {{-- <option value="Desincorporado">Desincorporado</option> --}}
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold uppercase text-gray-700" for="fecha_realizada">Fecha Realizada <span class="text-red-500">*</span></label>
+                        <input type="date" id="fecha_realizada" name="fecha_realizada" required class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" value="{{ date('Y-m-d') }}">
+                    </div>
+                </div>
+
+                <div id="campos-AA" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-6 lg:col-span-2">
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="tituloreporteAA">
+                            Titulo de intervención
+                        </label>
+                        <input type="text" id="tituloreporteAA" name="trabajo_realizado" placeholder="Ingrese el titulo"
+                            class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="descripcionreporteAA">
+                            Descripción
+                        </label>
+                        <input type="text" id="descripcionreporteAA" name="descripcion_intervencion" placeholder="Ingrese la descripción"
+                            class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="tecnicoresponsable">
+                            Técnico Responsable
+                        </label>
+                        <input type="text" id="tecnicoresponsable" name="tecnico_responsable" placeholder="Ingrese el técnico responsable"
+                            class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="tipomantenimientoAA">
+                            Tipo intervencion <span class="text-red-500">*</span>
+                        </label>
+                        <select id="tipomantenimientoAA" name="tipo_mantenimiento" required
+                            class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                             <option value="...">Seleccionar</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="reparacion">Reparación</option>
+                            <option value="falla">Falla</option>
+                            <option value="instalacion">Instalación</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-gray-700" for="estadomantenimientoAA">
+                            Estado Final <span class="text-red-500">*</span>
+                        </label>
+                        <select id="estadomantenimientoAA" name="estado_final" required
+                            class="flex h-10 w-full rounded-md border border-gray-300 shadow-sm bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                            <option value="Operativo">Operativo</option>
+                            <option value="Fuera de servicio">Fuera de servicio</option>
+                            <option value="En reparación">En reparación</option>
+                            <option value="Desincorporado">Desincorporado</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold uppercase text-gray-700" for="fechaintervencionAA">Fecha Realizada <span class="text-red-500">*</span></label>
+                        <input type="date" id="fechaintervencionAA" name="fecha_reporte" required class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all" value="{{ date('Y-m-d') }}">
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                
+
+            </div>
+
+            <!-- Footer -->
+            <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 mt-8 pt-4 border-t">
+                <button onclick="closeRegisterModal()" type="button" data-modal-cancel
+                    class="btn-color-red cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-300 shadow-sm bg-background hover:text-red-600 hover:border-red-500 hover:scale-[1.02] active:scale-[0.98] h-10 px-4 py-2 w-full sm:w-auto">
+                    Cancelar
+                </button>
+                <button type="submit"
+                    class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 hover:scale-[1.02] active:scale-[0.98] h-10 px-4 py-2 w-full sm:w-auto shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M19 21v-8a2 2 0 0 0-2-2H9.172a2 2 0 0 0-1.414.586l-2.828 2.828A2 2 0 0 0 4.343 14H2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2zm-5-9V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v8"/></svg>
+                    Guardar Reporte
+                </button>
+            </div>
+        </form>
+
+        <button onclick="closeRegisterModal()" data-modal-close type="button" class="cursor-pointer absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-all hover:opacity-100 hover:text-red-600 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground p-1 btn-color-red">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x h-4 w-4"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            <span class="sr-only">Close</span>
+        </button>
+    </div>
 <script src="{{ asset('js/maintenance-wizard.js') }}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('formAddReporte');
+        const selectTipo = document.getElementById('tiporeporte');
+        const inputID = document.getElementById('numeroreporteBN'); // Tu input específico
+        const containerBN = document.getElementById('campos-BN');
+        const containerAA = document.getElementById('campos-AA');
+
+        selectTipo.addEventListener('change', function() {
+            const valor = this.value;
+
+            // 1. Ocultar contenedores
+            containerBN.classList.add('hidden');
+            containerAA.classList.add('hidden');
+
+            // 2. Lógica de nombres y visibilidad
+            if (valor === 'BN') {
+                containerBN.classList.remove('hidden');
+                inputID.name = "bienes_nacional_id"; // Cambio de name
+                
+                toggleInputs(containerBN, true);
+                toggleInputs(containerAA, false);
+            } else if (valor === 'AA') {
+                containerAA.classList.remove('hidden');
+                inputID.name = "aire_id"; // Cambio de name
+                
+                toggleInputs(containerAA, true);
+                toggleInputs(containerBN, false);
+            }
+        });
+
+        function toggleInputs(container, enabled) {
+            if (!container) return;
+            const inputs = container.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.disabled = !enabled;
+                // No limpiamos el valor de inputID aquí si está fuera de los contenedores
+                if (!enabled && input !== inputID) input.value = ""; 
+            });
+        }
+
+    // --- LÓGICA DE ENVÍO (FETCH) ---
+    // Agregamos 'async' aquí para que 'await' funcione
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const tipoSeleccionado = selectTipo.value;
+        if (!tipoSeleccionado) {
+            alert('Por favor, seleccione un tipo de reporte.');
+            return;
+        }
+
+        const url = tipoSeleccionado === 'BN' 
+            ? "{{ route('mantenimiento.storeBN') }}" 
+            : "{{ route('mantenimiento.storeAA') }}";
+
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    // Asegúrate de que el selector coincida con tu input de CSRF
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    'Accept': 'application/json'
+                },
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert('Registro guardado con éxito');
+                form.reset();
+                // Ocultamos los contenedores de nuevo tras el reset
+                containerBN.classList.add('hidden');
+                containerAA.classList.add('hidden');
+                window.location.reload();
+                if (typeof closeRegisterModal === 'function') closeRegisterModal();
+            } else {
+                if (response.status === 422) {
+                    alert('Error de validación: ' + Object.values(result.errors).flat().join('\n'));
+                } else {
+                    throw new Error(result.message || 'Error desconocido');
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Hubo un problema al procesar la solicitud.');
+        }
+    });
+});
+</script>
