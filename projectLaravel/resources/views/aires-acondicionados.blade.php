@@ -800,6 +800,15 @@
         // 2. Mostrar un indicador de carga opcional (puedes usar un spinner o alert de "Cargando...")
         // Esto evita la incertidumbre si el servidor tarda un poco.
 
+        // Configurar el botón de descarga PDF
+        const btnDownload = document.getElementById('btn-download-ac-history-pdf');
+        if (btnDownload) {
+            btnDownload.onclick = function() {
+                // Redirigir a la ruta de descarga
+                window.location.href = `{{ url('aires-acondicionados/history') }}/${acId}/pdf`;
+            };
+        }
+
         // 3. Realizar la petición
         fetch(`{{ url('aires-acondicionados/history') }}/${acId}`)
             .then(response => {

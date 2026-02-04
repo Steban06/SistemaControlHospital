@@ -149,6 +149,19 @@ class AirAcondController extends Controller
         ], 200);
     }
 
+    public function downloadHistoryPDF($id)
+    {
+        $aire = AirAcond::with('bienNacional.area')->findOrFail($id);
+        $historial = ReportesAA::where('aire_id', $id)
+            ->latest('fecha_reporte')
+            ->get();
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.historial_ac', compact('aire', 'historial'));
+        $pdf->setPaper('a4', 'portrait');
+
+        return $pdf->download("historial_aire_{$aire->numero_bn}.pdf");
+    }
+
     /**
      * Remove the specified resource from storage.
      */

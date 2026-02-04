@@ -74,6 +74,7 @@ Route::prefix('aires-acondicionados')->group(function () {
     Route::post('/', [AirAcondController::class, 'store'])->name('aires-acondicionados.store'); // Quita el texto extra
     Route::put('/{id}', [AirAcondController::class, 'update'])->name('aires-acondicionados.update');
     Route::get('/history/{id}', [AirAcondController::class, 'history'])->name('aires-acondicionados.history');
+    Route::get('/history/{id}/pdf', [AirAcondController::class, 'downloadHistoryPDF'])->name('aires-acondicionados.history.pdf');
 });
 
 Route::get('/aires-acondicionados/{id}/edit', [AirAcondController::class, 'edit'])->name('aires-acondicionados.edit');
