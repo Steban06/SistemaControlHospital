@@ -13,25 +13,33 @@ class NotificationService
     /**
      * Enviar notificación cuando se registra un nuevo bien
      */
+    /**
+     * Enviar notificación cuando se registra un nuevo bien
+     */
     public function notifyNewAsset($asset, $createdByUser)
     {
-        // 1. Obtener todos los usuarios
         $users = User::all();
         
         foreach ($users as $user) {
-            // Verificar preferencia (si existe en el JSON, default = false)
-            // Asumimos que si no existe la key 'notify_new_assets', es true por defecto o false según lógica de negocio.
-            // Aquí chequeamos explícitamente el JSON si lo estás usando.
-            
-            // NOTA: Laravel cast de JSON a array en el modelo User es útil aquí.
             $preferences = $user->preferences ?? [];
-            $shouldNotify = $preferences['notify_new_assets'] ?? true; // Default true
+            $shouldNotify = $preferences['notify_new_assets'] ?? true; 
 
             if (!$shouldNotify) continue;
 
-            // Enviar notificación
-            // La lógica del mensaje ("Has registrado" vs "User X registró") está dentro de la clase NewAssetNotification
-            $user->notify(new NewAssetNotification($asset, $createdByUser));
+            // Mensaje personalizado
+            $assetCode = $asset->numero_bn ?? 'Desconocido';
+            $message = ($user->id === $createdByUser->id)
+                ? "Has registrado exitosamente el bien {$assetCode}"
+                : "{$createdByUser->name} registró el nuevo bien {$assetCode}";
+
+            // Crear notificación usando el modelo personalizado
+            \App\Models\Notification::create([
+                'user_id' => $user->id,
+                'type' => 'new_asset', // O 'inventory' para coincidir con el frontend
+                'title' => 'Nuevo Bien Registrado',
+                'message' => $message,
+                'is_read' => false
+            ]);
         }
     }
 
@@ -48,7 +56,24 @@ class NotificationService
 
             if (!$shouldNotify) continue;
 
-            $user->notify(new MaintenanceNotification($maintenance, $createdByUser));
+            // Obtener código del activo
+            $assetCode = 'Desconocido';
+            if ($maintenance->asset) {
+                // Soportar BN y AirAcond usando numero_bn
+                $assetCode = $maintenance->asset->numero_bn ?? 'Desconocido';
+            }
+
+            $message = ($user->id === $createdByUser->id)
+                ? "Has registrado mantenimiento para el equipo {$assetCode}"
+                : "{$createdByUser->name} registró mantenimiento para {$assetCode}";
+
+            \App\Models\Notification::create([
+                'user_id' => $user->id,
+                'type' => 'maintenance',
+                'title' => 'Mantenimiento Registrado',
+                'message' => $message,
+                'is_read' => false
+            ]);
         }
     }
 
