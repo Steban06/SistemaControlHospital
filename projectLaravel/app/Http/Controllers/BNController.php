@@ -130,9 +130,17 @@ class BNController extends Controller
     {
         $bien = BN::with(['area', 'categoria'])->findOrFail($id);
         
-        // Generar QR en base64 para incrustar en el PDF
-        $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('png')->size(100)->generate($bien->numero_bn);
-        $qrCodeBase64 = 'data:image/png;base64,' . base64_encode($qrCode);
+        // Generar contenido del QR con información detallada
+        $qrContent = "ID: {$bien->numero_bn}\n" .
+                     "Bien: {$bien->nombre}\n" .
+                     "Marca: " . ($bien->marca ?? 'N/A') . "\n" .
+                     "Modelo: " . ($bien->modelo ?? 'N/A') . "\n" .
+                     "Serial: " . ($bien->serial ?? 'N/A') . "\n" .
+                     "Ubicación: " . ($bien->area ? $bien->area->descripcion : 'N/A');
+
+        // Generar QR en base64 para incrustar en el PDF (Usando SVG para compatibilidad)
+        $qrCode = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')->size(100)->generate($qrContent);
+        $qrCodeBase64 = 'data:image/svg+xml;base64,' . base64_encode($qrCode);
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.detalle-bien', compact('bien', 'qrCodeBase64'));
         $pdf->setPaper('a4', 'portrait');
@@ -142,8 +150,16 @@ class BNController extends Controller
 
     public function generateQR($id)
     {
-        $bien = BN::findOrFail($id);
-        $qr = \SimpleSoftwareIO\QrCode\Facades\QrCode::size(150)->generate($bien->numero_bn);
+        $bien = BN::with('area')->findOrFail($id);
+        
+        $qrContent = "ID: {$bien->numero_bn}\n" .
+                     "Bien: {$bien->nombre}\n" .
+                     "Marca: " . ($bien->marca ?? 'N/A') . "\n" .
+                     "Modelo: " . ($bien->modelo ?? 'N/A') . "\n" .
+                     "Serial: " . ($bien->serial ?? 'N/A') . "\n" .
+                     "Ubicación: " . ($bien->area ? $bien->area->descripcion : 'N/A');
+
+        $qr = \SimpleSoftwareIO\QrCode\Facades\QrCode::size(150)->generate($qrContent);
         return response($qr)->header('Content-Type', 'image/svg+xml');
     }
 }

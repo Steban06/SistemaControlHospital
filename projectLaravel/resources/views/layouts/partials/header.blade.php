@@ -55,7 +55,7 @@
                 <div class="max-h-[350px] overflow-y-auto custom-scrollbar p-3" id="notifications-list">
                     @forelse($recentNotifications ?? [] as $notification)
                     <!-- Notification Item -->
-                    <div class="flex gap-4 w-full px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700/50 cursor-pointer relative rounded-lg mb-2 group notification-item" data-id="{{ $notification->id }}" onclick="markNotificationAsRead({{ $notification->id }})">
+                    <div class="flex gap-4 w-full px-4 py-3.5 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700/50 cursor-pointer relative rounded-lg mb-2 group notification-item" data-id="{{ $notification->id }}" onclick="markNotificationAsRead({{ $notification->id }})">
                         <div class="absolute left-0 top-0 bottom-0 w-1 
                             @if($notification->type === 'maintenance') bg-amber-500
                             @elseif($notification->type === 'inventory') bg-red-500
@@ -122,7 +122,7 @@
 
                 // Mark notification as read
                 function markNotificationAsRead(notificationId) {
-                    fetch(`/api/notifications/${notificationId}/read`, {
+                    fetch(`{{ url('/api/notifications') }}/${notificationId}/read`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -160,7 +160,7 @@
 
                 // Update notification count
                 function updateNotificationCount() {
-                    fetch('/api/notifications/count', {
+                    fetch('{{ url('/api/notifications/count') }}', {
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                         }
@@ -180,7 +180,7 @@
 
                 // Mark all notifications as read
                 function markAllAsRead() {
-                    fetch('/api/notifications/mark-all-read', {
+                    fetch('{{ url('/api/notifications/mark-all-read') }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -207,7 +207,7 @@
 
                 // Refresh notifications list in dropdown
                 function refreshNotifications() {
-                    fetch('/api/notifications/unread', {
+                    fetch('{{ url('/api/notifications/unread') }}', {
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                         }
@@ -240,7 +240,7 @@
                                     const timeAgo = formatTimeAgo(notification.created_at);
                                     
                                     return `
-                                        <div class="flex gap-4 w-full px-4 py-3.5 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700/50 cursor-pointer relative rounded-lg mb-2 group notification-item" data-id="${notification.id}" onclick="markNotificationAsRead(${notification.id})">
+                                        <div class="flex gap-4 w-full px-4 py-3.5 dark:hover:bg-gray-700 transition-colors border-b border-gray-100 dark:border-gray-700/50 cursor-pointer relative rounded-lg mb-2 group notification-item" data-id="${notification.id}" onclick="markNotificationAsRead(${notification.id})">
                                             <div class="absolute left-0 top-0 bottom-0 w-1 ${colors.border} opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                             <div class="${colors.bg} w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200">
                                                 ${icon}

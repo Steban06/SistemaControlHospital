@@ -116,7 +116,7 @@
     <div class="header-fixed">
         <table style="width: 100%; border: none; margin: 0;">
             <tr>
-                <td style="width: 60%; vertical-align: middle;">
+                <td style="width: 40%; vertical-align: middle;">
                     <div class="left-section">
                         <img src="{{ public_path('images/svg/virgen-compact-dark.svg') }}" alt="Logo" class="logo" style="vertical-align: middle;">
                         <div class="hospital-info" style="display: inline-block; vertical-align: middle; margin-left: 10px;">
@@ -129,12 +129,11 @@
                     <h1>FICHA TÉCNICA</h1>
                     <p style="margin: 5px 0 0 0; font-size: 12px; color: #64748b;">Código BN: <strong>{{ $bien->numero_bn }}</strong></p>
                 </td>
+                <td style="width: 20%; text-align: right; vertical-align: middle;">
+                    <img src="{{ $qrCodeBase64 }}" width="70" height="70" alt="QR">
+                </td>
             </tr>
         </table>
-    </div>
-
-    <div class="qr-section">
-        <img src="{{ $qrCodeBase64 }}" width="80" height="80" alt="QR">
     </div>
 
     <!-- Información Principal -->

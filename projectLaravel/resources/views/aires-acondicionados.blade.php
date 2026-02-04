@@ -102,7 +102,7 @@
                         <p data-slot="card-description" class="text-muted-foreground text-xs lg:text-sm mt-1 text-gray-500 dark:text-gray-400">Sistema de gestión y control de climatización hospitalaria</p>
                     </div>
                     {{-- onclick="ModalManager.openModal(document.getElementById('addACModal'))" --}}
-                    @if(auth()->user()->role !== 'guest')
+                    @if(auth()->check() && auth()->user()->role !== 'guest')
                     <button id="addACBtn" data-slot="button" class="cursor-pointer inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white shadow hover:bg-blue-700 h-8 rounded-md gap-1.5 px-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus w-4 h-4 lg:mr-2"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
                         <span class="hidden lg:inline">Agregar Aire Acondicionado</span>
@@ -169,9 +169,9 @@
                                 
                                 @php
                                     $statusClasses = match(strtolower($aire->estado)) {
-                                        'operativo' => 'border-emerald-300 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800',
-                                        'mantenimiento' => 'border-amber-300 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800',
-                                        'fuera de servicio' => 'border-red-300 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800',
+                                        'operativo' => 'border-emerald-300 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-200 dark:border-emerald-800',
+                                        'mantenimiento' => 'border-amber-300 bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-200 dark:border-amber-800',
+                                        'fuera de servicio' => 'border-red-300 bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-200 dark:border-red-800',
                                         default => 'border-gray-300 bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600'
                                     };
                                     $statusIcon = match(strtolower($aire->estado)) {
@@ -214,7 +214,7 @@
                     @endforeach
                     
                     <!-- Registrar Nuevo Card -->
-                    @if(auth()->user()->role !== 'guest')
+                    @if(auth()->check() && auth()->user()->role !== 'guest')
                     <!-- Registrar Nuevo Card -->
                     <div data-slot="card" class="group relative dark:bg-gray-800 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all duration-300 min-h-[220px] flex items-center justify-center cursor-pointer" onclick="ModalManager.openModal(document.getElementById('addACModal'))">
                         <div class="flex flex-col items-center gap-3 text-center p-6">
@@ -252,25 +252,25 @@
         function updateStatBadgeColors() {
             const isDark = document.documentElement.classList.contains('dark');
             
-            // Find all stat card badges
-            const badges = document.querySelectorAll('[data-slot="card"] .flex.items-center.gap-1.text-xs.font-medium');
+            // Find all stat card badges (both stats and grid)
+            const badges = document.querySelectorAll('[data-slot="card"] .flex.items-center.gap-1.text-xs.font-medium, [data-slot="card"] .inline-flex.items-center.gap-1.text-xs.font-medium');
             
             badges.forEach(badge => {
                 const text = badge.textContent.trim();
                 let bgColor, textColor, borderColor;
                 
                 // Identify badge by text content
-                if (text.includes('%')) {
-                    // Operativos badge (green)
+                if (text.includes('%') || text.includes('Operativo')) {
+                    // Operativo badge (green)
                     bgColor = isDark ? 'rgba(6, 78, 59, 0.5)' : '#d1fae5';
                     textColor = isDark ? '#6ee7b7' : '#047857';
                     borderColor = isDark ? '#064e3b' : '#a7f3d0';
-                } else if (text.includes('Pend')) {
+                } else if (text.includes('Pend') || text.includes('Mantenimiento')) {
                     // Mantenimiento badge (amber)
-                    bgColor = isDark ? 'rgba(120, 53, 15, 0.5)' : '#fef3c7';
-                    textColor = isDark ? '#fcd34d' : '#b45309';
-                    borderColor = isDark ? '#78350f' : '#fde68a';
-                } else if (text.includes('Críticos')) {
+                    bgColor = isDark ? 'rgba(120, 53, 15, 0.5)' : '#fef3c7'; // amber-900/50 : amber-100
+                    textColor = isDark ? '#fcd34d' : '#b45309'; // amber-300 : amber-700
+                    borderColor = isDark ? '#78350f' : '#fde68a'; // amber-800 : amber-200
+                } else if (text.includes('Críticos') || text.includes('Fuera de servicio') || text.includes('Fuera de Servicio')) {
                     // Fuera de servicio badge (red)
                     bgColor = isDark ? 'rgba(127, 29, 29, 0.5)' : '#fee2e2';
                     textColor = isDark ? '#fca5a5' : '#b91c1c';
@@ -603,16 +603,16 @@
                 let icon = '';
                 let text = '';
 
-                if (data.estado === 'operativo') {
-                    badgeClass = 'bg-emerald-100 text-emerald-700 border-emerald-300';
+                if (data.estado === 'operativo' || data.estado === 'Operativo') {
+                    badgeClass = 'bg-emerald-100 text-emerald-700 border-emerald-300 dark:bg-emerald-900/50 dark:text-emerald-200 dark:border-emerald-800';
                     icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check-big w-3 h-3"><path d="M21.801 10A10 10 0 1 1 17 3.335"></path><path d="m9 11 3 3L22 4"></path></svg>';
                     text = 'Operativo';
-                } else if (data.estado === 'mantenimiento') {
-                    badgeClass = 'bg-amber-100 text-amber-700 border-amber-300';
+                } else if (data.estado === 'mantenimiento' || data.estado === 'Mantenimiento') {
+                    badgeClass = 'bg-amber-100 text-amber-700 border-amber-300 dark:bg-amber-900/50 dark:text-amber-200 dark:border-amber-800';
                     icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wrench w-3 h-3"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>';
                     text = 'Mantenimiento';
                 } else {
-                    badgeClass = 'bg-red-100 text-red-700 border-red-300';
+                    badgeClass = 'bg-red-100 text-red-700 border-red-300 dark:bg-red-900/50 dark:text-red-200 dark:border-red-800';
                     icon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-x w-3 h-3"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>';
                     text = 'Fuera de Servicio';
                 }

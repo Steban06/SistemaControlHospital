@@ -231,27 +231,51 @@
     <!-- 3. Reporte Mantenimiento -->
     <div id="reporte-mantenimiento" class="report-content hidden mt-8 transition-all duration-300 ease-in-out">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
-            <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2 mb-4">
-                <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 2.758-1.741 2.758H12m0 0l-5 5m5-5v6"></path></svg>
-                Equipos en Alerta
-            </h3>
-            <div class="space-y-3">
-                <div class="flex items-center p-3 rounded-lg border border-amber-200 bg-amber-50 dark:bg-amber-900/20 dark:border-amber-800">
-                    <div class="h-3 w-3 rounded-full bg-amber-500 mr-3 animate-pulse"></div>
-                    <div class="flex-1">
-                        <h6 class="font-semibold text-sm text-gray-800 dark:text-gray-200">Tomógrafo - Sala 1</h6>
-                        <p class="text-xs text-gray-500">Mantenimiento preventivo vencido hace 3 días</p>
-                    </div>
-                    <button class="text-xs bg-amber-100 text-amber-700 dark:bg-amber-800 dark:text-amber-200 px-3 py-1 rounded-md font-medium">Ver</button>
-                </div>
-                <div class="flex items-center p-3 rounded-lg border border-red-200 bg-red-50 dark:bg-red-900/20 dark:border-red-800">
-                    <div class="h-3 w-3 rounded-full bg-red-500 mr-3"></div>
-                    <div class="flex-1">
-                        <h6 class="font-semibold text-sm text-gray-800 dark:text-gray-200">RX Portátil - Emergencia</h6>
-                        <p class="text-xs text-gray-500">Falla de encendido reportada hoy</p>
-                    </div>
-                    <button class="text-xs bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200 px-3 py-1 rounded-md font-medium">Ver</button>
-                </div>
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                    <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.384-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 2.758-1.741 2.758H12m0 0l-5 5m5-5v6"></path></svg>
+                    Equipos en Alerta (Últimos Mantenimientos)
+                </h3>
+                <a href="{{ route('reportes.mantenimiento') }}" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors" style="background-color: rgb(217, 119, 6);; color: white;">Ver Todos</a>
+            </div>
+
+            <div class="overflow-x-auto rounded-lg border border-gray-100 dark:border-gray-700">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-amber-50 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 uppercase text-xs">
+                        <tr>
+                            <th class="px-4 py-3">Equipo</th>
+                            <th class="px-4 py-3">Descripción</th>
+                            <th class="px-4 py-3">Fecha</th>
+                            <th class="px-4 py-3">Ubicación</th>
+                            <th class="px-4 py-3">Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
+                        @forelse($mantenimientosRecientes as $mant)
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                            <td class="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">{{ $mant->titulo }}</td>
+                            <td class="px-4 py-3 text-gray-600 dark:text-gray-400">{{ Str::limit($mant->descripcion, 50) }}</td>
+                            <td class="px-4 py-3 text-gray-600 dark:text-gray-400">{{ $mant->fecha->format('d/m/Y') }}</td>
+                            <td class="px-4 py-3 text-gray-600 dark:text-gray-400">{{ $mant->ubicacion }}</td>
+                            <td class="px-4 py-3">
+                                @php
+                                    $isPreventive = stripos($mant->tipo, 'Preventivo') !== false;
+                                    $badgeClass = $isPreventive 
+                                        ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200' 
+                                        : 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200';
+                                @endphp
+                                <span class="px-2 py-1 rounded-full text-xs font-semibold {{ $badgeClass }}">
+                                    {{ $mant->tipo }}
+                                </span>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="px-4 py-3 text-center text-gray-500">No hay reportes de mantenimiento recientes.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -447,7 +471,7 @@
         </div>
     </div>
 
-    <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl shadow-lg border-0 bg-white">
+    <!-- <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl shadow-lg border-0 bg-white">
         <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
             <h4 data-slot="card-title" class="leading-none flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text w-5 h-5 text-blue-600">
                     <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
@@ -538,9 +562,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     
-    <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl shadow-lg border-0 bg-white">
+    <!-- <div data-slot="card" class="bg-card text-card-foreground flex flex-col gap-6 rounded-xl shadow-lg border-0 bg-white">
         <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 pt-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
             <h4 data-slot="card-title" class="leading-none flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar w-5 h-5 text-blue-600">
                     <path d="M8 2v4"></path>
@@ -567,7 +591,7 @@
                 <div data-state="inactive" data-orientation="horizontal" role="tabpanel" aria-labelledby="radix-:r3:-trigger-quarterly" hidden="" id="radix-:r3:-content-quarterly" tabindex="0" data-slot="tabs-content" class="flex-1 outline-none space-y-4 pt-4"></div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

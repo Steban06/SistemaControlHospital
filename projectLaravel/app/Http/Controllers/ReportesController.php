@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\BN;
 use App\Models\AirAcond; // Importar modelo de Aires
 use App\Models\Area; // Importar modelo Area
+use App\Models\ReportesBN; // Importar modelo ReportesBN
+use App\Models\ReportesAA; // Importar modelo ReportesAA
 use App\Models\Notification;
 use App\Models\UserPreference;
 use Illuminate\Support\Facades\Auth;
@@ -15,10 +17,23 @@ class ReportesController extends Controller
     public function index()
     {
         // Conteos basados en el campo 'estado'
-        $operativos = BN::where('estado', 'Operativo')->count();
-        $mantenimiento = BN::where('estado', 'Mantenimiento')->count();
-        $fueraServicio = BN::where('estado', 'Fuera de Servicio')->orWhere('estado', 'Dañado')->count();
-        $desincorporados = BN::where('estado', 'Desincorporado')->count();
+        // BN que no son Aires (evitar doble conteo) + Aires Acondicionados (que pueden tener estado más actualizado)
+        
+        $operativos = BN::doesntHave('airAcond')->where('estado', 'Operativo')->count() 
+                    + AirAcond::whereIn('estado', ['Operativo', 'operativo'])->count();
+
+        $mantenimiento = BN::doesntHave('airAcond')->where('estado', 'Mantenimiento')->count()
+                       + AirAcond::whereIn('estado', ['Mantenimiento', 'mantenimiento'])->count();
+
+        $fueraServicio = BN::doesntHave('airAcond')->where(function($q) {
+                            $q->where('estado', 'Fuera de Servicio')->orWhere('estado', 'Dañado');
+                        })->count()
+                       + AirAcond::where(function($q) {
+                            $q->whereIn('estado', ['Fuera de Servicio', 'fuera de servicio', 'Dañado', 'dañado']);
+                       })->count();
+
+        $desincorporados = BN::doesntHave('airAcond')->where('estado', 'Desincorporado')->count()
+                         + AirAcond::whereIn('estado', ['Desincorporado', 'desincorporado'])->count();
 
         // Calcular porcentajes del total
         $total = $operativos + $mantenimiento + $fueraServicio + $desincorporados;
@@ -31,6 +46,42 @@ class ReportesController extends Controller
         // Datos para tablas de reporte (Últimos 10 registros para vista previa)
         $bienesRecientes = BN::with(['area', 'categoria'])->latest()->take(10)->get();
         $airesRecientes = AirAcond::with('bienNacional.area')->latest()->take(10)->get();
+
+        // --- LÓGICA DE MANTENIMIENTOS RECIENTES ---
+        $mantBN = ReportesBN::with(['bn.area'])->latest()->take(10)->get()->map(function($item) {
+            return (object) [
+                'origen' => 'bn',
+                'titulo' => $item->titulo ?? ($item->bn->nombre ?? 'Equipo Desconocido'),
+                'equipo' => $item->bn->nombre ?? 'Desconocido',
+                'ubicacion' => $item->bn->area->nombre ?? 'Sin Asignar',
+                'descripcion' => $item->descripcion,
+                'fecha' => $item->created_at,
+                'tipo' => $item->tipo ?? 'Mantenimiento',
+                'estado' => $item->estado ?? 'Pendiente',
+                'id' => $item->id
+            ];
+        });
+
+        $mantAA = ReportesAA::with(['airAcond.bienNacional.area'])->latest('fecha_reporte')->take(10)->get()->map(function($item) {
+             // Determinar estado/tipo basado en descripción o default
+             $tipo = stripos($item->trabajo_realizado, 'preventivo') !== false ? 'Preventivo' : 'Correctivo';
+             
+             return (object) [
+                'origen' => 'aa',
+                'titulo' => 'Mantenimiento AA - ' . ($item->airAcond->modelo ?? 'N/A'),
+                'equipo' => $item->airAcond->nombre_aa ?? 'Aire Acondicionado',
+                'ubicacion' => $item->airAcond->bienNacional->area->nombre ?? 'N/A',
+                'descripcion' => $item->trabajo_realizado,
+                'fecha' => \Carbon\Carbon::parse($item->fecha_reporte),
+                'tipo' => $tipo,
+                'estado' => 'Completado', // Asumimos completado si hay reporte
+                'id' => $item->id
+            ];
+        });
+
+        // Fusionar y ordenar
+        $mantenimientosRecientes = $mantBN->concat($mantAA)->sortByDesc('fecha')->take(6);
+        // -------------------------------------------
 
         // Tendencias mensuales (últimos 5 meses) con relleno de ceros
         $meses = collect([]);
@@ -80,7 +131,8 @@ class ReportesController extends Controller
             'porcDesinc',
             'bienesRecientes',
             'airesRecientes',
-            'tendencias', // Mantener por si acaso o eliminar si ya no se usa
+            'mantenimientosRecientes', // Nueva variable
+            'tendencias', 
             'tendenciasChartData',
             'areas'
         ));
@@ -220,14 +272,63 @@ class ReportesController extends Controller
         return view('reportes.aires', compact('aires'));
     }
 
+    public function reporteMantenimiento()
+    {
+        // Obtener todos para el reporte completo
+        $mantBN = ReportesBN::with(['bn.area'])->orderBy('created_at', 'desc')->get()->map(function($item) {
+            return (object) [
+                'origen' => 'bn',
+                'titulo' => $item->titulo ?? ($item->bn->nombre ?? 'Equipo Desconocido'),
+                'equipo' => $item->bn->nombre ?? 'Desconocido',
+                'ubicacion' => $item->bn->area->nombre ?? 'Sin Asignar',
+                'descripcion' => $item->descripcion,
+                'fecha' => $item->created_at,
+                'tipo' => $item->tipo ?? 'Mantenimiento',
+                'estado' => $item->estado ?? 'Pendiente',
+                'id' => $item->id
+            ];
+        });
+
+        $mantAA = ReportesAA::with(['airAcond.bienNacional.area'])->orderBy('fecha_reporte', 'desc')->get()->map(function($item) {
+             $tipo = stripos($item->trabajo_realizado, 'preventivo') !== false ? 'Preventivo' : 'Correctivo';
+             return (object) [
+                'origen' => 'aa',
+                'titulo' => 'Mantenimiento AA - ' . ($item->airAcond->modelo ?? 'N/A'),
+                'equipo' => $item->airAcond->nombre_aa ?? 'Aire Acondicionado',
+                'ubicacion' => $item->airAcond->bienNacional->area->nombre ?? 'N/A',
+                'descripcion' => $item->trabajo_realizado,
+                'fecha' => \Carbon\Carbon::parse($item->fecha_reporte),
+                'tipo' => $tipo,
+                'estado' => 'Completado',
+                'id' => $item->id
+            ];
+        });
+
+        // Fusionar y ordenar
+        $mantenimientos = $mantBN->concat($mantAA)->sortByDesc('fecha');
+
+        return view('reportes.mantenimiento', compact('mantenimientos'));
+    }
+
     public function reporteAnalitico()
     {
         // Estadísticas por estado
         $estadoPorcentajes = [
-            'Operativo' => BN::where('estado', 'Operativo')->count(),
-            'Mantenimiento' => BN::where('estado', 'Mantenimiento')->count(),
-            'Fuera de Servicio' => BN::where('estado', 'Fuera de Servicio')->orWhere('estado', 'Dañado')->count(),
-            'Desincorporado' => BN::where('estado', 'Desincorporado')->count(),
+            'Operativo' => BN::doesntHave('airAcond')->where('estado', 'Operativo')->count() 
+                         + AirAcond::whereIn('estado', ['Operativo', 'operativo'])->count(),
+            
+            'Mantenimiento' => BN::doesntHave('airAcond')->where('estado', 'Mantenimiento')->count()
+                             + AirAcond::whereIn('estado', ['Mantenimiento', 'mantenimiento'])->count(),
+            
+            'Fuera de Servicio' => BN::doesntHave('airAcond')->where(function($q) {
+                                    $q->where('estado', 'Fuera de Servicio')->orWhere('estado', 'Dañado');
+                                })->count()
+                               + AirAcond::where(function($q) {
+                                    $q->whereIn('estado', ['Fuera de Servicio', 'fuera de servicio', 'Dañado', 'dañado']);
+                               })->count(),
+            
+            'Desincorporado' => BN::doesntHave('airAcond')->where('estado', 'Desincorporado')->count()
+                              + AirAcond::whereIn('estado', ['Desincorporado', 'desincorporado'])->count(),
         ];
 
         // Bienes por área (top 5)
@@ -261,12 +362,52 @@ class ReportesController extends Controller
                 $filename = 'reporte_aires_' . date('Y-m-d') . '.pdf';
                 break;
 
+            case 'mantenimiento':
+                // Obtener datos unificados (BN + AA)
+                $mantBN = ReportesBN::with(['bn.area'])->orderBy('created_at', 'desc')->get()->map(function($item) {
+                    return (object) [
+                        'titulo' => $item->bn->nombre ?? 'Equipo Desconocido',
+                        'ubicacion' => $item->bn->area->nombre ?? 'Sin Asignar',
+                        'descripcion' => $item->descripcion,
+                        'fecha' => $item->created_at,
+                        'tipo' => $item->tipo ?? 'Mantenimiento'
+                    ];
+                });
+
+                $mantAA = ReportesAA::with(['airAcond.bienNacional.area'])->orderBy('fecha_reporte', 'desc')->get()->map(function($item) {
+                    $tipo = stripos($item->trabajo_realizado, 'preventivo') !== false ? 'Preventivo' : 'Correctivo';
+                    return (object) [
+                        'titulo' => $item->airAcond->nombre_aa ?? 'Aire Acondicionado',
+                        'ubicacion' => $item->airAcond->bienNacional->area->nombre ?? 'N/A',
+                        'descripcion' => $item->trabajo_realizado,
+                        'fecha' => \Carbon\Carbon::parse($item->fecha_reporte),
+                        'tipo' => $tipo
+                    ];
+                });
+
+                $mantenimientos = $mantBN->concat($mantAA)->sortByDesc('fecha');
+                $user = Auth::user();
+                $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('reportes.pdf.mantenimiento', compact('mantenimientos', 'user'));
+                $filename = 'reporte_mantenimiento_' . date('Y-m-d') . '.pdf';
+                break;
+
             case 'analitico':
                 $estadoPorcentajes = [
-                    'Operativo' => BN::where('estado', 'Operativo')->count(),
-                    'Mantenimiento' => BN::where('estado', 'Mantenimiento')->count(),
-                    'Fuera de Servicio' => BN::where('estado', 'Fuera de Servicio')->orWhere('estado', 'Dañado')->count(),
-                    'Desincorporado' => BN::where('estado', 'Desincorporado')->count(),
+                    'Operativo' => BN::doesntHave('airAcond')->where('estado', 'Operativo')->count() 
+                                 + AirAcond::whereIn('estado', ['Operativo', 'operativo'])->count(),
+                    
+                    'Mantenimiento' => BN::doesntHave('airAcond')->where('estado', 'Mantenimiento')->count()
+                                     + AirAcond::whereIn('estado', ['Mantenimiento', 'mantenimiento'])->count(),
+                    
+                    'Fuera de Servicio' => BN::doesntHave('airAcond')->where(function($q) {
+                                            $q->where('estado', 'Fuera de Servicio')->orWhere('estado', 'Dañado');
+                                        })->count()
+                                       + AirAcond::where(function($q) {
+                                            $q->whereIn('estado', ['Fuera de Servicio', 'fuera de servicio', 'Dañado', 'dañado']);
+                                       })->count(),
+                    
+                    'Desincorporado' => BN::doesntHave('airAcond')->where('estado', 'Desincorporado')->count()
+                                      + AirAcond::whereIn('estado', ['Desincorporado', 'desincorporado'])->count(),
                 ];
 
                 $bienesPorArea = BN::select('area_id', \DB::raw('count(*) as total'))
@@ -286,7 +427,7 @@ class ReportesController extends Controller
         }
 
         // Configurar orientación según el tipo
-        if($tipo === 'general' || $tipo === 'aires') {
+        if($tipo === 'general' || $tipo === 'aires' || $tipo === 'mantenimiento') {
             $pdf->setPaper('a4', 'landscape'); // Horizontal para tablas anchas
         } else {
             $pdf->setPaper('a4', 'portrait'); // Vertical para analítico

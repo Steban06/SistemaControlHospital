@@ -45,6 +45,7 @@ Route::get('/inicio', DashboardController::class)->name('inicio');
 Route::get('/reportes', [ReportesController::class, 'index'])->name('reportes');
 Route::get('/reportes/general', [ReportesController::class, 'reporteGeneral'])->name('reportes.general');
 Route::get('/reportes/aires', [ReportesController::class, 'reporteAires'])->name('reportes.aires');
+Route::get('/reportes/mantenimiento', [ReportesController::class, 'reporteMantenimiento'])->name('reportes.mantenimiento');
 Route::get('/reportes/analitico', [ReportesController::class, 'reporteAnalitico'])->name('reportes.analitico');
 Route::get('/reportes/{tipo}/pdf', [ReportesController::class, 'generarPDF'])->name('reportes.pdf');
 Route::post('/reportes/custom', [ReportesController::class, 'generarReportePersonalizado'])->name('reportes.custom');
@@ -83,7 +84,6 @@ Route::get('/aires-acondicionados/{id}', [AirAcondController::class, 'show'])->n
 
 Route::get('/mantenimiento', [MaintenanceController::class, 'index'])->name('mantenimiento.index');
 Route::post('/mantenimiento', [MaintenanceController::class, 'store'])->name('mantenimiento.store');
-Route::get('/mantenimiento/{id}', [MaintenanceController::class, 'show'])->name('mantenimiento.show');
 
 
 
@@ -118,7 +118,11 @@ Route::middleware(['auth'])->group(function () {
             'guest' => $users->where('role', 'guest')->count(),
         ];
 
-        return view('configuracion', compact('users', 'stats'));
+        // Obtener configuración de respaldo (por defecto false si no existe)
+        $autoBackupEnabled = \App\Models\UserPreference::where('user_id', auth()->id())
+            ->value('auto_backup_enabled') == 1;
+
+        return view('configuracion', compact('users', 'stats', 'autoBackupEnabled'));
     })->name('configuracion');
 
     // User Management Routes
@@ -128,8 +132,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
     // User Preferences Routes
-    // User Preferences Routes
     Route::get('/user-preferences', [UserPreferenceController::class, 'show'])->name('preferences.show');
     Route::post('/user-preferences', [UserPreferenceController::class, 'update'])->name('preferences.update');
     Route::post('/user-preferences/theme', [UserPreferenceController::class, 'updateTheme'])->name('preferences.theme');
+
+    // Backup Routes
+    Route::get('/backup/download', [App\Http\Controllers\BackupController::class, 'downloadBackup'])->name('backup.download');
+    Route::post('/backup/restore', [App\Http\Controllers\BackupController::class, 'restoreBackup'])->name('backup.restore');
+    Route::post('/backup/auto-toggle', [App\Http\Controllers\BackupController::class, 'toggleAutoBackup'])->name('backup.auto-toggle');
 });

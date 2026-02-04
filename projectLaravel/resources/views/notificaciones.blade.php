@@ -25,16 +25,16 @@
         <button class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors">
             Todas
         </button>
-        <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 text-sm font-medium rounded-lg transition-colors filter-btn">
             Sin leer
         </button>
-        <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 text-sm font-medium rounded-lg transition-colors filter-btn">
             Mantenimiento
         </button>
-        <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 text-sm font-medium rounded-lg transition-colors filter-btn">
             Inventario
         </button>
-        <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+        <button class="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 text-sm font-medium rounded-lg transition-colors filter-btn">
             Reportes
         </button>
     </div>
@@ -43,7 +43,7 @@
     <div class="space-y-4">
         @forelse($notifications as $notification)
             <!-- Dynamic Notification Item -->
-            <div class="group {{ $notification->is_read ? 'bg-white dark:bg-gray-800 opacity-75' : 'bg-blue-50/30 dark:bg-blue-900/10 border-l-4 border-l-blue-500' }} hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all rounded-lg p-6 cursor-pointer relative overflow-hidden border border-gray-200 dark:border-gray-700 notification-item" data-id="{{ $notification->id }}" data-type="{{ $notification->type }}" data-read="{{ $notification->is_read ? 'true' : 'false' }}" onclick="markNotificationRead({{ $notification->id }})">
+            <div class="group {{ $notification->is_read ? 'bg-white dark:bg-gray-800 opacity-75' : 'bg-blue-50/30 dark:bg-blue-900/10 border-l-4 border-l-blue-500' }} dark:hover:bg-gray-700/50 transition-all rounded-lg p-6 cursor-pointer relative overflow-hidden border border-gray-200 dark:border-gray-700 notification-item" data-id="{{ $notification->id }}" data-type="{{ $notification->type }}" data-read="{{ $notification->is_read ? 'true' : 'false' }}" onclick="markNotificationRead({{ $notification->id }})">
                 
                 @if(!$notification->is_read)
                 <div class="absolute top-3 right-3">
@@ -93,7 +93,7 @@
                                     default => 'Información'
                                 };
                             @endphp
-                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 {{ $badgeClass }} text-xs font-semibold rounded-md">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 {{ $badgeClass }} text-xs font-semibold rounded-md notification-badge">
                                 {{ $label }}
                             </span>
                         </div>
@@ -112,7 +112,7 @@
     </div>
 
     <!-- Pagination -->
-    <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+    <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700 pagination-container">
         <p class="text-sm text-gray-600 dark:text-gray-400">
             Mostrando <strong>1-4</strong> de <strong>4</strong> notificaciones
         </p>
@@ -235,9 +235,134 @@ document.addEventListener('DOMContentLoaded', function() {
                         notification.style.display = 'none';
                     }
                 });
+
+                // Re-apply styles after class changes
+                if (typeof applyDarkModeStyles === 'function') {
+                    applyDarkModeStyles();
+                }
             });
         });
     }
+});
+// JS Styling Fixes for Dark Mode
+// Defined globally to be accessible from click handlers
+function applyDarkModeStyles() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const paginationButtons = document.querySelectorAll('.pagination-container button');
+    const notificationItems = document.querySelectorAll('.notification-item');
+    const filterBtns = document.querySelectorAll('.flex.flex-wrap.gap-2 button'); // Select all filter buttons
+
+    // 1. Pagination Buttons
+    paginationButtons.forEach(btn => {
+        if (isDark) {
+            btn.style.backgroundColor = '#1f2937'; // gray-800
+            btn.style.color = '#d1d5db'; // gray-300
+            btn.style.borderColor = '#374151'; // gray-700
+        } else {
+            btn.style.backgroundColor = '#f3f4f6'; // gray-100
+            btn.style.color = '#9ca3af'; // gray-400
+            btn.style.borderColor = 'transparent';
+        }
+    });
+
+    // 2. Notification Hover Effects
+    notificationItems.forEach(item => {
+        if (isDark) {
+                if (item.classList.contains('bg-white')) {
+                    item.classList.remove('bg-white');
+                    item.classList.add('bg-gray-800');
+                }
+        }
+        item.onmouseenter = function() {
+            const dark = document.documentElement.classList.contains('dark');
+            if (dark) {
+                this.style.backgroundColor = 'rgba(55, 65, 81, 0.5)';
+            } else {
+                this.style.backgroundColor = '#f9fafb';
+            }
+        };
+        item.onmouseleave = function() {
+            this.style.backgroundColor = '';
+        };
+    });
+
+    // 3. Filter Buttons Styling (Base + Hover)
+    filterBtns.forEach(btn => {
+        // If it's the active blue button, reset inline styles to let CSS classes work
+        if (btn.classList.contains('bg-blue-600')) {
+            btn.style.backgroundColor = '';
+            btn.style.color = '';
+            btn.style.borderColor = '';
+            
+            // Remove hover listeners for active button
+            btn.onmouseenter = null;
+            btn.onmouseleave = null;
+            return;
+        }
+
+        // For inactive buttons, force colors
+        if (isDark) {
+            btn.style.backgroundColor = '#1f2937'; // gray-800
+            btn.style.color = '#d1d5db'; // gray-300
+            btn.style.borderColor = '#374151'; // gray-700
+        } else {
+            btn.style.backgroundColor = '#ffffff'; // white
+            btn.style.color = '#374151'; // gray-700
+            btn.style.borderColor = '#e5e7eb'; // gray-200
+        }
+
+        // Add hover logic for inactive buttons
+        btn.onmouseenter = function() {
+            if (this.classList.contains('bg-blue-600')) return;
+            const dark = document.documentElement.classList.contains('dark');
+            this.style.backgroundColor = dark ? '#374151' : '#f9fafb'; // gray-700 : gray-50
+        };
+
+        btn.onmouseleave = function() {
+            if (this.classList.contains('bg-blue-600')) return;
+            const dark = document.documentElement.classList.contains('dark');
+            // Revert to base inactive color
+            this.style.backgroundColor = dark ? '#1f2937' : '#ffffff'; 
+        };
+    });
+
+    // 4. Notification Badges
+    const badges = document.querySelectorAll('.notification-badge');
+    badges.forEach(badge => {
+        const text = badge.textContent.trim();
+        let bgColor, textColor;
+
+        if (isDark) {
+            if (text === 'Reportes') {
+                bgColor = 'rgba(88, 28, 135, 0.5)';
+                textColor = '#e9d5ff';
+            } else if (text === 'Mantenimiento') {
+                    bgColor = 'rgba(120, 53, 15, 0.5)';
+                    textColor = '#fde68a';
+            } else if (text === 'Inventario') {
+                bgColor = 'rgba(127, 29, 29, 0.5)';
+                textColor = '#fecaca';
+            } else {
+                bgColor = 'rgba(30, 58, 138, 0.5)';
+                textColor = '#bfdbfe';
+            }
+            
+            badge.style.backgroundColor = bgColor;
+            badge.style.color = textColor;
+        } else {
+            badge.style.backgroundColor = ''; 
+            badge.style.color = '';
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Run immediately
+    applyDarkModeStyles();
+
+    // Observer for theme changes
+    const observer = new MutationObserver(applyDarkModeStyles);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 });
 </script>
 @endsection

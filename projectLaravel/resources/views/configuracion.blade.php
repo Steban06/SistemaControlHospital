@@ -399,14 +399,14 @@
                                     <p class="text-sm text-gray-600 dark:text-gray-400">Último respaldo: <span class="font-semibold text-gray-800 dark:text-gray-100">Nunca</span></p>
                                 </div>
                             </div>
-                            <button data-slot="button" data-slot="badge" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-9 px-4 py-2 has-[&gt;svg]:px-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white dark:text-white">
+                            <a href="{{ route('backup.download') }}" onclick="Swal.fire({title: 'Generando Respaldo', text: 'Por favor espere mientras se descarga el archivo SQL...', icon: 'info', timer: 3000, showConfirmButton: false});" data-slot="button" data-slot="badge" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive h-9 px-4 py-2 has-[>svg]:px-3 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white dark:text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                     <polyline points="7 10 12 15 17 10"></polyline>
                                     <line x1="12" x2="12" y1="15" y2="3"></line>
                                 </svg>
                                 Generar Respaldo
-                            </button>
+                            </a>
                         </div>
 
                         <div class="flex items-center justify-between p-4 dark:!bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
@@ -422,8 +422,10 @@
                                     <p class="text-sm text-gray-600 dark:text-gray-400">Generar copia de seguridad diariamente</p>
                                 </div>
                             </div>
-                            <button type="button" role="switch" id="switch-auto-backup" data-preference="auto_backup_enabled" aria-checked="false" data-state="unchecked" value="on" data-slot="switch" class="preference-switch peer data-[state=checked]:bg-primary data-[state=unchecked]:bg-switch-background focus-visible:border-ring focus-visible:ring-ring/50 dark:data-[state=unchecked]:bg-gray-600 dark:border dark:border-gray-500 inline-flex h-[1.15rem] w-8 shrink-0 items-center rounded-full border border-transparent transition-all outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50">
-                                <span data-state="unchecked" data-slot="switch-thumb" class="bg-card dark:data-[state=unchecked]:bg-card-foreground dark:data-[state=checked]:bg-primary-foreground pointer-events-none block size-4 rounded-full ring-0 transition-transform data-[state=checked]:translate-x-[calc(100%-2px)] data-[state=unchecked]:translate-x-0"></span>
+                            <button type="button" id="btn-auto-backup-toggle" data-enabled="{{ $autoBackupEnabled ? 'true' : 'false' }}" 
+                                class="inline-flex items-center justify-center rounded-md text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background h-9 px-4 py-2 border-2 text-white shadow-sm"
+                                style="background-color: {{ $autoBackupEnabled ? '#dc2626' : '#059669' }}; border-color: {{ $autoBackupEnabled ? '#dc2626' : '#059669' }}; color: white;">
+                                {{ $autoBackupEnabled ? 'Desactivar Automático' : 'Activar Automático' }}
                             </button>
                         </div>
 
@@ -440,7 +442,8 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <form id="restoreBackupForm" action="#" method="POST" enctype="multipart/form-data" class="flex items-center gap-2">
+                                <span id="fileNameDisplay" class="text-xs text-gray-500 dark:text-gray-400 font-medium hidden truncate max-w-[150px]"></span>
+                                <form id="restoreBackupForm" action="{{ route('backup.restore') }}" method="POST" enctype="multipart/form-data" class="flex items-center gap-2" onsubmit="return confirmRestore(event)">
                                     @csrf
                                     <input type="file" id="backupUpload" name="backup_file" class="hidden" accept=".sql" onchange="handleBackupFileSelect(this)">
                                     <button type="button" onclick="document.getElementById('backupUpload').click()" data-slot="button" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 border border-gray-200 bg-white hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-600 h-9 px-4 py-2">
@@ -595,11 +598,153 @@
     // --- Backup Restore Logic ---
     function handleBackupFileSelect(input) {
         const btnRestore = document.getElementById('btnRestoreBackup');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        
         if (input.files && input.files.length > 0) {
             btnRestore.removeAttribute('disabled');
+            fileNameDisplay.textContent = input.files[0].name;
+            fileNameDisplay.classList.remove('hidden');
         } else {
             btnRestore.setAttribute('disabled', 'true');
+            fileNameDisplay.textContent = '';
+            fileNameDisplay.classList.add('hidden');
         }
+    }
+
+    function confirmRestore(e) {
+        e.preventDefault();
+        
+        Swal.fire({
+            title: '¿Está seguro?',
+            text: "Esta acción reemplazará toda la base de datos actual con el archivo de respaldo. ¡Los datos actuales se perderán permanentemente!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, restaurar sistema',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = e.target;
+                const formData = new FormData(form);
+                
+                // Show loading state
+                Swal.fire({
+                    title: 'Restaurando...',
+                    text: 'Por favor no cierre esta ventana.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                       'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => {
+                     const contentType = response.headers.get("content-type");
+                     if (contentType && contentType.indexOf("application/json") !== -1) {
+                         return response.json();
+                     } else {
+                         throw new Error("Respuesta no válida del servidor");
+                     }
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Refresh notifications in background if possible
+                        if (typeof updateNotificationCount === 'function') updateNotificationCount();
+                        if (typeof refreshNotifications === 'function') refreshNotifications();
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Restauración Completa!',
+                            text: data.message,
+                            confirmButtonText: 'Recargar página'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                         Swal.fire('Error', data.message || 'Error desconocido al restaurar', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire('Error', 'Ocurrió un error al procesar la solicitud.', 'error');
+                });
+            }
+        });
+        
+        return false;
+    }
+
+    // Auto Backup Button Logic
+    const btnBackupToggle = document.getElementById('btn-auto-backup-toggle');
+    if (btnBackupToggle) {
+        btnBackupToggle.addEventListener('click', function() {
+            const isEnabled = this.getAttribute('data-enabled') === 'true';
+            const newState = !isEnabled;
+            
+            // UI Update Function
+            const updateUI = (enabled) => {
+                this.setAttribute('data-enabled', enabled ? 'true' : 'false');
+                
+                // Update Text
+                this.textContent = enabled ? 'Desactivar Automático' : 'Activar Automático';
+                
+                // Update Styles (Force Inline for Reliability)
+                if (enabled) {
+                    // RED (Deactivate)
+                    this.style.backgroundColor = '#dc2626'; // red-600
+                    this.style.borderColor = '#dc2626';
+                } else {
+                    // GREEN (Activate)
+                    this.style.backgroundColor = '#059669'; // emerald-600
+                    this.style.borderColor = '#059669';
+                }
+                this.style.color = 'white'; // Ensure text is white
+            };
+
+            // Optimistic Update
+            updateUI(newState);
+            
+            // Send request
+            fetch('{{ route("backup.auto-toggle") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ enabled: newState })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.success) {
+                    updateUI(!newState); // Revert
+                    Swal.fire('Error', 'No se pudo guardar la configuración.', 'error');
+                } else {
+                     const toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+                    toast.fire({
+                        icon: 'success',
+                        title: newState ? 'Respaldos automáticos activados' : 'Respaldos automáticos desactivados'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                updateUI(!newState); // Revert
+                Swal.fire('Error', 'Error de conexión', 'error');
+            });
+        });
     }
 
     // --- Password Update Logic ---

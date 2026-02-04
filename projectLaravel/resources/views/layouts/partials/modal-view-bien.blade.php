@@ -41,7 +41,7 @@
                 </div>
                 <div class="flex-1 min-w-0">
                     <h3 class="font-bold text-gray-900 text-base leading-tight mb-1" id="modal-bn-nombre">Monitor Multiparámetro</h3>
-                    <p class="text-sm text-gray-700 mb-2" id="modal-bn-desc"></p>
+                    <p class="text-sm text-gray-400 dark:text-gray-300 mb-2" id="modal-bn-desc"></p>
                     <div class="flex items-center gap-2">
                         <span class="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-medium text-emerald-700" id="modal-bn-estado-badge">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
