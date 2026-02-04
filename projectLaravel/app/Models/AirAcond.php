@@ -12,6 +12,10 @@ class AirAcond extends Model
 
     protected $table = 'aires_acondicionados';
 
+    protected $casts = [
+        'fecha_reporte' => 'datetime',
+    ];
+
     protected $fillable = [
         'numero_bn',
         'nombre_aa',

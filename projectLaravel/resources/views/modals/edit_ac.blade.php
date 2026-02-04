@@ -31,9 +31,9 @@
 
         <!-- BODY CON SCROLL -->
         <div class="flex-1 overflow-y-auto px-6 py-4">
-            <form id="formEditAC" method="POST">
+            <form id="formEditAC">
                 @csrf
-                @method('PUT')
+                
                 <input type="hidden" name="id" id="editACId">
             
             <!-- Section 1: Identificación del Equipo -->
@@ -50,40 +50,13 @@
                     </div>
 
                     <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_marca">Nombre Del Equipo <span class="text-red-500">*</span></label>
-                        <input name="marca" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_marca" placeholder="Ej: Carrier" required>
+                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_nombre_aa">Nombre Del Equipo <span class="text-red-500">*</span></label>
+                        <input name="nombre_aa" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_nombre_aa" placeholder="Ej: Quirofano 1" required>
                     </div>
 
                     <div class="space-y-1.5">
                         <label class="text-xs font-semibold uppercase text-gray-700" for="edit_modelo">Modelo</label>
                         <input name="modelo" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_modelo" placeholder="Ej: Split 42QRF024">
-                    </div>
-
-                    <!-- <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_numeroSerie">Número de Serie</label>
-                        <input name="numero_serie" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_numeroSerie" placeholder="Ej: CAR2024001234">
-                    </div> -->
-
-                    <!-- <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_tipoUnidad">Tipo de Unidad <span class="text-red-500">*</span></label>
-                        <select name="tipo_unidad" id="edit_tipoUnidad" class="flex h-10 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" required>
-                            <option value="">Seleccione tipo...</option>
-                            <option value="Split Pared">Split Pared</option>
-                            <option value="Cassette">Cassette</option>
-                            <option value="Piso Techo">Piso Techo</option>
-                            <option value="Ventana">Ventana</option>
-                            <option value="Central">Central</option>
-                            <option value="Portátil">Portátil</option>
-                        </select>
-                    </div> -->
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_estado">Estado Operativo <span class="text-red-500">*</span></label>
-                        <select name="estado" id="edit_estado" class="flex h-10 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" required>
-                            <option value="operativo">Operativo</option>
-                            <option value="mantenimiento">Mantenimiento</option>
-                            <option value="fuera de servicio">Fuera de servicio</option>
-                        </select>
                     </div>
                 </div>
             </div>
@@ -108,51 +81,33 @@
 
                     <div class="space-y-1.5">
                         <label class="text-xs font-semibold uppercase text-gray-700" for="edit_refrigerante">Refrigerante</label>
-                        <select name="refrigerante" id="edit_refrigerante" class="flex h-10 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all">
-                            <option value="">Seleccione...</option>
-                            <option value="R410A">R410A</option>
-                            <option value="R22">R22</option>
-                            <option value="R32">R32</option>
-                            <option value="R134a">R134a</option>
-                            <option value="R407C">R407C</option>
+                        <input name="refrigerante_tc" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_refrigerante" placeholder="Ej: R410A">
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_estado">Estado Operativo <span class="text-red-500">*</span></label>
+                        <select name="estado" id="edit_estado" class="flex h-10 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" required>
+                            <option value="operativo">Operativo</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="fuera de servicio">Fuera de servicio</option>
                         </select>
                     </div>
 
-                    <!-- <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_consumoEnergetico">Consumo Energético</label>
-                        <input name="consumo_energetico" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_consumoEnergetico" placeholder="Ej: 2.1 kW/h">
-                    </div> -->
-
                     <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_temperatura">Presión De Alta</label>
-                        <input name="temperatura" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_temperatura" placeholder="Ej: 22°C">
+                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_presionB">Presión De Baja</label>
+                        <input name="presion_baja" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_presionB" placeholder="Ej: 4.4 MPa">
                     </div>
 
                     <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_horasUso">Presión De Baja</label>
-                        <input name="horas_uso" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_horasUso" placeholder="Ej: 4580">
+                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_presionA">Presión De Alta</label>
+                        <input name="presion_alta" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_presionA" placeholder="Ej: 2.6 MPa">
                     </div>
                 </div>
             </div>
 
             <!-- Section 3: Ubicación y Mantenimiento -->
             <div class="mb-6">
-                <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-4 flex items-center gap-2">
-                    <span class="bg-blue-100 text-blue-900 rounded-full w-6 h-6 flex items-center justify-center text-xs">3</span>
-                    Ubicación y Mantenimiento
-                </h3>
-                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-semibold uppercase text-gray-700" for="edit_ubicacion">Ubicación</label>
-                        <input name="ubicacion" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_ubicacion" placeholder="Ej: UCI - Piso 3">
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <!-- <label class="text-xs font-semibold uppercase text-gray-700" for="edit_voltaje">Voltaje</label>
-                        <input  class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="edit_voltaje" placeholder="Ej: 220V"> -->
-                    </div>
-
                     <!-- Observaciones - Full Width -->
                     <div class="space-y-1.5 md:col-span-2">
                         <label class="text-xs font-semibold uppercase text-gray-700" for="edit_observaciones">Observaciones Adicionales</label>

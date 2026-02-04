@@ -16,7 +16,14 @@ class UpdateBNRequest extends FormRequest
         $id = $this->route('id');
 
         return [
-            'numero_bn' => 'required|string|max:255|unique:bienes_nacionales,numero_bn,' . $id,
+
+            'numero_bn' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:bienes_nacionales,numero_bn,' . $id,
+                'unique:aires_acondicionados,numero_bn',
+            ],
             'nombre' => 'required|string|max:255',
             'marca' => 'nullable|string|max:255',
             'modelo' => 'nullable|string|max:255',

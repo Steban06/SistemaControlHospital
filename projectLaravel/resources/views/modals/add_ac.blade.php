@@ -44,7 +44,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="space-y-1.5">
                             <label class="text-xs font-semibold uppercase text-gray-700 dark:text-gray-300" for="codigo">Código (BN) <span class="text-red-500">*</span></label>
-                            <input name="numero_bn" class="flex h-10 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm placeholder:text-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="codigo" placeholder="Ej: AC-2026-0001" required>
+                            <input name="numero_bn" class="flex h-10 w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-gray-100 px-3 py-2 text-sm placeholder:text-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="codigo" placeholder="Ej: 1234567" required>
                         </div>
 
                         <div class="space-y-1.5">
@@ -93,28 +93,13 @@
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold uppercase text-gray-700" for="presionA">Presión de Alta</label>
-                            <input name="presion_alta" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="presionA" placeholder="Ej: 4.4 MPa">
-                        </div>
-
-                        <div class="space-y-1.5">
                             <label class="text-xs font-semibold uppercase text-gray-700" for="presionB">Presión de Baja</label>
                             <input name="presion_baja" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="presionB" placeholder="Ej: 2.6 MPa">
                         </div>
-                    </div>
-                </div>
-
-                <!-- Section 3: Ubicación y Mantenimiento -->
-                <div class="mb-6">
-                    <h3 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-4 flex items-center gap-2">
-                        <span class="bg-blue-100 text-blue-900 rounded-full w-6 h-6 flex items-center justify-center text-xs">3</span>
-                        Ubicación y Mantenimiento
-                    </h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        
                         <div class="space-y-1.5">
-                            <label class="text-xs font-semibold uppercase text-gray-700" for="ubicacion">Ubicación</label>
-                            <input name="ubicacion" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="ubicacion" placeholder="Ej: UCI - Piso 3">
+                            <label class="text-xs font-semibold uppercase text-gray-700" for="presionA">Presión de Alta</label>
+                            <input name="presion_alta" class="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50 transition-all" id="presionA" placeholder="Ej: 4.4 MPa">
                         </div>
                     </div>
                 </div>

@@ -90,14 +90,9 @@ class BNController extends Controller
 
     public function history($id)
     {
-        // Lógica para obtener el historial del bien nacional
-        // Traer historial de forma normal
-        // $historial = ReportesBN::where('bienes_nacional_id', $id)->get();
-
-        // Traer historial de forma descendente, es decir del ultimo al primero
         $historial = ReportesBN::where('bienes_nacional_id', $id)
-            ->orderBy('id', 'desc')
-            ->get();
+            ->latest('fecha_reporte')
+            ->get();    
                 
         return response()->json([
             'success' => true,

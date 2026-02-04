@@ -15,4 +15,9 @@ class ReportesBN extends Model
         'tipo',
         'estado',
     ];
+
+    public function bn()
+    {
+        return $this->belongsTo(BN::class, 'bienes_nacional_id');
+    }
 }

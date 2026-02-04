@@ -38,17 +38,21 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div class="space-y-2">
                         <label class="flex items-center gap-2 font-medium text-xs text-gray-700">Desde</label>
-                        <input type="date" class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500">
+                        <input id="ac-filter-desde" type="date" class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500">
                     </div>
                     <div class="space-y-2">
                         <label class="flex items-center gap-2 font-medium text-xs text-gray-700">Hasta</label>
-                        <input type="date" class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500">
+                        <input id="ac-filter-hasta" type="date" class="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-blue-500">
                     </div>
                     <div class="space-y-2">
                         <label class="flex items-center gap-2 font-medium text-xs text-gray-700">Tipo de Actividad</label>
-                        <select class="flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <select id="filter-intervencion" class="flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
                             <option value="">Todos</option>
-                            <!-- Add options here -->
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="reparacion">Reparación</option>
+                            <option value="falla">Falla</option>
+                            <option value="instalacion">Instalación</option>
+                            <option value="otro">Otro</option>
                         </select>
                     </div>
                 </div>
@@ -57,7 +61,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
                         Descargar PDF
                     </button>
-                    <button class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors h-8 rounded-md px-3 text-xs shadow-sm border-gray-300">
+                    <button id="ac-btn-reset" class="inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors h-8 rounded-md px-3 text-xs shadow-sm border-gray-300">
                         Limpiar Filtros
                     </button>
                 </div>
@@ -72,58 +76,9 @@
 
             <!-- List -->
             <div class="space-y-4">
-                <div class="relative">
-                    <div class="absolute left-4 top-12 w-0.5 h-full bg-gray-200"></div>
+                <div class="relative" id="history_aire_list">
                     
-                    <!-- Example Card 1 -->
-                    <div class="bg-white text-gray-900 flex flex-col gap-4 rounded-xl border border-l-4 border-l-blue-500 shadow-sm hover:shadow-md transition-shadow p-6 mb-4">
-                        <div class="grid grid-cols-[1fr_auto] gap-2">
-                            <div class="flex items-start gap-3">
-                                <div class="bg-blue-100 p-2 rounded-full flex-shrink-0">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium text-xs bg-red-100 text-red-700 border-red-300">Cambio Estado</span>
-                                        <span class="text-xs text-gray-500">14 de octubre de 2024</span>
-                                    </div>
-                                    <h4 class="font-semibold text-sm">Cambio de estado a mantenimiento por compresor defectuoso</h4>
-                                    <p class="text-xs text-gray-600 mt-1">Técnico: Ing. Pedro García</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-                            <div class="bg-gray-50 p-2 rounded"><p class="text-gray-500">Horas de Uso</p><p class="font-medium">8,450</p></div>
-                            <div class="bg-gray-50 p-2 rounded"><p class="text-gray-500">Estado Anterior</p><p class="font-medium capitalize">operativo</p></div>
-                            <div class="bg-gray-50 p-2 rounded"><p class="text-gray-500">Estado Nuevo</p><p class="font-medium capitalize">mantenimiento</p></div>
-                        </div>
-                        <div class="bg-blue-50 p-2 rounded border border-blue-100"><p class="text-xs text-gray-600 font-medium mb-1">Observaciones:</p><p class="text-xs text-gray-700">Programado cambio de compresor</p></div>
-                    </div>
-
-                     <!-- Example Card 2 -->
-                     <div class="bg-white text-gray-900 flex flex-col gap-4 rounded-xl border border-l-4 border-l-blue-500 shadow-sm hover:shadow-md transition-shadow p-6 mb-4">
-                        <div class="grid grid-cols-[1fr_auto] gap-2">
-                            <div class="flex items-start gap-3">
-                                <div class="bg-blue-100 p-2 rounded-full flex-shrink-0">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-600"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium text-xs bg-amber-100 text-amber-700 border-amber-300">Reparación</span>
-                                        <span class="text-xs text-gray-500">09 de enero de 2024</span>
-                                    </div>
-                                    <h4 class="font-semibold text-sm">Reparación de fuga menor</h4>
-                                    <p class="text-xs text-gray-600 mt-1">Técnico: Ing. Carlos Méndez</p>
-                                </div>
-                            </div>
-                        </div>
-                         <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-                            <div class="bg-gray-50 p-2 rounded"><p class="text-gray-500">Costo Partes</p><p class="font-medium">$450</p></div>
-                            <div class="bg-gray-50 p-2 rounded"><p class="text-gray-500">Mano de Obra</p><p class="font-medium">$300</p></div>
-                            <div class="bg-gray-50 p-2 rounded"><p class="text-gray-500">Horas de Uso</p><p class="font-medium">4,200</p></div>
-                        </div>
-                        <div class="bg-blue-50 p-2 rounded border border-blue-100"><p class="text-xs text-gray-600 font-medium mb-1">Observaciones:</p><p class="text-xs text-gray-700">Fuga reparada en tubería de condensado</p></div>
-                    </div>
+                    <!-- Este es el esapico donde se despliegan las tarjetas de intervencion -->
 
                 </div>
             </div>
@@ -134,7 +89,7 @@
         <div class="flex-shrink-0 px-6 py-4 rounded-xl border-t border-gray-200 bg-gray-50">
              <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
                 <div class="flex items-center justify-between w-full">
-                    <p class="text-xs text-gray-500">2 registro(s) encontrado(s)</p>
+                    <p id="total_inter_ac" class="text-xs text-gray-500"></p>
                     <button type="button" data-modal-close class="btn-color-red inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all bg-white text-gray-700 hover:bg-gray-50 border border-gray-300 shadow-sm h-9 px-4 py-2 text-sm">
                         Cerrar
                     </button>
@@ -147,181 +102,89 @@
 <script>
     // Dark mode fixes for AC History Modal
     document.addEventListener('DOMContentLoaded', function() {
-        
-        // Fix badge colors for dark mode
+    
         function updateHistoryACBadges() {
             const isDark = document.documentElement.classList.contains('dark');
             const badges = document.querySelectorAll('#historyACModal .inline-flex.items-center.justify-center.rounded-md.border');
-            
+
+            // Configuración de temas por estado
+            const themes = {
+                FALLA: {
+                    light: { bg: '#fee2e2', text: '#b91c1c', border: '#fecaca', accent: '#dc2626' },
+                    dark: { bg: 'rgba(127, 29, 29, 0.5)', text: '#fca5a5', border: '#7f1d1d', accent: '#dc2626' }
+                },
+                REPARACION: {
+                    light: { bg: '#fef3c7', text: '#b45309', border: '#fde68a', accent: '#f59e0b' },
+                    dark: { bg: 'rgba(120, 53, 15, 0.5)', text: '#fcd34d', border: '#78350f', accent: '#f59e0b' }
+                },
+                MANTENIMIENTO: {
+                    light: { bg: '#dcfce7', text: '#15803d', border: '#bbf7d0', accent: '#16a34a' },
+                    dark: { bg: 'rgba(20, 83, 45, 0.5)', text: '#86efac', border: '#14532d', accent: '#16a34a' }
+                },
+                INSTALACION: {
+                    light: { bg: '#f3e8ff', text: '#7e22ce', border: '#e9d5ff', accent: '#9333ea' },
+                    dark: { bg: 'rgba(88, 28, 135, 0.5)', text: '#d8b4fe', border: '#581c87', accent: '#9333ea' }
+                },
+                OTRO: {
+                    light: { bg: '#f1f5f9', text: '#475569', border: '#e2e8f0', accent: '#64748b' },
+                    dark: { bg: 'rgba(30, 41, 59, 0.5)', text: '#cbd5e1', border: '#1e293b', accent: '#64748b' }
+                }
+            };
+
             badges.forEach(badge => {
                 const text = badge.textContent.trim().toUpperCase();
                 const card = badge.closest('.rounded-xl');
                 
-                let bgColor, textColor, borderColor, iconBg, iconColor, obsBg, obsBorder, cardBorderLeft;
-                
-                if (isDark) {
-                    // Determine badge type and apply colors
-                    if (text.includes('CAMBIO') || text.includes('ESTADO')) {
-                        // Red theme
-                        bgColor = 'rgba(127, 29, 29, 0.5)';
-                        textColor = '#fca5a5';
-                        borderColor = '#7f1d1d';
-                        iconBg = 'rgba(127, 29, 29, 0.5)';
-                        iconColor = '#fca5a5';
-                        obsBg = 'rgba(127, 29, 29, 0.2)';
-                        obsBorder = '#7f1d1d';
-                        cardBorderLeft = '#dc2626'; // red-600
-                    } else if (text.includes('REPARACIÓN') || text.includes('REPARACION')) {
-                        // Amber theme
-                        bgColor = 'rgba(120, 53, 15, 0.5)';
-                        textColor = '#fcd34d';
-                        borderColor = '#78350f';
-                        iconBg = 'rgba(120, 53, 15, 0.5)';
-                        iconColor = '#fcd34d';
-                        obsBg = 'rgba(120, 53, 15, 0.2)';
-                        obsBorder = '#78350f';
-                        cardBorderLeft = '#f59e0b'; // amber-500
-                    } else if (text.includes('MANTENIMIENTO')) {
-                        // Amber theme
-                        bgColor = 'rgba(120, 53, 15, 0.5)';
-                        textColor = '#fcd34d';
-                        borderColor = '#78350f';
-                        iconBg = 'rgba(120, 53, 15, 0.5)';
-                        iconColor = '#fcd34d';
-                        obsBg = 'rgba(120, 53, 15, 0.2)';
-                        obsBorder = '#78350f';
-                        cardBorderLeft = '#f59e0b'; // amber-500
-                    } else {
-                        // Default blue for other types
-                        bgColor = 'rgba(30, 58, 138, 0.5)';
-                        textColor = '#93c5fd';
-                        borderColor = '#1e3a8a';
-                        iconBg = 'rgba(30, 58, 138, 0.5)';
-                        iconColor = '#93c5fd';
-                        obsBg = 'rgba(30, 58, 138, 0.2)';
-                        obsBorder = '#1e3a8a';
-                        cardBorderLeft = '#3b82f6'; // blue-500
+                // Determinar qué tema usar
+                let themeKey = 'OTRO';
+                if (text.includes('FALLA')) themeKey = 'FALLA';
+                else if (text.includes('REPARACI')) themeKey = 'REPARACION';
+                else if (text.includes('MANTENIMIENTO')) themeKey = 'MANTENIMIENTO';
+                else if (text.includes('INSTALACION')) themeKey = 'INSTALACION';
+
+                const colors = isDark ? themes[themeKey].dark : themes[themeKey].light;
+
+                // 1. Aplicar al Badge
+                badge.style.setProperty('background-color', colors.bg, 'important');
+                badge.style.setProperty('color', colors.text, 'important');
+                badge.style.setProperty('border-color', colors.border, 'important');
+
+                // 2. Aplicar a la Card (si existe)
+                if (card) {
+                    card.style.setProperty('border-left-color', colors.accent, 'important');
+
+                    // Icono
+                    const iconContainer = card.querySelector('.p-2.rounded-full');
+                    if (iconContainer) {
+                        iconContainer.style.setProperty('background-color', colors.bg, 'important');
+                        const icon = iconContainer.querySelector('svg');
+                        if (icon) icon.style.setProperty('color', colors.accent, 'important');
                     }
-                    
-                    // Apply badge colors
-                    badge.style.setProperty('background-color', bgColor, 'important');
-                    badge.style.setProperty('color', textColor, 'important');
-                    badge.style.setProperty('border-color', borderColor, 'important');
-                    
-                    // Apply to card
-                    if (card) {
-                        // Card border left
-                        card.style.setProperty('border-left-color', cardBorderLeft, 'important');
-                        
-                        // Icon background color
-                        const iconContainer = card.querySelector('.p-2.rounded-full');
-                        if (iconContainer) {
-                            iconContainer.style.setProperty('background-color', iconBg, 'important');
-                            const icon = iconContainer.querySelector('svg');
-                            if (icon) {
-                                icon.style.setProperty('color', iconColor, 'important');
-                            }
-                        }
-                        
-                        // Observation box colors
-                        const obsBox = card.querySelector('.bg-blue-50');
-                        if (obsBox) {
-                            obsBox.style.setProperty('background-color', obsBg, 'important');
-                            obsBox.style.setProperty('border-color', obsBorder, 'important');
-                        }
-                    }
-                } else {
-                    // Light mode - determine colors based on type
-                    if (text.includes('CAMBIO') || text.includes('ESTADO')) {
-                        // Red theme
-                        bgColor = '#fee2e2';
-                        textColor = '#b91c1c';
-                        borderColor = '#fecaca';
-                        iconBg = '#fee2e2';
-                        iconColor = '#dc2626';
-                        obsBg = '#fee2e2';
-                        obsBorder = '#fecaca';
-                        cardBorderLeft = '#dc2626'; // red-600
-                    } else if (text.includes('REPARACIÓN') || text.includes('REPARACION')) {
-                        // Amber theme
-                        bgColor = '#fef3c7';
-                        textColor = '#b45309';
-                        borderColor = '#fde68a';
-                        iconBg = '#fef3c7';
-                        iconColor = '#f59e0b';
-                        obsBg = '#fef3c7';
-                        obsBorder = '#fde68a';
-                        cardBorderLeft = '#f59e0b'; // amber-500
-                    } else if (text.includes('MANTENIMIENTO')) {
-                        // Amber theme
-                        bgColor = '#fef3c7';
-                        textColor = '#b45309';
-                        borderColor = '#fde68a';
-                        iconBg = '#fef3c7';
-                        iconColor = '#f59e0b';
-                        obsBg = '#fef3c7';
-                        obsBorder = '#fde68a';
-                        cardBorderLeft = '#f59e0b'; // amber-500
-                    } else {
-                        // Default blue
-                        bgColor = '#dbeafe';
-                        textColor = '#1d4ed8';
-                        borderColor = '#93c5fd';
-                        iconBg = '#dbeafe';
-                        iconColor = '#2563eb';
-                        obsBg = '#dbeafe';
-                        obsBorder = '#bfdbfe';
-                        cardBorderLeft = '#3b82f6'; // blue-500
-                    }
-                    
-                    // Apply badge colors
-                    badge.style.setProperty('background-color', bgColor, 'important');
-                    badge.style.setProperty('color', textColor, 'important');
-                    badge.style.setProperty('border-color', borderColor, 'important');
-                    
-                    // Apply to card
-                    if (card) {
-                        // Card border left
-                        card.style.setProperty('border-left-color', cardBorderLeft, 'important');
-                        
-                        // Icon background color
-                        const iconContainer = card.querySelector('.p-2.rounded-full');
-                        if (iconContainer) {
-                            iconContainer.style.setProperty('background-color', iconBg, 'important');
-                            const icon = iconContainer.querySelector('svg');
-                            if (icon) {
-                                icon.style.setProperty('color', iconColor, 'important');
-                            }
-                        }
-                        
-                        // Observation box colors
-                        const obsBox = card.querySelector('.bg-blue-50');
-                        if (obsBox) {
-                            obsBox.style.setProperty('background-color', obsBg, 'important');
-                            obsBox.style.setProperty('border-color', obsBorder, 'important');
-                        }
+
+                    // Cuadro de observaciones
+                    const obsBox = card.querySelector('.bg-blue-50\\/50') || 
+                    card.querySelector('.bg-blue-50') || 
+                    card.querySelector('.bg-gray-50');
+
+                    if (obsBox) {
+                        // Aplicamos el color de fondo del tema
+                        obsBox.style.setProperty('background-color', isDark ? 'rgba(0,0,0,0.2)' : colors.bg, 'important');
+                        // Aplicamos el borde del mismo tema para que combine
+                        obsBox.style.setProperty('border-color', colors.border, 'important');
                     }
                 }
             });
         }
-        
-        // Run on load
+
+        // --- Observadores y Ejecución ---
         updateHistoryACBadges();
-        
-        // Watch for theme changes
-        const observer = new MutationObserver(function() {
-            updateHistoryACBadges();
-        });
+
+        const observer = new MutationObserver(() => updateHistoryACBadges());
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-        
-        // Re-run when modal content changes (for dynamically loaded history)
-        const modalObserver = new MutationObserver(function() {
-            updateHistoryACBadges();
-        });
-        
+
         const historyModal = document.getElementById('historyACModal');
         if (historyModal) {
-            modalObserver.observe(historyModal, { childList: true, subtree: true });
+            new MutationObserver(() => updateHistoryACBadges()).observe(historyModal, { childList: true, subtree: true });
         }
     });
 </script>

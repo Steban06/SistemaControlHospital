@@ -13,6 +13,10 @@ class BN extends Model
     use HasFactory, SoftDeletes;
     
     protected $table = "bienes_nacionales";
+
+    protected $casts = [
+        'fecha_reporte' => 'datetime',
+    ];
     
     protected $fillable = [
         'numero_bn',

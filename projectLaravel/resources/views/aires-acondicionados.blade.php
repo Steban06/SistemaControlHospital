@@ -120,7 +120,7 @@
                         <circle cx="11" cy="11" r="8"></circle>
                         <path d="m21 21-4.3-4.3"></path>
                     </svg>
-                    <input id="searchInput" class="placeholder:text-muted-foreground border-input flex h-9 w-full rounded-md border bg-input-background pl-10 pr-3 py-1 text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-all shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400" placeholder="Buscar por código, marca...">
+                    <input id="searchInput" class="placeholder:text-muted-foreground border-input flex h-9 w-full rounded-md border bg-input-background pl-10 pr-3 py-1 text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 transition-all shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400" placeholder="Buscar por código, nombre...">
                 </div>
 
                 <div class="flex flex-col lg:flex-row gap-4 w-full lg:flex-1 items-center">
@@ -129,22 +129,22 @@
                         <div class="relative w-full">
                             <select id="filterStatus" class="appearance-none border-input flex h-9 w-full items-center justify-between rounded-md border bg-input-background px-3 py-1 text-xs lg:text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 cursor-pointer transition-all pr-10 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
                                 <option value="">Todos</option>
-                                <option value="Operativo">Operativo</option>
-                                <option value="Mantenimiento">Mantenimiento</option>
-                                <option value="Fuera de servicio">Fuera de servicio</option>
+                                <option value="operativo">Operativo</option>
+                                <option value="mantenimiento">Mantenimiento</option>
+                                <option value="fuera de servicio">Fuera de servicio</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="flex items-center gap-2 w-full lg:flex-1">
-                        <span class="text-xs lg:text-sm font-medium text-gray-600 dark:text-gray-300 whitespace-nowrap">Ubicación:</span>
+                        {{-- <span class="text-xs lg:text-sm font-medium text-gray-600 dark:text-gray-300 whitespace-nowrap">Ubicación:</span> --}}
                         <div class="relative w-full">
-                            <select id="filterLocation" class="appearance-none border-input flex h-9 w-full items-center justify-between rounded-md border bg-input-background px-3 py-1 text-xs lg:text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 cursor-pointer transition-all pr-10 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+                            {{-- <select id="filterLocation" class="appearance-none border-input flex h-9 w-full items-center justify-between rounded-md border bg-input-background px-3 py-1 text-xs lg:text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 cursor-pointer transition-all pr-10 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
                                 <option value="">Todas</option>
                                 @foreach($areas as $area)
                                     <option value="{{ $area->descripcion }}">{{ $area->descripcion }}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
                         </div>
                     </div>
                 </div>
@@ -188,7 +188,9 @@
                                 </span>
                             </div>
                             <div>
-                                <h3 class="font-bold text-sm text-gray-900 dark:text-gray-100 leading-tight">{{ $aire->nombre_aa }}</h3>
+                                <h3 class="font-bold text-sm text-gray-900 dark:text-gray-100 leading-tight">
+                                    {{ sprintf('%02d', $aire->id) }} - {{ $aire->nombre_aa }}
+                                </h3>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ $aire->capacidad }}</p>
                             </div>
                         </div>
@@ -356,8 +358,49 @@
         });
 
 
+        const formEditAC = document.getElementById('formEditAC');
+    if (formEditAC) {
+        formEditAC.addEventListener('submit', function(e) {
+            e.preventDefault();
 
+            const acId = document.getElementById('editACId').value;
+            
+            // Verifica en consola que acId no esté vacío
+            if (!acId) {
+                console.error("ID del Aire no encontrado");
+                return;
+            }
 
+            const updateUrl = `{{ url('aires-acondicionados') }}/${acId}`;
+            const formData = new FormData(formEditAC);
+
+            // Agregamos el método manualmente AQUÍ
+            formData.append('_method', 'PUT');
+
+            fetch(updateUrl, {
+                method: 'POST', // El motor de envío es POST
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    'Accept': 'application/json'
+                },
+                body: formData
+            })
+            .then(async response => {
+                const data = await response.json();
+                if (!response.ok) throw data;
+                return data;
+            })
+            .then(data => {
+                console.log('Actualizado:', data);
+                // Opcional: Cerrar modal y refrescar
+                location.reload();
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                alert('Error al actualizar: ' + (err.message || 'Verifica los campos'));
+            });
+        });
+    }
 
 
 
@@ -502,28 +545,17 @@
                 // Pre-llenar campos del formulario
                 document.getElementById('editACId').value = data.id || '';
                 document.getElementById('edit_codigo').value = data.numero_bn || '';
-                document.getElementById('edit_marca').value = data.marca || '';
+                document.getElementById('edit_nombre_aa').value = data.nombre_aa || '';
                 document.getElementById('edit_modelo').value = data.modelo || '';
-                // document.getElementById('edit_numeroSerie').value = data.numero_serie || '';
-                // document.getElementById('edit_tipoUnidad').value = data.tipo_unidad || '';
-                document.getElementById('edit_estado').value = data.estado || 'operativo';
                 
                 // Especificaciones técnicas
                 document.getElementById('edit_capacidad').value = data.capacidad || '';
                 document.getElementById('edit_voltaje').value = data.voltaje || '';
                 document.getElementById('edit_refrigerante').value = data.refrigerante || '';
-                // document.getElementById('edit_consumoEnergetico').value = data.consumo_energetico || '';
-                document.getElementById('edit_temperatura').value = data.temperatura || '';
-                document.getElementById('edit_horasUso').value = data.horas_uso || '';
+                document.getElementById('edit_estado').value = data.estado || 'operativo';
+                document.getElementById('edit_presionA').value = data.presion_alta || '';
+                document.getElementById('edit_presionB').value = data.presion_baja || '';
                 
-                // Ubicación y mantenimiento
-                // Ubicación y mantenimiento
-                document.getElementById('edit_ubicacion').value = data.ubicacion || '';
-                // document.getElementById('edit_area').value = data.area_especifica || '';
-                // document.getElementById('edit_responsable').value = data.responsable || '';
-                // document.getElementById('edit_fechaInstalacion').value = data.fecha_instalacion || '';
-                // document.getElementById('edit_ultimoMantenimiento').value = data.ultimo_mantenimiento || '';
-                // document.getElementById('edit_proximoMantenimiento').value = data.proximo_mantenimiento || '';
                 document.getElementById('edit_observaciones').value = data.observaciones || '';
                 
                 // Actualizar action del form con el ID correcto
@@ -553,15 +585,6 @@
                 // // Populate Text Fields
                 document.getElementById('view_codigo').innerText = data.numero_bn || 'N/A';
                 document.getElementById('view_modelo').innerText = data.modelo || 'N/A';
-                // document.getElementById('view_serie').innerText = data.numero_serie || 'N/A';
-                // document.getElementById('view_tipo').innerText = data.tipo_unidad || 'N/A';
-                // document.getElementById('view_ubicacion').innerText = `${data.ubicacion || ''} ${data.area_especifica ? '- ' + data.area_especifica : ''}`;
-                // document.getElementById('view_fecha_instalacion').innerText = data.fecha_instalacion || 'N/A';
-                // document.getElementById('view_horas_uso').innerText = data.horas_uso ? data.horas_uso + ' hrs' : 'N/A';
-                // document.getElementById('view_ultimo_mant').innerText = data.ultimo_mantenimiento || 'N/A';
-                // document.getElementById('view_proximo_mant').innerText = data.proximo_mantenimiento || 'N/A';
-                // document.getElementById('view_responsable').innerText = data.responsable || 'N/A';
-                // document.getElementById('view_observaciones').innerText = data.observaciones || 'No hay observaciones registradas.';
 
                 // // Technical Fields
                 document.getElementById('view_capacidad').innerText = data.capacidad || 'N/A';
@@ -613,7 +636,7 @@
                     // Let's close view modal to avoid backdrop stacking issues unless managed well.
                     ModalManager.closeModal(document.getElementById('viewACModal'));
                     setTimeout(() => {
-                        openHistoryACModal(data.id, data.nombre_aa);
+                        openHistoryACModal(data.id, data.nombre_aa, data.numero_bn);
                     }, 100);
                 };
 
@@ -639,14 +662,168 @@
             });
     }
 
-    function openHistoryACModal(acId, acName) {
-        // Here you would fetch history data using acId
-        // fetch(`/aires-acondicionados/${acId}/history`) ...
-        
-        // For now, just set the title/subtitle
-        document.getElementById('history_ac_subtitle').innerText = acName || 'Aire Acondicionado';
-        
-        ModalManager.openModal(document.getElementById('historyACModal'));
+    let acHistoryData = []; // Store fetched history data globally for filtering
+
+    // Filtros para el Historial de AC
+    document.addEventListener('DOMContentLoaded', function() {
+        // Escuchar cambios en fechas y en el nuevo select de intervención
+        document.getElementById('ac-filter-desde')?.addEventListener('change', applyACFilters);
+        document.getElementById('ac-filter-hasta')?.addEventListener('change', applyACFilters);
+        document.getElementById('filter-intervencion')?.addEventListener('change', applyACFilters);
+
+        // Actualizar el botón limpiar para que también resetee el select
+        document.getElementById('ac-btn-reset')?.addEventListener('click', function() {
+            document.getElementById('ac-filter-desde').value = '';
+            document.getElementById('ac-filter-hasta').value = '';
+            document.getElementById('filter-intervencion').value = ''; // Resetear select
+            renderACHistory(acHistoryData);
+        });
+    });
+
+    function applyACFilters() {
+        const desde = document.getElementById('ac-filter-desde').value;
+        const hasta = document.getElementById('ac-filter-hasta').value;
+        const intervencion = document.getElementById('filter-intervencion').value.toLowerCase();
+
+        const filtrados = acHistoryData.filter(record => {
+            // 1. Filtro de Fechas
+            const fechaRec = record.fecha_reporte.split('T')[0];
+            const matchesDesde = desde === "" || fechaRec >= desde;
+            const matchesHasta = hasta === "" || fechaRec <= hasta;
+
+            // 2. Filtro de Intervención (Compara contra record.tipo o record.tipo_mantenimiento)
+            // Se usa toLowerCase() para evitar problemas de mayúsculas/minúsculas
+            const tipoRegistro = (record.tipo || record.tipo_mantenimiento || "").toLowerCase();
+            const matchesIntervencion = intervencion === "" || tipoRegistro === intervencion;
+
+            return matchesDesde && matchesHasta && matchesIntervencion;
+        });
+
+        renderACHistory(filtrados);
+    }
+
+    function renderACHistory(dataList) {
+        const container = document.getElementById('history_aire_list');
+        const totalLabel = document.getElementById('total_inter_ac');
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        container.innerHTML += '<div class="absolute left-4 top-12 w-0.5 h-full bg-gray-200"></div>';
+
+        if (totalLabel) {
+            const count = dataList.length;
+            totalLabel.innerText = `${count} registro(s) encontrado(s)`;
+        }
+
+        if (dataList.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-10 text-gray-500">
+                    <p class="text-sm">No hay registros de actividad para este equipo.</p>
+                </div>`;
+            return;
+        }
+
+        // Mapeo de colores por tipo de intervención
+        const colorMap = {
+            'mantenimiento': { border: 'border-l-blue-500', badge: 'bg-blue-100 text-blue-700 border-blue-300', icon: 'text-blue-600', iconBg: 'bg-blue-100' },
+            'reparacion': { border: 'border-l-red-500', badge: 'bg-red-100 text-red-700 border-red-300', icon: 'text-red-600', iconBg: 'bg-red-100' },
+            'falla': { border: 'border-l-orange-500', badge: 'bg-orange-100 text-orange-700 border-orange-300', icon: 'text-orange-600', iconBg: 'bg-orange-100' },
+            'instalacion': { border: 'border-l-green-500', badge: 'bg-green-100 text-green-700 border-green-300', icon: 'text-green-600', iconBg: 'bg-green-100' },
+            'otro': { border: 'border-l-gray-500', badge: 'bg-gray-100 text-gray-700 border-gray-300', icon: 'text-gray-600', iconBg: 'bg-gray-100' }
+        };
+
+        dataList.forEach(record => {
+            // Obtener el estilo basado en el tipo (normalizado a minúsculas)
+            const tipoKey = (record.tipo_mantenimiento || 'otro').toLowerCase();
+            const style = colorMap[tipoKey] || colorMap['otro'];
+
+            // Formatear Fecha
+            const dateObj = new Date(record.fecha_reporte);
+            const fechaFormateada = dateObj.toLocaleDateString('es-ES', { 
+                day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' 
+            });
+
+            container.innerHTML += `
+                <div class="bg-white text-gray-900 flex flex-col gap-4 rounded-xl border border-l-4 ${style.border} shadow-sm hover:shadow-md transition-shadow p-6 mb-4">
+                    <div class="grid grid-cols-[1fr_auto] gap-2">
+                        <div class="flex items-start gap-3">
+                            <div class="${style.iconBg} p-2 rounded-full flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${style.icon}">
+                                    <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path>
+                                </svg>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium text-xs ${style.badge}">
+                                        ${record.tipo_mantenimiento || 'Cambio Estado'}
+                                    </span>
+                                    <span class="text-xs text-gray-500">${fechaFormateada}</span>
+                                </div>
+                                <h4 class="font-semibold text-sm">${record.trabajo_realizado || 'Actualización de Sistema'}</h4>
+                                <p class="text-xs text-gray-600 mt-1">Técnico: ${record.tecnico_responsable || record.usuario_nombre || 'Sistema'}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                        <div class="bg-gray-50 p-2 rounded">
+                            <p class="text-gray-500">Estado Anterior</p>
+                            <p class="font-medium capitalize text-orange-600">${record.estado_inicial || 'Indefinido'}</p>
+                        </div>
+                        <div class="bg-gray-50 p-2 rounded">
+                            <p class="text-gray-500">Estado Nuevo</p>
+                            <p class="font-medium capitalize text-green-600">${record.estado_final || 'Indefinido'}</p>
+                        </div>
+                         <div class="bg-gray-50 p-2 rounded">
+                            <p class="text-gray-500">Horas de Uso</p>
+                            <p class="font-medium">${record.horas_uso || 'N/A'}</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50/50 p-2 rounded border border-blue-100">
+                        <p class="text-xs text-gray-600 font-medium mb-1">Descripción de Intervención:</p>
+                        <p class="text-xs text-gray-700">${record.descripcion_intervencion || 'Sin observaciones detalladas.'}</p>
+                    </div>
+                </div>`;
+        });
+    }
+
+    function openHistoryACModal(acId, acName, acBN) {
+        // 1. Preparar el título y limpiar filtros inmediatamente
+        document.getElementById('history_ac_subtitle').innerText = `${acId} - ${acName} || #BN: ${acBN}` || 'Aire Acondicionado';
+
+        if(document.getElementById('ac-filter-desde')) document.getElementById('ac-filter-desde').value = '';
+        if(document.getElementById('ac-filter-hasta')) document.getElementById('ac-filter-hasta').value = '';
+        if(document.getElementById('filter-intervencion')) document.getElementById('filter-intervencion').value = '';
+
+        // 2. Mostrar un indicador de carga opcional (puedes usar un spinner o alert de "Cargando...")
+        // Esto evita la incertidumbre si el servidor tarda un poco.
+
+        // 3. Realizar la petición
+        fetch(`{{ url('aires-acondicionados/history') }}/${acId}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Error en la red');
+                return response.json();
+            })
+            .then(data => {
+                acHistoryData = data.history || []; 
+                
+                // 4. PRIMERO renderizamos las tarjetas en el DOM (aunque el modal esté oculto)
+                renderACHistory(acHistoryData);
+                
+                // 5. Aplicar los colores manualmente para asegurar que nazcan con color
+                if (typeof updateHistoryACBadges === 'function') {
+                    updateHistoryACBadges();
+                }
+
+                // 6. ¡AHORA SÍ! Abrimos el modal cuando todo está dibujado
+                ModalManager.openModal(document.getElementById('historyACModal'));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('No se pudo cargar el historial en este momento.');
+            });
     }
 
     function openMissingMaterialsModal(acId, acName) {

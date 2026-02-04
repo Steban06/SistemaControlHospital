@@ -67,11 +67,17 @@ Route::prefix('bienes-nacionales')->group(function () {
 
 // Route::delete('/bienes-nacionales/{id}', [BNController::class, 'destroy'])->name('bienes-nacionales.destroy');
 
-Route::get('/aires-acondicionados', [AirAcondController::class, 'index'])->name('aires-acondicionados.index');
-Route::post('/aires-acondicionados', [AirAcondController::class, 'store'])->name('aires-acondicionados.store');
+
+Route::prefix('aires-acondicionados')->group(function () {
+    Route::get('/', [AirAcondController::class, 'index'])->name('aires-acondicionados.index');
+    Route::post('/', [AirAcondController::class, 'store'])->name('aires-acondicionados.store'); // Quita el texto extra
+    Route::put('/{id}', [AirAcondController::class, 'update'])->name('aires-acondicionados.update');
+    Route::get('/history/{id}', [AirAcondController::class, 'history'])->name('aires-acondicionados.history');
+});
+
 Route::get('/aires-acondicionados/{id}/edit', [AirAcondController::class, 'edit'])->name('aires-acondicionados.edit');
-// Route::put('/aires-acondicionados/{id}', [AirAcondController::class, 'update'])->name('aires-acondicionados.update');
 Route::get('/aires-acondicionados/{id}', [AirAcondController::class, 'show'])->name('aires-acondicionados.show');
+
 
 
 

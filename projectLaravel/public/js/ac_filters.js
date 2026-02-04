@@ -1,6 +1,54 @@
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const filterStatus = document.getElementById('filterStatus');
+    // Solo apuntamos a las tarjetas que tienen datos de búsqueda
+    const cards = document.querySelectorAll('[data-slot="card"][data-search]');
+    const countDisplay = document.getElementById('countDisplay');
+    const totalCount = cards.length;
+
+    function filterCards() {
+        // Se eliminó la validación de filterLocation
+        if (!searchInput || !filterStatus) return;
+
+        const searchText = searchInput.value.toLowerCase().trim();
+        const statusValue = filterStatus.value;
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const searchData = (card.getAttribute('data-search') || '').toLowerCase();
+            const statusData = card.getAttribute('data-status') || '';
+
+            // Lógica de coincidencia
+            const matchesSearch = searchText === '' || searchData.includes(searchText);
+            const matchesStatus = statusValue === '' || statusData === statusValue;
+
+            // Solo filtramos por Búsqueda y Estado
+            if (matchesSearch && matchesStatus) {
+                card.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+
+        // Actualizar contador
+        if (countDisplay) {
+            countDisplay.textContent = `Mostrando ${visibleCount} de ${totalCount} unidades`;
+        }
+    }
+
+    // Event listeners
+    if (searchInput) searchInput.addEventListener('input', filterCards);
+    if (filterStatus) filterStatus.addEventListener('change', filterCards);
+});
+
+
+
+
+// BUSCAR POR UBICACION, PERO QUEDA DESHABILITADO
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const filterStatus = document.getElementById('filterStatus');
     const filterLocation = document.getElementById('filterLocation');
     // Only target cards that have searchable data (the ones in the grid)
     const cards = document.querySelectorAll('[data-slot="card"][data-search]');

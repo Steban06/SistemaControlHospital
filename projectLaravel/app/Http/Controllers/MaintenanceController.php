@@ -7,6 +7,9 @@ use App\Models\Maintenance;
 use App\Services\NotificationService;
 use App\Models\BN; // Assuming you might link to BN or AirAcond
 use App\Models\AirAcond;
+use App\Models\ReportesAA;
+use App\Models\ReportesBN;
+use Carbon\Carbon;
 
     class MaintenanceController extends Controller
 {
@@ -20,12 +23,12 @@ use App\Models\AirAcond;
     public function index()
     {
         // Datos estáticos para demostración (Idealmente esto vendría de DB)
-        $totalMantenimientos = 12;
-        $preventivos = 8;
-        $correctivos = 4;
-        $esteMes = 3;
+        // $totalMantenimientos = 12;
+        // $preventivos = 8;
+        // $correctivos = 4;
+        // $esteMes = 3;
 
-        // Fetch assets
+        // // Fetch assets
         $bienes = \App\Models\BN::all()->map(function($item) {
             return (object)[
                 'id' => $item->id,
@@ -48,27 +51,51 @@ use App\Models\AirAcond;
 
         $assets = $bienes->concat($aires)->sortBy('name')->values();
 
-        // Datos de ejemplo para la lista
-        $mantenimientos = [
-            (object)[
-                'id' => 1,
-                'codigo_bien' => 'BN-2024-0001',
-                'nombre_bien' => 'Computadora Dell OptiPlex 7090',
-                'tipo' => 'preventivo',
-                'fecha_realizada' => '2026-01-19',
-                'tecnico' => 'Juan Pérez',
-                'costo' => 150.00
-            ],
-        ];
+        // // Datos de ejemplo para la lista
+        // $mantenimientos = [
+        //     (object)[
+        //         'id' => 1,
+        //         'codigo_bien' => 'BN-2024-0001',
+        //         'nombre_bien' => 'Computadora Dell OptiPlex 7090',
+        //         'tipo' => 'preventivo',
+        //         'fecha_realizada' => '2026-01-19',
+        //         'tecnico' => 'Juan Pérez',
+        //         'costo' => 150.00
+        //     ],
+        // ];
 
-        return view('mantenimiento', compact(
-            'totalMantenimientos',
-            'preventivos',
-            'correctivos',
-            'esteMes',
-            'mantenimientos',
-            'assets'
-        ));
+        // return view('mantenimiento', compact(
+        //     'totalMantenimientos',
+        //     'preventivos',
+        //     'correctivos',
+        //     'esteMes',
+        //     'mantenimientos',
+        //     'assets'
+        // ));
+
+        $reporteBN = ReportesBN::with('bn')->get()->map(function ($item) {
+            $item->origen = 'bien_nacional';
+    
+            if ($item->bn) {
+                $item->numero_bn_mostrar = $item->bn->numero_bn;
+                $item->nombre_bn_mostrar = $item->bn->nombre; // <-- Aquí obtienes el nombre
+                $item->fecha_reporte = Carbon::parse($item->fecha_reporte);
+            } else {
+                $item->numero_bn_mostrar = 'N/A';
+                $item->nombre_bn_mostrar = 'Sin nombre';
+            }
+
+            return $item;
+        });
+        $reporteAA = ReportesAA::all()->map(function ($item) {
+            $item->origen = 'aire_acondicionado';
+            return $item;
+        });
+
+        $reportesCombinados = $reporteBN->concat($reporteAA)
+                         ->sortByDesc('fecha_reporte');
+
+        return view('mantenimiento', compact('reporteBN', 'reporteAA', 'reportesCombinados', 'assets'));
     }
 
     public function store(Request $request)

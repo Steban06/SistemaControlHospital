@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateAirAcondRequest;
 use App\Models\AirAcond;
+use App\Models\ReportesAA;
 use Illuminate\Http\Request;
 
 class AirAcondController extends Controller
@@ -102,68 +104,49 @@ class AirAcondController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateAirAcondRequest $request, $id)
     {
         if (auth()->user()->role === 'guest') {
             abort(403, 'No tiene permisos para realizar esta acción.');
         }
-        $aire = AirAcond::findOrFail($id);
-        
-        $validated = $request->validate([
-            'numero_bn' => 'required|string|unique:aires_acondicionados,numero_bn,' . $id,
-            'marca' => 'required|string',
-            'modelo' => 'nullable|string',
-            'tipo_unidad' => 'required|string',
-            'capacidad' => 'nullable|string',
-            'voltaje' => 'nullable|string',
-            'refrigerante' => 'nullable|string',
-            'estado' => 'required|in:operativo,mantenimiento,fuera de servicio',
-            // Optional fields
-            'numero_serie' => 'nullable|string',
-            'consumo_energetico' => 'nullable|string',
-            'temperatura' => 'nullable|string',
-            'horas_uso' => 'nullable|string',
-            'fecha_instalacion' => 'nullable|date',
-            'ultimo_mantenimiento' => 'nullable|date',
-            'proximo_mantenimiento' => 'nullable|date',
-            'responsable' => 'nullable|string',
-            'ubicacion' => 'nullable|string',
-            'area_especifica' => 'nullable|string',
-            'observaciones' => 'nullable|string',
-        ]);
 
-        // Construct nombre_aa
-        $nombre_aa = trim("{$validated['marca']} {$validated['tipo_unidad']} {$validated['modelo']}");
+        try {
+            $aire = AirAcond::findOrFail($id);
 
-        // Prepare specifications JSON
-        $especificaciones = [
-            'numero_serie' => $request->numero_serie,
-            'marca' => $request->marca, 
-            'tipo_unidad' => $request->tipo_unidad,
-            'consumo_energetico' => $request->consumo_energetico,
-            'temperatura' => $request->temperatura,
-            'horas_uso' => $request->horas_uso,
-            'fecha_instalacion' => $request->fecha_instalacion,
-            'ultimo_mantenimiento' => $request->ultimo_mantenimiento,
-            'proximo_mantenimiento' => $request->proximo_mantenimiento,
-            'responsable' => $request->responsable,
-            'ubicacion_descripcion' => $request->ubicacion,
-            'area_especifica' => $request->area_especifica,
-            'observaciones' => $request->observaciones,
-        ];
+            $aire->update($request->validated());
 
-        $aire->update([
-            'numero_bn' => $validated['numero_bn'],
-            'nombre_aa' => $nombre_aa,
-            'modelo' => $validated['modelo'],
-            'capacidad' => $validated['capacidad'],
-            'voltaje_rango' => $validated['voltaje'],
-            'refrigerante_tc' => $validated['refrigerante'],
-            'estado' => strtolower($validated['estado']),
-            'especificaciones' => json_encode($especificaciones),
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Aire acondicionado actualizado correctamente.',
+                'data' => $aire
+            ], 200);
 
-        return redirect()->route('aires-acondicionados.index')->with('success', 'Aire Acondicionado actualizado exitosamente.');
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al actualizar el aire acondicionado.' . $e->getMessage()
+            ], 500);
+        }
+
+        // return redirect()->route('aires-acondicionados.index')->with('success', 'Aire Acondicionado actualizado exitosamente.');
+
+        // Alerta de prueba para ver si llega al controlador
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Funcionalidad de actualización no implementada aún.'], 501);
+    }
+
+    public function history($id)
+    {
+        $historial = ReportesAA::where('aire_id', $id)
+            ->latest('fecha_reporte')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Historial del aire acondicionado obtenido correctamente.',
+            'history' => $historial
+        ], 200);
     }
 
     /**

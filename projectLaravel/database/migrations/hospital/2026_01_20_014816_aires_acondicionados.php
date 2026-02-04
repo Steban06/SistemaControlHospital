@@ -75,7 +75,7 @@ return new class extends Migration
             $table->string('tecnico_responsable');
 
             // Datos del Reporte
-            $table->date('fecha_intervencion');
+            $table->date('fecha_reporte');
             
             // Tipo de trabajo
             $table->enum('tipo_mantenimiento', [
