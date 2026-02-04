@@ -16,8 +16,8 @@ class ReportesAA extends Model
         'fecha_reporte',
     ];
 
-    // public function airAcond()
-    // {
-    //     return $this->belongsTo(AirAcond::class, 'air_acond_id');
-    // }
+    public function airAcond()
+    {
+        return $this->belongsTo(AirAcond::class, 'aire_id');
+    }
 }

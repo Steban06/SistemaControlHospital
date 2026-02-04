@@ -89,6 +89,15 @@ use Carbon\Carbon;
         });
         $reporteAA = ReportesAA::all()->map(function ($item) {
             $item->origen = 'aire_acondicionado';
+
+            if ($item->airAcond) {
+                $item->numero_bn_mostrar = $item->airAcond->numero_bn;
+                $item->nombre_bn_mostrar = $item->airAcond->nombre_aa; // <-- Aquí obtienes el nombre
+                $item->fecha_reporte = Carbon::parse($item->fecha_reporte);
+            } else {
+                $item->numero_bn_mostrar = 'N/A';
+                $item->nombre_bn_mostrar = 'Sin nombre';
+            }
             return $item;
         });
 

@@ -198,140 +198,11 @@
 
             <div id="maintenanceGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-2">
                 <!-- Card 1: Computadora Dell (Preventivo - Blue) -->
-                {{-- <div data-slot="card" class="maintenance-card group relative bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700/60 overflow-hidden hover:shadow-lg transition-all duration-300" data-type="preventivo" data-search="Computadora Dell OptiPlex 7090 BN-2024-0001 Juan Pérez">
-                    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500 transition-transform duration-300 group-hover:w-2"></div>
-                    <div class="p-4 pl-6 flex flex-col h-full justify-between">
-                        <div>
-                            <!-- Top Row details -->
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="badge-base badge-bn font-mono tracking-tight">
-                                    BN-2024-0001
-                                </span>
-                                <span data-badge="preventivo" class="inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-300 ring-1 ring-inset ring-blue-500/20" style="font-size: 10px;">
-                                    Preventivo
-                                </span>
-                            </div>
-
-                            <!-- Main Info -->
-                            <div class="mb-3">
-                                <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-0.5 leading-tight">Computadora Dell OptiPlex 7090</h3>
-                                 <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    <span class="flex items-center gap-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                                        Juan Pérez
-                                    </span>
-                                    <span class="w-0.5 h-0.5 rounded-full bg-gray-300 dark:bg-slate-600"></span>
-                                    <span class="flex items-center gap-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
-                                        19 Ene 2026
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Divider -->
-                            <div class="h-px bg-gray-100 dark:bg-slate-700/50 mb-3 border-dashed border-b border-gray-200 dark:border-slate-700"></div>
-
-                            <!-- Bottom Grid -->
-                             <div class="grid grid-cols-2 gap-2 mb-4">
-                                <div>
-                                    <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Estado</p>
-                                    <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
-                                        <span class="relative flex h-1.5 w-1.5">
-                                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-                                        </span>
-                                        Operativo
-                                    </span>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Costo Total</p>
-                                    <p class="text-sm font-bold text-gray-900 dark:text-white">$45.00</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Footer Actions -->
-                        <div class="flex items-center justify-between gap-3 mt-auto pt-2 border-t border-gray-50 dark:border-slate-700/30">
-                            <div class="flex -space-x-1 overflow-hidden">
-                                <div class="inline-flex items-center justify-center px-1.5 py-0.5 rounded bg-gray-100 dark:bg-white/5 text-[9px] text-gray-600 dark:text-gray-300 font-medium z-10 border border-gray-200 dark:border-white/10" data-badge="neutral">Pasta térmica</div>
-                                <div class="inline-flex items-center justify-center px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-medium border border-gray-200 dark:border-gray-600 px-1.5 py-0.5 rounded" style="font-size: 9px;" data-badge="neutral">Ventilador</div>
-                            </div>
-                            <button onclick="openViewModal()" class="group/btn inline-flex items-center gap-1.5 px-2 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-medium rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/40 hover:border-blue-300 dark:hover:border-blue-700 transition-all shadow-sm" style="font-size: 10px;"">
-                                Ver detalles
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div> --}}
 
                 <!-- Card 2: Monitor LG (Correctivo - Red) -->
-                <div data-slot="card" class="maintenance-card group relative bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700/60 overflow-hidden hover:shadow-lg transition-all duration-300" data-type="correctivo" data-search="Monitor LG 27 Correctivo BN-2023-0156 María González Falla de pantalla">
-                    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-red-500 transition-transform duration-300 group-hover:w-2"></div>
-                    <div class="p-4 pl-6 flex flex-col h-full justify-between">
-                        <div>
-                            <!-- Top Row details -->
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="badge-base badge-bn font-mono tracking-tight">
-                                    BN-2023-0156
-                                </span>
-                                <span data-badge="correctivo" class="inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide bg-red-50 text-red-600 dark:bg-red-900 dark:text-red-300 ring-1 ring-inset ring-red-500/20" style="font-size: 10px;">
-                                    Correctivo
-                                </span>
-                            </div>
-
-                            <!-- Main Info -->
-                            <div class="mb-3">
-                                <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors mb-0.5 leading-tight">Monitor LG 27"</h3>
-                                 <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    <span class="flex items-center gap-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                                        María González
-                                    </span>
-                                    <span class="w-0.5 h-0.5 rounded-full bg-gray-300 dark:bg-slate-600"></span>
-                                    <span class="flex items-center gap-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                                        2h 15m
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Divider -->
-                            <div class="h-px bg-gray-100 dark:bg-slate-700/50 mb-3 border-dashed border-b border-gray-200 dark:border-slate-700"></div>
-
-                            <!-- Bottom Grid -->
-                             <div class="grid grid-cols-2 gap-2 mb-4">
-                                <div>
-                                    <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Estado</p>
-                                    <span class="inline-flex items-center gap-1.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400">
-                                        <span class="relative flex h-1.5 w-1.5">
-                                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-                                        </span>
-                                        Operativo
-                                    </span>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Diagnóstico</p>
-                                    <p class="text-xs font-medium text-gray-700 dark:text-gray-300 truncate max-w-[100px] ml-auto">Falla de pantalla</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Footer Actions -->
-                        <div class="flex items-center justify-between gap-3 mt-auto pt-2 border-t border-gray-50 dark:border-slate-700/30">
-                            <div class="flex -space-x-1 overflow-hidden">
-                                <div class="inline-flex items-center justify-center px-1.5 py-0.5 rounded bg-gray-100 dark:bg-white/5 text-[9px] text-gray-600 dark:text-gray-300 font-medium z-10 border border-gray-200 dark:border-white/10" data-badge="neutral">Panel LCD</div>
-                            </div>
-                            <button onclick="openViewModal()" class="group/btn inline-flex items-center gap-1.5 px-2 py-1 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300 border border-red-200 dark:border-red-800 font-medium rounded-md hover:bg-red-100 dark:hover:bg-red-900/40 hover:border-red-300 dark:hover:border-red-700 transition-all shadow-sm" style="font-size: 10px;"">
-                                Ver detalles
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+                
                 <!-- Card 3: Equipo de Ultrasonido (Predictivo - Purple) -->
-                <div data-slot="card" class="maintenance-card group relative bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700/60 overflow-hidden hover:shadow-lg transition-all duration-300" data-type="predictivo" data-search="Equipo de Ultrasonido BN-2024-0045 Luis Martínez Predictivo">
+                {{-- <div data-slot="card" class="maintenance-card group relative bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700/60 overflow-hidden hover:shadow-lg transition-all duration-300" data-type="predictivo" data-search="Equipo de Ultrasonido BN-2024-0045 Luis Martínez Predictivo">
                     <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-purple-500 transition-transform duration-300 group-hover:w-2"></div>
                     <div class="p-4 pl-6 flex flex-col h-full justify-between">
                         <div>
@@ -394,10 +265,10 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- ADD NEW MAINTENANCE CARD -->
-                @if(auth()->user()->role !== 'guest')
+                {{-- @if(auth()->user()->role !== 'guest')
                 <!-- ADD NEW MAINTENANCE CARD -->
                 <div data-slot="card" class="maintenance-card-add group relative dark:bg-gray-800/50 rounded-xl border-2 border-dashed border-gray-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 transition-all duration-300 min-h-[220px] flex items-center justify-center cursor-pointer" onclick="openRegisterModal()">
                     <div class="flex flex-col items-center gap-3 text-center p-6">
@@ -410,86 +281,144 @@
                         </div>
                     </div>
                 </div>
-                @endif
+                @endif --}}
 
                 @foreach($reportesCombinados as $reporte)
-                    <div class="reporte-item">
+                    {{-- <div class="reporte-item"> --}}
                         @if($reporte->origen === 'bien_nacional')
                             <div data-slot="card" class="maintenance-card group relative bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700/60 overflow-hidden hover:shadow-lg transition-all duration-300" data-type="preventivo" data-search="Computadora Dell OptiPlex 7090 BN-2024-0001 Juan Pérez">
-                    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500 transition-transform duration-300 group-hover:w-2"></div>
-                    <div class="p-4 pl-6 flex flex-col h-full justify-between">
-                        <div>
-                            <!-- Top Row details -->
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="badge-base badge-bn font-mono tracking-tight">
-                                    #BN: {{ $reporte->numero_bn_mostrar }}
-                                </span>
-                                <span data-badge="preventivo" class="inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-300 ring-1 ring-inset ring-blue-500/20" style="font-size: 10px;">
-                                    {{ $reporte->tipo }}
-                                </span>
-                            </div>
+                                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500 transition-transform duration-300 group-hover:w-2"></div>
+                                <div class="p-4 pl-6 flex flex-col h-full justify-between">
+                                    <div>
+                                        <!-- Top Row details -->
+                                        <div class="flex justify-between items-start mb-2">
+                                            <span class="badge-base badge-bn font-mono tracking-tight">
+                                                #BN: {{ $reporte->numero_bn_mostrar }}
+                                            </span>
+                                            <span data-badge="preventivo" class="inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide bg-blue-50 text-blue-600 dark:bg-blue-900 dark:text-blue-300 ring-1 ring-inset ring-blue-500/20" style="font-size: 10px;">
+                                                {{ $reporte->tipo }}
+                                            </span>
+                                        </div>
 
-                            <!-- Main Info -->
-                            <div class="mb-3">
-                                <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-0.5 leading-tight">{{ $reporte->nombre_bn_mostrar }}</h3>
-                                 <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    <span class="flex items-center gap-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                                        
-                                    </span>
-                                    <span class="w-0.5 h-0.5 rounded-full bg-gray-300 dark:bg-slate-600"></span>
-                                    <span class="flex items-center gap-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
-                                        {{ $reporte->fecha_reporte ? $reporte->fecha_reporte->translatedFormat('d \d\e F \d\e Y') : 'Sin fecha' }}
-                                    </span>
+                                        <!-- Main Info -->
+                                        <div class="mb-3">
+                                            <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-0.5 leading-tight">{{ $reporte->nombre_bn_mostrar }}</h3>
+                                            <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                                {{-- <span class="flex items-center gap-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                                    
+                                                </span> --}}
+                                                {{-- <span class="w-0.5 h-0.5 rounded-full bg-gray-300 dark:bg-slate-600"></span> --}}
+                                                <span class="flex items-center gap-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                                                    {{ $reporte->fecha_reporte?->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Divider -->
+                                        <div class="h-px bg-gray-100 dark:bg-slate-700/50 mb-3 border-dashed border-b border-gray-200 dark:border-slate-700"></div>
+
+                                        <!-- Bottom Grid -->
+                                        <div class="grid grid-cols-2 gap-2 mb-4">
+                                            <div>
+                                                <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Estado final</p>
+                                                <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
+                                                    <span class="relative flex h-1.5 w-1.5">
+                                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                                    </span>
+                                                    {{ $reporte->estado }}
+                                                </span>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Registrado por:</p>
+                                                <p class="text-sm font-bold text-gray-900 dark:text-white">{{ $reporte->usuario_nombre }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer Actions -->
+                                    <div class="flex items-center justify-between gap-3 mt-auto pt-2 border-t border-gray-50 dark:border-slate-700/30">
+                                        <div class="flex -space-x-1 overflow-hidden">
+                                            <div class="inline-flex items-center justify-center px-1.5 py-0.5 rounded bg-gray-100 dark:bg-white/5 text-[9px] text-gray-600 dark:text-gray-300 font-medium z-10 border border-gray-200 dark:border-white/10" data-badge="neutral">Bien Nacional</div>
+                                            {{-- <div class="inline-flex items-center justify-center px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-medium border border-gray-200 dark:border-gray-600 px-1.5 py-0.5 rounded" style="font-size: 9px;" data-badge="neutral">Ventilador</div> --}}
+                                        </div>
+                                        <button onclick="openViewModal()" class="group/btn inline-flex items-center gap-1.5 px-2 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-medium rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/40 hover:border-blue-300 dark:hover:border-blue-700 transition-all shadow-sm" style="font-size: 10px;"">
+                                            Ver detalles
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-
-                            <!-- Divider -->
-                            <div class="h-px bg-gray-100 dark:bg-slate-700/50 mb-3 border-dashed border-b border-gray-200 dark:border-slate-700"></div>
-
-                            <!-- Bottom Grid -->
-                             <div class="grid grid-cols-2 gap-2 mb-4">
-                                <div>
-                                    <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Estado final</p>
-                                    <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 dark:text-emerald-400">
-                                        <span class="relative flex h-1.5 w-1.5">
-                                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
-                                        </span>
-                                        {{ $reporte->estado }}
-                                    </span>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Costo Total</p>
-                                    <p class="text-sm font-bold text-gray-900 dark:text-white">$45.00</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Footer Actions -->
-                        <div class="flex items-center justify-between gap-3 mt-auto pt-2 border-t border-gray-50 dark:border-slate-700/30">
-                            <div class="flex -space-x-1 overflow-hidden">
-                                <div class="inline-flex items-center justify-center px-1.5 py-0.5 rounded bg-gray-100 dark:bg-white/5 text-[9px] text-gray-600 dark:text-gray-300 font-medium z-10 border border-gray-200 dark:border-white/10" data-badge="neutral">Pasta térmica</div>
-                                <div class="inline-flex items-center justify-center px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 font-medium border border-gray-200 dark:border-gray-600 px-1.5 py-0.5 rounded" style="font-size: 9px;" data-badge="neutral">Ventilador</div>
-                            </div>
-                            <button onclick="openViewModal()" class="group/btn inline-flex items-center gap-1.5 px-2 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-medium rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/40 hover:border-blue-300 dark:hover:border-blue-700 transition-all shadow-sm" style="font-size: 10px;"">
-                                Ver detalles
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
 
                         @elseif($reporte->origen === 'aire_acondicionado')
-                            <div style="color: green;">
-                                <strong>[AIRE ACONDICIONADO]</strong>
-                                Fecha: {{ $reporte->fecha_reporte }} <br>
-                                Capacidad: {{ $reporte->id }} BTU - Gas: {{ $reporte->aire_id }}
+                            <div data-slot="card" class="maintenance-card group relative bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-gray-200 dark:border-slate-700/60 overflow-hidden hover:shadow-lg transition-all duration-300" data-type="predictivo" data-search="Equipo de Ultrasonido BN-2024-0045 Luis Martínez Predictivo">
+                                <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-purple-500 transition-transform duration-300 group-hover:w-2"></div>
+                                <div class="p-4 pl-6 flex flex-col h-full justify-between">
+                                    <div>
+                                        <!-- Top Row details -->
+                                        <div class="flex justify-between items-start mb-2">
+                                            <span class="badge-base badge-bn font-mono tracking-tight">
+                                                #BN: {{ $reporte->numero_bn_mostrar }}
+                                            </span>
+                                            <span class="inline-flex items-center gap-1.5 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide bg-purple-50 text-purple-600 dark:bg-purple-900 dark:text-purple-300 ring-1 ring-inset ring-purple-500/20" style="font-size: 10px;"">
+                                                {{ $reporte->tipo_mantenimiento }}
+                                            </span>
+                                        </div>
+
+                                        <!-- Main Info -->
+                                        <div class="mb-3">
+                                            <h3 class="text-base font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors mb-0.5 leading-tight">{{ $reporte->nombre_bn_mostrar }}</h3>
+                                            <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                                <span class="flex items-center gap-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                                    {{ $reporte->tecnico_responsable }}
+                                                </span>
+                                                <span class="w-0.5 h-0.5 rounded-full bg-gray-300 dark:bg-slate-600"></span>
+                                                <span class="flex items-center gap-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                                                    {{ $reporte->fecha_reporte?->locale('es')->isoFormat('DD [de] MMMM [de] YYYY') }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Divider -->
+                                        <div class="h-px bg-gray-100 dark:bg-slate-700/50 mb-3 border-dashed border-b border-gray-200 dark:border-slate-700"></div>
+
+                                        <!-- Bottom Grid -->
+                                        <div class="grid grid-cols-2 gap-2 mb-4">
+                                            <div>
+                                                <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Estado final</p>
+                                                <span class="inline-flex items-center gap-1.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400">
+                                                    <span class="relative flex h-1.5 w-1.5">
+                                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                                    </span>
+                                                    {{ $reporte->estado_final }}
+                                                </span>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="text-[9px] uppercase text-gray-400 font-bold tracking-wider mb-0.5">Duración</p>
+                                                <p class="text-base font-bold text-gray-900 dark:text-white">4h 00m</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Footer Actions -->
+                                    <div class="flex items-center justify-between gap-3 mt-auto pt-2 border-t border-gray-50 dark:border-slate-700/30">
+                                        <div class="flex -space-x-1 overflow-hidden">
+                                            <div class="inline-flex items-center justify-center px-1.5 py-0.5 rounded bg-gray-100 dark:bg-white/5 text-[9px] text-gray-600 dark:text-gray-300 font-medium z-10 border border-gray-200 dark:border-white/10" data-badge="neutral">Aire Acondicionado</div>
+                                        </div>
+                                        <button onclick="openViewModal()" class="group/btn inline-flex items-center gap-1.5 px-2 py-1 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-300 border border-purple-200 dark:border-purple-800 font-medium rounded-md hover:bg-purple-100 dark:hover:bg-purple-900/40 hover:border-purple-300 dark:hover:border-purple-700 transition-all shadow-sm" style="font-size: 10px;"">
+                                            Ver detalles
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         @endif
-                        <hr>
-                    </div>
+                    {{-- </div> --}}
                 @endforeach
                     
             </div>
